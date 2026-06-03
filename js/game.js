@@ -124,61 +124,63 @@ function primeSpeechSynthesis() {
     _speechPrimed = true;
     try {
         window.speechSynthesis.cancel();
-        const dummy = new SpeechSynthesisUtterance(" ");
-        dummy.volume = 0;
-        window.speechSynthesis.speak(dummy);
-        setTimeout(() => { try { window.speechSynthesis.cancel(); } catch (e) {} }, 100);
+        window.speechSynthesis.resume();
+        if (typeof speechSynthesis !== 'undefined' && speechSynthesis.getVoices().length === 0) {
+            speechSynthesis.addEventListener('voiceschanged', () => {}, { once: true });
+        }
     } catch (e) {}
 }
-// 首次用户交互时预热语音引擎（移动端必须）
 document.addEventListener("touchstart", () => primeSpeechSynthesis(), { once: true });
 document.addEventListener("click", () => primeSpeechSynthesis(), { once: true });
 
 function speakText(text) {
     if (!text) return;
-    // 如果之前已判定不支持 SpeechSynthesis，直接走音频后备
-    if (_useAudioFallback) { ttsAudioFallback(text); return; }
-    if (!window.speechSynthesis) {
-        _useAudioFallback = true;
-        ttsAudioFallback(text);
-        return;
+    // 尝试 SpeechSynthesis
+    if (window.speechSynthesis && !_useAudioFallback) {
+        try {
+            primeSpeechSynthesis();
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.resume();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = currentVoiceType;
+            utterance.rate = 0.9;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+            let fallbackTimer = setTimeout(() => {
+                if (!_useAudioFallback) { _useAudioFallback = true; ttsAudioFallback(text); }
+            }, 2500);
+            utterance.onend = () => { clearTimeout(fallbackTimer); };
+            utterance.onerror = () => {
+                clearTimeout(fallbackTimer);
+                if (!_useAudioFallback) { _useAudioFallback = true; ttsAudioFallback(text); }
+            };
+            // Chrome 需要微延迟保证 speak() 在 cancel() 后生效
+            setTimeout(() => { try { window.speechSynthesis.speak(utterance); } catch(e) { ttsAudioFallback(text); } }, 30);
+            return;
+        } catch (e) {}
     }
-    try {
-        primeSpeechSynthesis();
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = currentVoiceType;
-        utterance.rate = 0.9;
-        utterance.pitch = 1.0;
-        utterance.volume = 1.0;
-        utterance.onerror = () => {
-            if (!_useAudioFallback) {
-                _useAudioFallback = true;
-                ttsAudioFallback(text);
-            }
-        };
-        window.speechSynthesis.speak(utterance);
-    } catch (e) {
-        _useAudioFallback = true;
-        ttsAudioFallback(text);
-    }
+    ttsAudioFallback(text);
 }
 
 let _audioTtsEl = null;
 function ttsAudioFallback(text) {
-    const lang = currentVoiceType === "zh-CN" ? "zh-CN" : "en";
-    // 用 Google TTS 在线生成 mp3 播放（几乎支持所有移动端浏览器）
-    const url = "https://translate.google.com/translate_tts?ie=UTF-8&q="
-        + encodeURIComponent(text)
-        + "&tl=" + lang
-        + "&client=tw-ob&ttsspeed=0.9";
     if (!_audioTtsEl) {
         _audioTtsEl = document.createElement("audio");
         _audioTtsEl.style.display = "none";
         document.body.appendChild(_audioTtsEl);
     }
-    _audioTtsEl.src = url;
-    _audioTtsEl.play().catch(() => {});
+    const lang = currentVoiceType === "zh-CN" ? "zh-CN" : "en";
+    const urls = [
+        "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(text) + "&type=" + (lang === "zh-CN" ? 1 : 0),
+        "https://translate.google.com/translate_tts?ie=UTF-8&q=" + encodeURIComponent(text) + "&tl=" + lang + "&client=tw-ob"
+    ];
+    let idx = 0;
+    function tryNext() {
+        if (idx >= urls.length) return;
+        _audioTtsEl.src = urls[idx++];
+        _audioTtsEl.play().catch(() => setTimeout(tryNext, 300));
+    }
+    tryNext();
 }
 
 // 更新发音切换按钮的显示文字

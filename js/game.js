@@ -109,6 +109,7 @@ document.querySelector(".top-bar").appendChild(trainingRemainingSpan);
 
 // ========== 语音朗读函数 ==========
 let _speechPrimed = false;
+let _useAudioFallback = false;
 function primeSpeechSynthesis() {
     if (!window.speechSynthesis || _speechPrimed) return;
     _speechPrimed = true;
@@ -126,18 +127,49 @@ document.addEventListener("click", () => primeSpeechSynthesis(), { once: true })
 
 function speakText(text) {
     if (!text) return;
+    // 如果之前已判定不支持 SpeechSynthesis，直接走音频后备
+    if (_useAudioFallback) { ttsAudioFallback(text); return; }
     if (!window.speechSynthesis) {
-        showInfoMessage("提示", "您的浏览器不支持语音朗读");
+        _useAudioFallback = true;
+        ttsAudioFallback(text);
         return;
     }
-    primeSpeechSynthesis();
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = currentVoiceType;
-    utterance.rate = 0.9;
-    utterance.pitch = 1.0;
-    utterance.volume = 1.0;
-    window.speechSynthesis.speak(utterance);
+    try {
+        primeSpeechSynthesis();
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = currentVoiceType;
+        utterance.rate = 0.9;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+        utterance.onerror = () => {
+            if (!_useAudioFallback) {
+                _useAudioFallback = true;
+                ttsAudioFallback(text);
+            }
+        };
+        window.speechSynthesis.speak(utterance);
+    } catch (e) {
+        _useAudioFallback = true;
+        ttsAudioFallback(text);
+    }
+}
+
+let _audioTtsEl = null;
+function ttsAudioFallback(text) {
+    const lang = currentVoiceType === "zh-CN" ? "zh-CN" : "en";
+    // 用 Google TTS 在线生成 mp3 播放（几乎支持所有移动端浏览器）
+    const url = "https://translate.google.com/translate_tts?ie=UTF-8&q="
+        + encodeURIComponent(text)
+        + "&tl=" + lang
+        + "&client=tw-ob&ttsspeed=0.9";
+    if (!_audioTtsEl) {
+        _audioTtsEl = document.createElement("audio");
+        _audioTtsEl.style.display = "none";
+        document.body.appendChild(_audioTtsEl);
+    }
+    _audioTtsEl.src = url;
+    _audioTtsEl.play().catch(() => {});
 }
 
 // 更新发音切换按钮的显示文字

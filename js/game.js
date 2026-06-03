@@ -117,46 +117,31 @@ trainingRemainingSpan.style.marginLeft = "10px";
 document.querySelector(".top-bar").appendChild(trainingRemainingSpan);
 
 // ========== 语音朗读函数 ==========
-let _ttsSpeaking = false;
+let _ttsEl = null;
 function speakText(text) {
     if (!text) return;
-    if (window.speechSynthesis) {
-        try {
-            window.speechSynthesis.resume();
-            if (_ttsSpeaking) window.speechSynthesis.cancel();
-            _ttsSpeaking = false;
-            const u = new SpeechSynthesisUtterance(text);
-            u.lang = currentVoiceType;
-            u.rate = 0.9;
-            u.pitch = 1.0;
-            u.volume = 1.0;
-            const voices = window.speechSynthesis.getVoices();
-            const match = voices.find(v => v.lang.startsWith(currentVoiceType));
-            if (match) u.voice = match;
-            let used = false;
-            u.onstart = () => { used = true; _ttsSpeaking = true; };
-            u.onend = () => { used = true; _ttsSpeaking = false; };
-            u.onerror = () => { _ttsSpeaking = false; ttsAudioFallback(text); };
-            setTimeout(() => { if (!used) { try { window.speechSynthesis.cancel(); } catch(e) {} _ttsSpeaking = false; ttsAudioFallback(text); } }, 2000);
-            window.speechSynthesis.speak(u);
-            return;
-        } catch(e) { console.warn("SpeechSynthesis 失败:", e); }
-    }
-    ttsAudioFallback(text);
-}
-
-let _audioTtsEl = null;
-function ttsAudioFallback(text) {
-    if (!_audioTtsEl) {
-        _audioTtsEl = document.createElement("audio");
-        _audioTtsEl.style.display = "none";
-        _audioTtsEl.preload = "auto";
-        document.body.appendChild(_audioTtsEl);
+    // 用 <audio> 播放 TTS 音频（绕开 Chrome SpeechSynthesis 播一次就坏的 bug）
+    if (!_ttsEl) {
+        _ttsEl = document.createElement("audio");
+        _ttsEl.style.display = "none";
+        _ttsEl.preload = "auto";
+        document.body.appendChild(_ttsEl);
     }
     const lang = currentVoiceType && currentVoiceType.startsWith("zh") ? "zh" : "en";
     const url = "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(text) + "&type=" + (lang === "zh" ? 1 : 0);
-    _audioTtsEl.src = url;
-    _audioTtsEl.play().catch(e => console.warn("TTS 音频播放失败:", e));
+    _ttsEl.src = url;
+    _ttsEl.play().catch(() => {
+        // audio 失败时降级到 SpeechSynthesis
+        if (window.speechSynthesis) {
+            try {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = currentVoiceType;
+                u.rate = 0.9;
+                window.speechSynthesis.speak(u);
+            } catch(e) {}
+        }
+    });
 }
 
 // 更新发音切换按钮的显示文字

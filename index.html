@@ -137,10 +137,6 @@
             transition: all 0.2s ease;
             font-weight: bold;
         }
-        button:hover:not(:disabled) {
-            background: var(--primary-dark);
-            transform: scale(1.02);
-        }
         button:disabled {
             background: gray;
             cursor: not-allowed;
@@ -2024,7 +2020,39 @@
             color: #1a1a2e;
         }
 
-        /* ===== 移动端进一步优化 ===== */
+        /* ===== 移动端兼容修复 ===== */
+        * { -webkit-tap-highlight-color: transparent; }
+        button, .game-card, .menu-card, .menu-utility, .lib-pick-card,
+        .mastery-mode-btn, .mastery-opt, .hangman-key, .listen-option,
+        .td-option-btn, .mm-card, .vr-tab, .vr-toggle, .vr-speak {
+            touch-action: manipulation;
+        }
+        /* 仅支持 hover 的设备才显示 hover 效果 */
+        @media (hover: hover) {
+            button:hover:not(:disabled) {
+                background: var(--primary-dark);
+                transform: scale(1.02);
+            }
+            .game-card:hover { transform: translateY(-4px); border-color: var(--primary); }
+            .menu-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.3); }
+            .menu-utility:hover { background: var(--bg-mid); border-color: var(--primary); transform: translateY(-2px); }
+            .vr-word-card:hover { background: rgba(0,0,0,0.35); border-color: rgba(255,255,255,0.08); }
+            .modal-close:hover { background: var(--primary); border-color: var(--primary); transform: rotate(90deg) scale(1.1); }
+        }
+        /* 移动端避免 hover 残留：触屏设备强制清除所有悬停效果 */
+        @media (hover: none) {
+            *:hover {
+                background-color: inherit !important;
+                border-color: inherit !important;
+                color: inherit !important;
+                transform: none !important;
+                box-shadow: none !important;
+                opacity: inherit !important;
+            }
+            button:active:not(:disabled) { background: var(--primary-dark); transform: scale(0.97) !important; }
+            .game-card:active { transform: scale(0.97) !important; }
+            .menu-utility:active { background: var(--bg-mid) !important; }
+        }
         @media (max-width: 480px) {
             body { padding: 10px; align-items: flex-start; }
             .modal-content { padding: 20px 16px; max-height: 92vh; }

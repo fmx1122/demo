@@ -117,31 +117,29 @@ trainingRemainingSpan.style.marginLeft = "10px";
 document.querySelector(".top-bar").appendChild(trainingRemainingSpan);
 
 // ========== 语音朗读函数 ==========
-let _ttsEl = null;
 function speakText(text) {
     if (!text) return;
-    // 用 <audio> 播放 TTS 音频（绕开 Chrome SpeechSynthesis 播一次就坏的 bug）
-    if (!_ttsEl) {
-        _ttsEl = document.createElement("audio");
-        _ttsEl.style.display = "none";
-        _ttsEl.preload = "auto";
-        document.body.appendChild(_ttsEl);
-    }
-    const lang = currentVoiceType && currentVoiceType.startsWith("zh") ? "zh" : "en";
-    const url = "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(text) + "&type=" + (lang === "zh" ? 1 : 0);
-    _ttsEl.src = url;
-    _ttsEl.play().catch(() => {
-        // audio 失败时降级到 SpeechSynthesis
-        if (window.speechSynthesis) {
-            try {
-                window.speechSynthesis.cancel();
-                const u = new SpeechSynthesisUtterance(text);
-                u.lang = currentVoiceType;
-                u.rate = 0.9;
-                window.speechSynthesis.speak(u);
-            } catch(e) {}
-        }
-    });
+    try {
+        const audio = document.createElement("audio");
+        audio.style.display = "none";
+        audio.preload = "auto";
+        const lang = currentVoiceType && currentVoiceType.startsWith("zh") ? "zh" : "en";
+        audio.src = "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(text) + "&type=" + (lang === "zh" ? 1 : 0);
+        audio.play().then(() => {
+            setTimeout(() => { try { audio.remove(); } catch(e) {} }, 3000);
+        }).catch(() => {
+            try { audio.remove(); } catch(e) {}
+            if (window.speechSynthesis) {
+                try {
+                    window.speechSynthesis.cancel();
+                    const u = new SpeechSynthesisUtterance(text);
+                    u.lang = currentVoiceType;
+                    u.rate = 0.9;
+                    window.speechSynthesis.speak(u);
+                } catch(e) {}
+            }
+        });
+    } catch(e) {}
 }
 
 // 更新发音切换按钮的显示文字
@@ -2196,7 +2194,6 @@ function startListenRound() {
         opts.appendChild(btn);
     });
     speakText(correct.word);
-    setTimeout(() => speakText(correct.word), 400);
 }
 function handleListenAnswer(btn, picked, correct, options) {
     document.querySelectorAll(".listen-option").forEach(b => b.disabled = true);
@@ -3976,7 +3973,6 @@ function masteryShowNext() {
         answerArea.appendChild(inp);
         inp.focus();
         speakText(w.word);
-        setTimeout(() => speakText(w.word), 500);
     } else {
         // 选择题模式
         document.getElementById("masteryQWord").innerText = w.word;
@@ -3999,7 +3995,6 @@ function masteryShowNext() {
         });
         answerArea.appendChild(optsDiv);
         speakText(w.word);
-        setTimeout(() => speakText(w.word), 500);
     }
 }
 

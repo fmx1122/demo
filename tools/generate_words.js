@@ -4,7 +4,7 @@
  * 输出: cet4.json, cet6.json, ielts.json, toefl.json, gre.json, gaokao.json, business.json
  */
 const fs = require("fs");
-const path = "C:/PythonProject1/HTML/";
+const path = "C:/PythonProject1/HTML/data/";
 
 // === 词库原始数据（真实词汇 + 常用释义）===
 const WORD_LISTS = {

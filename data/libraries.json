@@ -9,7 +9,7 @@
       "desc": "大学英语四级核心词汇",
       "wordCount": 60,
       "level": 1,
-      "file": "cet4.json",
+      "file": "data/cet4.json",
       "builtIn": true
     },
     {
@@ -21,7 +21,7 @@
       "desc": "大学英语六级核心词汇",
       "wordCount": 60,
       "level": 2,
-      "file": "cet6.json",
+      "file": "data/cet6.json",
       "builtIn": true
     },
     {
@@ -33,7 +33,7 @@
       "desc": "雅思考试核心词汇",
       "wordCount": 60,
       "level": 2,
-      "file": "ielts.json",
+      "file": "data/ielts.json",
       "builtIn": true
     },
     {
@@ -45,7 +45,7 @@
       "desc": "托福考试核心词汇",
       "wordCount": 60,
       "level": 3,
-      "file": "toefl.json",
+      "file": "data/toefl.json",
       "builtIn": true
     },
     {
@@ -57,7 +57,7 @@
       "desc": "GRE 考试核心词汇",
       "wordCount": 60,
       "level": 3,
-      "file": "gre.json",
+      "file": "data/gre.json",
       "builtIn": true
     },
     {
@@ -69,7 +69,7 @@
       "desc": "高中英语核心词汇",
       "wordCount": 60,
       "level": 1,
-      "file": "gaokao.json",
+      "file": "data/gaokao.json",
       "builtIn": true
     },
     {
@@ -81,7 +81,7 @@
       "desc": "商务英语核心词汇",
       "wordCount": 60,
       "level": 2,
-      "file": "business.json",
+      "file": "data/business.json",
       "builtIn": true
     },
     {

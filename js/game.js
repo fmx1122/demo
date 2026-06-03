@@ -442,7 +442,7 @@ function getMasteryStats(libId, currentAllWords) {
 
 async function loadLibrariesIndex() {
     try {
-        const resp = await fetch("libraries.json");
+        const resp = await fetch("data/libraries.json");
         const data = await resp.json();
         availableLibraries = data.libraries || [];
         return availableLibraries;
@@ -474,7 +474,7 @@ async function loadWordLibraryById(libId) {
     } catch (e) {
         console.warn(`词库 ${lib.file} 加载失败:`, e);
         // 回退到 words.json
-        const resp = await fetch("words.json");
+        const resp = await fetch("data/words.json");
         return await resp.json();
     }
 }
@@ -577,7 +577,7 @@ async function loadWordLibrary() {
 
     // 3. 回退到默认词库 (cet4)
     try {
-        const response = await fetch("cet4.json");
+        const response = await fetch("data/cet4.json");
         const fallback = await response.json();
         allWords = fallback;
         currentWordList = allWords[1];

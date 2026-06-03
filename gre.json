@@ -1,0 +1,1286 @@
+{
+  "1": [
+    {
+      "word": "aberrant",
+      "meaning": "偏离正道的；异常的",
+      "example": "\"aberrant\" is used in context.",
+      "example_zh": "\"aberrant\" 用于语境中。"
+    },
+    {
+      "word": "abeyance",
+      "meaning": "中止；暂搁",
+      "example": "\"abeyance\" is used in context.",
+      "example_zh": "\"abeyance\" 用于语境中。"
+    },
+    {
+      "word": "abscond",
+      "meaning": "潜逃；逃跑",
+      "example": "\"abscond\" is used in context.",
+      "example_zh": "\"abscond\" 用于语境中。"
+    },
+    {
+      "word": "abstain",
+      "meaning": "戒除；弃权",
+      "example": "\"abstain\" is used in context.",
+      "example_zh": "\"abstain\" 用于语境中。"
+    },
+    {
+      "word": "accrue",
+      "meaning": "积累；增加",
+      "example": "\"accrue\" is used in context.",
+      "example_zh": "\"accrue\" 用于语境中。"
+    },
+    {
+      "word": "acerbic",
+      "meaning": "尖刻的；辛辣的",
+      "example": "\"acerbic\" is used in context.",
+      "example_zh": "\"acerbic\" 用于语境中。"
+    },
+    {
+      "word": "acme",
+      "meaning": "顶点；极点",
+      "example": "\"acme\" is used in context.",
+      "example_zh": "\"acme\" 用于语境中。"
+    },
+    {
+      "word": "acrimony",
+      "meaning": "尖刻；刻薄",
+      "example": "\"acrimony\" is used in context.",
+      "example_zh": "\"acrimony\" 用于语境中。"
+    },
+    {
+      "word": "admonish",
+      "meaning": "劝告；警告",
+      "example": "\"admonish\" is used in context.",
+      "example_zh": "\"admonish\" 用于语境中。"
+    },
+    {
+      "word": "adroit",
+      "meaning": "灵巧的；熟练的",
+      "example": "\"adroit\" is used in context.",
+      "example_zh": "\"adroit\" 用于语境中。"
+    },
+    {
+      "word": "adversity",
+      "meaning": "逆境；不幸",
+      "example": "\"adversity\" is used in context.",
+      "example_zh": "\"adversity\" 用于语境中。"
+    },
+    {
+      "word": "aesthetic",
+      "meaning": "审美的；美学的",
+      "example": "\"aesthetic\" is used in context.",
+      "example_zh": "\"aesthetic\" 用于语境中。"
+    },
+    {
+      "word": "affable",
+      "meaning": "和蔼可亲的",
+      "example": "\"affable\" is used in context.",
+      "example_zh": "\"affable\" 用于语境中。"
+    },
+    {
+      "word": "aggrandize",
+      "meaning": "扩大；增加(权势)",
+      "example": "\"aggrandize\" is used in context.",
+      "example_zh": "\"aggrandize\" 用于语境中。"
+    },
+    {
+      "word": "agitate",
+      "meaning": "煽动；搅动",
+      "example": "\"agitate\" is used in context.",
+      "example_zh": "\"agitate\" 用于语境中。"
+    },
+    {
+      "word": "alacrity",
+      "meaning": "敏捷；欣然",
+      "example": "\"alacrity\" is used in context.",
+      "example_zh": "\"alacrity\" 用于语境中。"
+    },
+    {
+      "word": "alienate",
+      "meaning": "使疏远；离间",
+      "example": "\"alienate\" is used in context.",
+      "example_zh": "\"alienate\" 用于语境中。"
+    },
+    {
+      "word": "alleviate",
+      "meaning": "减轻；缓和",
+      "example": "\"alleviate\" is used in context.",
+      "example_zh": "\"alleviate\" 用于语境中。"
+    },
+    {
+      "word": "amalgamate",
+      "meaning": "合并；混合",
+      "example": "\"amalgamate\" is used in context.",
+      "example_zh": "\"amalgamate\" 用于语境中。"
+    },
+    {
+      "word": "ambiguous",
+      "meaning": "模糊的；含糊的",
+      "example": "\"ambiguous\" is used in context.",
+      "example_zh": "\"ambiguous\" 用于语境中。"
+    },
+    {
+      "word": "ameliorate",
+      "meaning": "改善；改良",
+      "example": "\"ameliorate\" is used in context.",
+      "example_zh": "\"ameliorate\" 用于语境中。"
+    },
+    {
+      "word": "amenable",
+      "meaning": "顺从的；可引导的",
+      "example": "\"amenable\" is used in context.",
+      "example_zh": "\"amenable\" 用于语境中。"
+    },
+    {
+      "word": "anachronism",
+      "meaning": "时代错误",
+      "example": "\"anachronism\" is used in context.",
+      "example_zh": "\"anachronism\" 用于语境中。"
+    },
+    {
+      "word": "analgesic",
+      "meaning": "止痛药；镇痛的",
+      "example": "\"analgesic\" is used in context.",
+      "example_zh": "\"analgesic\" 用于语境中。"
+    },
+    {
+      "word": "analogous",
+      "meaning": "类似的；相似的",
+      "example": "\"analogous\" is used in context.",
+      "example_zh": "\"analogous\" 用于语境中。"
+    },
+    {
+      "word": "anarchy",
+      "meaning": "无政府状态；混乱",
+      "example": "\"anarchy\" is used in context.",
+      "example_zh": "\"anarchy\" 用于语境中。"
+    },
+    {
+      "word": "animosity",
+      "meaning": "敌意；仇恨",
+      "example": "\"animosity\" is used in context.",
+      "example_zh": "\"animosity\" 用于语境中。"
+    },
+    {
+      "word": "annihilate",
+      "meaning": "消灭；毁灭",
+      "example": "\"annihilate\" is used in context.",
+      "example_zh": "\"annihilate\" 用于语境中。"
+    },
+    {
+      "word": "anomalous",
+      "meaning": "异常的；反常的",
+      "example": "\"anomalous\" is used in context.",
+      "example_zh": "\"anomalous\" 用于语境中。"
+    },
+    {
+      "word": "antipathy",
+      "meaning": "反感；厌恶",
+      "example": "\"antipathy\" is used in context.",
+      "example_zh": "\"antipathy\" 用于语境中。"
+    },
+    {
+      "word": "apathy",
+      "meaning": "冷漠；漠不关心",
+      "example": "\"apathy\" is used in context.",
+      "example_zh": "\"apathy\" 用于语境中。"
+    },
+    {
+      "word": "apex",
+      "meaning": "顶点；最高点",
+      "example": "\"apex\" is used in context.",
+      "example_zh": "\"apex\" 用于语境中。"
+    },
+    {
+      "word": "appease",
+      "meaning": "平息；安抚",
+      "example": "\"appease\" is used in context.",
+      "example_zh": "\"appease\" 用于语境中。"
+    },
+    {
+      "word": "arbitrary",
+      "meaning": "任意的；武断的",
+      "example": "\"arbitrary\" is used in context.",
+      "example_zh": "\"arbitrary\" 用于语境中。"
+    },
+    {
+      "word": "arcane",
+      "meaning": "秘密的；神秘的",
+      "example": "\"arcane\" is used in context.",
+      "example_zh": "\"arcane\" 用于语境中。"
+    },
+    {
+      "word": "archaeological",
+      "meaning": "考古学的",
+      "example": "\"archaeological\" is used in context.",
+      "example_zh": "\"archaeological\" 用于语境中。"
+    },
+    {
+      "word": "arduous",
+      "meaning": "艰巨的；费力的",
+      "example": "\"arduous\" is used in context.",
+      "example_zh": "\"arduous\" 用于语境中。"
+    },
+    {
+      "word": "articulate",
+      "meaning": "善于表达的；发音清晰的",
+      "example": "\"articulate\" is used in context.",
+      "example_zh": "\"articulate\" 用于语境中。"
+    },
+    {
+      "word": "ascetic",
+      "meaning": "苦行的；禁欲的",
+      "example": "\"ascetic\" is used in context.",
+      "example_zh": "\"ascetic\" 用于语境中。"
+    },
+    {
+      "word": "assuage",
+      "meaning": "缓和；减轻",
+      "example": "\"assuage\" is used in context.",
+      "example_zh": "\"assuage\" 用于语境中。"
+    },
+    {
+      "word": "astute",
+      "meaning": "精明的；敏锐的",
+      "example": "\"astute\" is used in context.",
+      "example_zh": "\"astute\" 用于语境中。"
+    },
+    {
+      "word": "atone",
+      "meaning": "赎罪；弥补",
+      "example": "\"atone\" is used in context.",
+      "example_zh": "\"atone\" 用于语境中。"
+    },
+    {
+      "word": "audacious",
+      "meaning": "大胆的；鲁莽的",
+      "example": "\"audacious\" is used in context.",
+      "example_zh": "\"audacious\" 用于语境中。"
+    },
+    {
+      "word": "augment",
+      "meaning": "增加；扩大",
+      "example": "\"augment\" is used in context.",
+      "example_zh": "\"augment\" 用于语境中。"
+    },
+    {
+      "word": "auspicious",
+      "meaning": "吉利的；幸运的",
+      "example": "\"auspicious\" is used in context.",
+      "example_zh": "\"auspicious\" 用于语境中。"
+    },
+    {
+      "word": "austere",
+      "meaning": "朴素的；严厉的",
+      "example": "\"austere\" is used in context.",
+      "example_zh": "\"austere\" 用于语境中。"
+    },
+    {
+      "word": "autonomous",
+      "meaning": "自治的；自主的",
+      "example": "\"autonomous\" is used in context.",
+      "example_zh": "\"autonomous\" 用于语境中。"
+    },
+    {
+      "word": "avarice",
+      "meaning": "贪婪；贪财",
+      "example": "\"avarice\" is used in context.",
+      "example_zh": "\"avarice\" 用于语境中。"
+    },
+    {
+      "word": "averse",
+      "meaning": "厌恶的；反对的",
+      "example": "\"averse\" is used in context.",
+      "example_zh": "\"averse\" 用于语境中。"
+    },
+    {
+      "word": "avid",
+      "meaning": "渴望的；热心的",
+      "example": "\"avid\" is used in context.",
+      "example_zh": "\"avid\" 用于语境中。"
+    },
+    {
+      "word": "banal",
+      "meaning": "平庸的；陈腐的",
+      "example": "\"banal\" is used in context.",
+      "example_zh": "\"banal\" 用于语境中。"
+    },
+    {
+      "word": "bastion",
+      "meaning": "堡垒；捍卫者",
+      "example": "\"bastion\" is used in context.",
+      "example_zh": "\"bastion\" 用于语境中。"
+    },
+    {
+      "word": "beguile",
+      "meaning": "欺骗；使陶醉",
+      "example": "\"beguile\" is used in context.",
+      "example_zh": "\"beguile\" 用于语境中。"
+    },
+    {
+      "word": "behemoth",
+      "meaning": "巨兽；庞然大物",
+      "example": "\"behemoth\" is used in context.",
+      "example_zh": "\"behemoth\" 用于语境中。"
+    },
+    {
+      "word": "belated",
+      "meaning": "迟来的；延误的",
+      "example": "\"belated\" is used in context.",
+      "example_zh": "\"belated\" 用于语境中。"
+    },
+    {
+      "word": "beleaguer",
+      "meaning": "围攻；困扰",
+      "example": "\"beleaguer\" is used in context.",
+      "example_zh": "\"beleaguer\" 用于语境中。"
+    },
+    {
+      "word": "belie",
+      "meaning": "掩饰；与...不符",
+      "example": "\"belie\" is used in context.",
+      "example_zh": "\"belie\" 用于语境中。"
+    },
+    {
+      "word": "belittle",
+      "meaning": "贬低；轻视",
+      "example": "\"belittle\" is used in context.",
+      "example_zh": "\"belittle\" 用于语境中。"
+    },
+    {
+      "word": "bellicose",
+      "meaning": "好战的；好斗的",
+      "example": "\"bellicose\" is used in context.",
+      "example_zh": "\"bellicose\" 用于语境中。"
+    },
+    {
+      "word": "belligerent",
+      "meaning": "交战的；好战的",
+      "example": "\"belligerent\" is used in context.",
+      "example_zh": "\"belligerent\" 用于语境中。"
+    },
+    {
+      "word": "benevolent",
+      "meaning": "仁慈的；慈善的",
+      "example": "\"benevolent\" is used in context.",
+      "example_zh": "\"benevolent\" 用于语境中。"
+    },
+    {
+      "word": "benign",
+      "meaning": "良性的；仁慈的",
+      "example": "\"benign\" is used in context.",
+      "example_zh": "\"benign\" 用于语境中。"
+    },
+    {
+      "word": "bequeath",
+      "meaning": "遗赠；传给",
+      "example": "\"bequeath\" is used in context.",
+      "example_zh": "\"bequeath\" 用于语境中。"
+    },
+    {
+      "word": "berate",
+      "meaning": "严厉责备；痛骂",
+      "example": "\"berate\" is used in context.",
+      "example_zh": "\"berate\" 用于语境中。"
+    },
+    {
+      "word": "bereft",
+      "meaning": "丧失的；被剥夺的",
+      "example": "\"bereft\" is used in context.",
+      "example_zh": "\"bereft\" 用于语境中。"
+    },
+    {
+      "word": "bewildered",
+      "meaning": "困惑的；不知所措的",
+      "example": "\"bewildered\" is used in context.",
+      "example_zh": "\"bewildered\" 用于语境中。"
+    },
+    {
+      "word": "biased",
+      "meaning": "有偏见的",
+      "example": "\"biased\" is used in context.",
+      "example_zh": "\"biased\" 用于语境中。"
+    },
+    {
+      "word": "bigot",
+      "meaning": "偏执的人；顽固者",
+      "example": "\"bigot\" is used in context.",
+      "example_zh": "\"bigot\" 用于语境中。"
+    },
+    {
+      "word": "bizarre",
+      "meaning": "奇异的；古怪的",
+      "example": "\"bizarre\" is used in context.",
+      "example_zh": "\"bizarre\" 用于语境中。"
+    },
+    {
+      "word": "blandishment",
+      "meaning": "奉承；讨好",
+      "example": "\"blandishment\" is used in context.",
+      "example_zh": "\"blandishment\" 用于语境中。"
+    },
+    {
+      "word": "blasphemy",
+      "meaning": "亵渎；不敬",
+      "example": "\"blasphemy\" is used in context.",
+      "example_zh": "\"blasphemy\" 用于语境中。"
+    }
+  ],
+  "2": [
+    {
+      "word": "blatant",
+      "meaning": "公然的；露骨的",
+      "example": "\"blatant\" is used in context.",
+      "example_zh": "\"blatant\" 用于语境中。"
+    },
+    {
+      "word": "bleak",
+      "meaning": "荒凉的；阴冷的",
+      "example": "\"bleak\" is used in context.",
+      "example_zh": "\"bleak\" 用于语境中。"
+    },
+    {
+      "word": "blithe",
+      "meaning": "愉快的；无忧无虑的",
+      "example": "\"blithe\" is used in context.",
+      "example_zh": "\"blithe\" 用于语境中。"
+    },
+    {
+      "word": "bombastic",
+      "meaning": "夸大的；言过其实的",
+      "example": "\"bombastic\" is used in context.",
+      "example_zh": "\"bombastic\" 用于语境中。"
+    },
+    {
+      "word": "boorish",
+      "meaning": "粗鲁的；不礼貌的",
+      "example": "\"boorish\" is used in context.",
+      "example_zh": "\"boorish\" 用于语境中。"
+    },
+    {
+      "word": "bourgeois",
+      "meaning": "中产阶级的；资产阶级的",
+      "example": "\"bourgeois\" is used in context.",
+      "example_zh": "\"bourgeois\" 用于语境中。"
+    },
+    {
+      "word": "bravado",
+      "meaning": "虚张声势；逞能",
+      "example": "\"bravado\" is used in context.",
+      "example_zh": "\"bravado\" 用于语境中。"
+    },
+    {
+      "word": "brazen",
+      "meaning": "厚颜无耻的；黄铜制的",
+      "example": "\"brazen\" is used in context.",
+      "example_zh": "\"brazen\" 用于语境中。"
+    },
+    {
+      "word": "brevity",
+      "meaning": "简短；简洁",
+      "example": "\"brevity\" is used in context.",
+      "example_zh": "\"brevity\" 用于语境中。"
+    },
+    {
+      "word": "bristle",
+      "meaning": "竖立；发怒",
+      "example": "\"bristle\" is used in context.",
+      "example_zh": "\"bristle\" 用于语境中。"
+    },
+    {
+      "word": "brochure",
+      "meaning": "小册子",
+      "example": "\"brochure\" is used in context.",
+      "example_zh": "\"brochure\" 用于语境中。"
+    },
+    {
+      "word": "bruise",
+      "meaning": "淤伤；擦伤",
+      "example": "\"bruise\" is used in context.",
+      "example_zh": "\"bruise\" 用于语境中。"
+    },
+    {
+      "word": "brusque",
+      "meaning": "唐突的；粗鲁的",
+      "example": "\"brusque\" is used in context.",
+      "example_zh": "\"brusque\" 用于语境中。"
+    },
+    {
+      "word": "buck",
+      "meaning": "美元；雄鹿；反对",
+      "example": "\"buck\" is used in context.",
+      "example_zh": "\"buck\" 用于语境中。"
+    },
+    {
+      "word": "buffer",
+      "meaning": "缓冲器；缓冲",
+      "example": "\"buffer\" is used in context.",
+      "example_zh": "\"buffer\" 用于语境中。"
+    },
+    {
+      "word": "buffoon",
+      "meaning": "小丑；滑稽的人",
+      "example": "\"buffoon\" is used in context.",
+      "example_zh": "\"buffoon\" 用于语境中。"
+    },
+    {
+      "word": "bureaucracy",
+      "meaning": "官僚主义；官僚机构",
+      "example": "\"bureaucracy\" is used in context.",
+      "example_zh": "\"bureaucracy\" 用于语境中。"
+    },
+    {
+      "word": "burgeon",
+      "meaning": "迅速发展；萌芽",
+      "example": "\"burgeon\" is used in context.",
+      "example_zh": "\"burgeon\" 用于语境中。"
+    },
+    {
+      "word": "burnish",
+      "meaning": "磨光；抛光",
+      "example": "\"burnish\" is used in context.",
+      "example_zh": "\"burnish\" 用于语境中。"
+    },
+    {
+      "word": "cabal",
+      "meaning": "阴谋集团",
+      "example": "\"cabal\" is used in context.",
+      "example_zh": "\"cabal\" 用于语境中。"
+    },
+    {
+      "word": "cacophony",
+      "meaning": "刺耳的声音",
+      "example": "\"cacophony\" is used in context.",
+      "example_zh": "\"cacophony\" 用于语境中。"
+    },
+    {
+      "word": "cajole",
+      "meaning": "哄骗；诱骗",
+      "example": "\"cajole\" is used in context.",
+      "example_zh": "\"cajole\" 用于语境中。"
+    },
+    {
+      "word": "calamity",
+      "meaning": "灾难；祸患",
+      "example": "\"calamity\" is used in context.",
+      "example_zh": "\"calamity\" 用于语境中。"
+    },
+    {
+      "word": "caliber",
+      "meaning": "质量；口径；才能",
+      "example": "\"caliber\" is used in context.",
+      "example_zh": "\"caliber\" 用于语境中。"
+    },
+    {
+      "word": "callous",
+      "meaning": "冷漠的；硬心肠的",
+      "example": "\"callous\" is used in context.",
+      "example_zh": "\"callous\" 用于语境中。"
+    },
+    {
+      "word": "candid",
+      "meaning": "坦诚的；公正的",
+      "example": "\"candid\" is used in context.",
+      "example_zh": "\"candid\" 用于语境中。"
+    },
+    {
+      "word": "cantankerous",
+      "meaning": "脾气坏的；爱争吵的",
+      "example": "\"cantankerous\" is used in context.",
+      "example_zh": "\"cantankerous\" 用于语境中。"
+    },
+    {
+      "word": "capricious",
+      "meaning": "反复无常的；任性的",
+      "example": "\"capricious\" is used in context.",
+      "example_zh": "\"capricious\" 用于语境中。"
+    },
+    {
+      "word": "cardinal",
+      "meaning": "主要的；基本的；红衣主教",
+      "example": "\"cardinal\" is used in context.",
+      "example_zh": "\"cardinal\" 用于语境中。"
+    },
+    {
+      "word": "carouse",
+      "meaning": "狂欢；痛饮",
+      "example": "\"carouse\" is used in context.",
+      "example_zh": "\"carouse\" 用于语境中。"
+    },
+    {
+      "word": "carte",
+      "meaning": "菜单；卡片",
+      "example": "\"carte\" is used in context.",
+      "example_zh": "\"carte\" 用于语境中。"
+    },
+    {
+      "word": "castigate",
+      "meaning": "严厉批评；惩罚",
+      "example": "\"castigate\" is used in context.",
+      "example_zh": "\"castigate\" 用于语境中。"
+    },
+    {
+      "word": "catalyst",
+      "meaning": "催化剂",
+      "example": "\"catalyst\" is used in context.",
+      "example_zh": "\"catalyst\" 用于语境中。"
+    },
+    {
+      "word": "categorical",
+      "meaning": "绝对的；明确的",
+      "example": "\"categorical\" is used in context.",
+      "example_zh": "\"categorical\" 用于语境中。"
+    },
+    {
+      "word": "caustic",
+      "meaning": "腐蚀性的；刻薄的",
+      "example": "\"caustic\" is used in context.",
+      "example_zh": "\"caustic\" 用于语境中。"
+    },
+    {
+      "word": "cede",
+      "meaning": "放弃；割让",
+      "example": "\"cede\" is used in context.",
+      "example_zh": "\"cede\" 用于语境中。"
+    },
+    {
+      "word": "censor",
+      "meaning": "审查；删改",
+      "example": "\"censor\" is used in context.",
+      "example_zh": "\"censor\" 用于语境中。"
+    },
+    {
+      "word": "censure",
+      "meaning": "指责；批评",
+      "example": "\"censure\" is used in context.",
+      "example_zh": "\"censure\" 用于语境中。"
+    },
+    {
+      "word": "cerebral",
+      "meaning": "大脑的；智力的",
+      "example": "\"cerebral\" is used in context.",
+      "example_zh": "\"cerebral\" 用于语境中。"
+    },
+    {
+      "word": "certitude",
+      "meaning": "确信；确定",
+      "example": "\"certitude\" is used in context.",
+      "example_zh": "\"certitude\" 用于语境中。"
+    },
+    {
+      "word": "champion",
+      "meaning": "冠军；拥护",
+      "example": "\"champion\" is used in context.",
+      "example_zh": "\"champion\" 用于语境中。"
+    },
+    {
+      "word": "chaos",
+      "meaning": "混乱；混沌",
+      "example": "\"chaos\" is used in context.",
+      "example_zh": "\"chaos\" 用于语境中。"
+    },
+    {
+      "word": "charisma",
+      "meaning": "魅力；感召力",
+      "example": "\"charisma\" is used in context.",
+      "example_zh": "\"charisma\" 用于语境中。"
+    },
+    {
+      "word": "charlatan",
+      "meaning": "骗子；冒牌货",
+      "example": "\"charlatan\" is used in context.",
+      "example_zh": "\"charlatan\" 用于语境中。"
+    },
+    {
+      "word": "chasm",
+      "meaning": "深渊；大分歧",
+      "example": "\"chasm\" is used in context.",
+      "example_zh": "\"chasm\" 用于语境中。"
+    },
+    {
+      "word": "chicanery",
+      "meaning": "欺骗；耍花招",
+      "example": "\"chicanery\" is used in context.",
+      "example_zh": "\"chicanery\" 用于语境中。"
+    },
+    {
+      "word": "chimera",
+      "meaning": "幻想；怪物",
+      "example": "\"chimera\" is used in context.",
+      "example_zh": "\"chimera\" 用于语境中。"
+    },
+    {
+      "word": "chronic",
+      "meaning": "慢性的；长期的",
+      "example": "\"chronic\" is used in context.",
+      "example_zh": "\"chronic\" 用于语境中。"
+    },
+    {
+      "word": "circuitous",
+      "meaning": "迂回的；绕行的",
+      "example": "\"circuitous\" is used in context.",
+      "example_zh": "\"circuitous\" 用于语境中。"
+    },
+    {
+      "word": "circumscribe",
+      "meaning": "限制；限定",
+      "example": "\"circumscribe\" is used in context.",
+      "example_zh": "\"circumscribe\" 用于语境中。"
+    },
+    {
+      "word": "circumspect",
+      "meaning": "谨慎的；周到的",
+      "example": "\"circumspect\" is used in context.",
+      "example_zh": "\"circumspect\" 用于语境中。"
+    },
+    {
+      "word": "circumvent",
+      "meaning": "规避；绕行",
+      "example": "\"circumvent\" is used in context.",
+      "example_zh": "\"circumvent\" 用于语境中。"
+    },
+    {
+      "word": "clandestine",
+      "meaning": "秘密的；暗中的",
+      "example": "\"clandestine\" is used in context.",
+      "example_zh": "\"clandestine\" 用于语境中。"
+    },
+    {
+      "word": "clarity",
+      "meaning": "清晰；清楚",
+      "example": "\"clarity\" is used in context.",
+      "example_zh": "\"clarity\" 用于语境中。"
+    },
+    {
+      "word": "clemency",
+      "meaning": "仁慈；宽厚",
+      "example": "\"clemency\" is used in context.",
+      "example_zh": "\"clemency\" 用于语境中。"
+    },
+    {
+      "word": "coalesce",
+      "meaning": "合并；联合",
+      "example": "\"coalesce\" is used in context.",
+      "example_zh": "\"coalesce\" 用于语境中。"
+    },
+    {
+      "word": "codify",
+      "meaning": "编纂；整理",
+      "example": "\"codify\" is used in context.",
+      "example_zh": "\"codify\" 用于语境中。"
+    },
+    {
+      "word": "coerce",
+      "meaning": "强制；胁迫",
+      "example": "\"coerce\" is used in context.",
+      "example_zh": "\"coerce\" 用于语境中。"
+    },
+    {
+      "word": "cogent",
+      "meaning": "有说服力的；令人信服的",
+      "example": "\"cogent\" is used in context.",
+      "example_zh": "\"cogent\" 用于语境中。"
+    },
+    {
+      "word": "cognizant",
+      "meaning": "知道的；认识到的",
+      "example": "\"cognizant\" is used in context.",
+      "example_zh": "\"cognizant\" 用于语境中。"
+    },
+    {
+      "word": "coherent",
+      "meaning": "连贯的；一致的",
+      "example": "\"coherent\" is used in context.",
+      "example_zh": "\"coherent\" 用于语境中。"
+    },
+    {
+      "word": "collateral",
+      "meaning": "附属的；抵押品",
+      "example": "\"collateral\" is used in context.",
+      "example_zh": "\"collateral\" 用于语境中。"
+    },
+    {
+      "word": "colloquial",
+      "meaning": "口语的；会话的",
+      "example": "\"colloquial\" is used in context.",
+      "example_zh": "\"colloquial\" 用于语境中。"
+    },
+    {
+      "word": "collusion",
+      "meaning": "勾结；串通",
+      "example": "\"collusion\" is used in context.",
+      "example_zh": "\"collusion\" 用于语境中。"
+    },
+    {
+      "word": "combustion",
+      "meaning": "燃烧；氧化",
+      "example": "\"combustion\" is used in context.",
+      "example_zh": "\"combustion\" 用于语境中。"
+    },
+    {
+      "word": "commemorate",
+      "meaning": "纪念；庆祝",
+      "example": "\"commemorate\" is used in context.",
+      "example_zh": "\"commemorate\" 用于语境中。"
+    },
+    {
+      "word": "commodious",
+      "meaning": "宽敞的；便利的",
+      "example": "\"commodious\" is used in context.",
+      "example_zh": "\"commodious\" 用于语境中。"
+    },
+    {
+      "word": "compelling",
+      "meaning": "引人入胜的；强制性的",
+      "example": "\"compelling\" is used in context.",
+      "example_zh": "\"compelling\" 用于语境中。"
+    },
+    {
+      "word": "compensate",
+      "meaning": "补偿；赔偿",
+      "example": "\"compensate\" is used in context.",
+      "example_zh": "\"compensate\" 用于语境中。"
+    },
+    {
+      "word": "compile",
+      "meaning": "编辑；编译；收集",
+      "example": "\"compile\" is used in context.",
+      "example_zh": "\"compile\" 用于语境中。"
+    },
+    {
+      "word": "complacent",
+      "meaning": "自满的；得意的",
+      "example": "\"complacent\" is used in context.",
+      "example_zh": "\"complacent\" 用于语境中。"
+    }
+  ],
+  "3": [
+    {
+      "word": "complement",
+      "meaning": "补充；互补",
+      "example": "\"complement\" is used in context.",
+      "example_zh": "\"complement\" 用于语境中。"
+    },
+    {
+      "word": "compliant",
+      "meaning": "顺从的；服从的",
+      "example": "\"compliant\" is used in context.",
+      "example_zh": "\"compliant\" 用于语境中。"
+    },
+    {
+      "word": "component",
+      "meaning": "成分；组件",
+      "example": "\"component\" is used in context.",
+      "example_zh": "\"component\" 用于语境中。"
+    },
+    {
+      "word": "composure",
+      "meaning": "镇静；沉着",
+      "example": "\"composure\" is used in context.",
+      "example_zh": "\"composure\" 用于语境中。"
+    },
+    {
+      "word": "compound",
+      "meaning": "化合物；复合的",
+      "example": "\"compound\" is used in context.",
+      "example_zh": "\"compound\" 用于语境中。"
+    },
+    {
+      "word": "comprehensive",
+      "meaning": "全面的；综合的",
+      "example": "\"comprehensive\" is used in context.",
+      "example_zh": "\"comprehensive\" 用于语境中。"
+    },
+    {
+      "word": "compress",
+      "meaning": "压缩；压紧",
+      "example": "\"compress\" is used in context.",
+      "example_zh": "\"compress\" 用于语境中。"
+    },
+    {
+      "word": "compulsion",
+      "meaning": "强迫；冲动",
+      "example": "\"compulsion\" is used in context.",
+      "example_zh": "\"compulsion\" 用于语境中。"
+    },
+    {
+      "word": "concede",
+      "meaning": "承认；让步",
+      "example": "\"concede\" is used in context.",
+      "example_zh": "\"concede\" 用于语境中。"
+    },
+    {
+      "word": "conceit",
+      "meaning": "自负；骄傲自大",
+      "example": "\"conceit\" is used in context.",
+      "example_zh": "\"conceit\" 用于语境中。"
+    },
+    {
+      "word": "conception",
+      "meaning": "概念；受孕",
+      "example": "\"conception\" is used in context.",
+      "example_zh": "\"conception\" 用于语境中。"
+    },
+    {
+      "word": "concise",
+      "meaning": "简洁的；简明的",
+      "example": "\"concise\" is used in context.",
+      "example_zh": "\"concise\" 用于语境中。"
+    },
+    {
+      "word": "concoct",
+      "meaning": "编造；调制",
+      "example": "\"concoct\" is used in context.",
+      "example_zh": "\"concoct\" 用于语境中。"
+    },
+    {
+      "word": "condescend",
+      "meaning": "俯就；屈尊",
+      "example": "\"condescend\" is used in context.",
+      "example_zh": "\"condescend\" 用于语境中。"
+    },
+    {
+      "word": "condone",
+      "meaning": "宽恕；纵容",
+      "example": "\"condone\" is used in context.",
+      "example_zh": "\"condone\" 用于语境中。"
+    },
+    {
+      "word": "conducive",
+      "meaning": "有益的；有助于的",
+      "example": "\"conducive\" is used in context.",
+      "example_zh": "\"conducive\" 用于语境中。"
+    },
+    {
+      "word": "confidant",
+      "meaning": "知己；密友",
+      "example": "\"confidant\" is used in context.",
+      "example_zh": "\"confidant\" 用于语境中。"
+    },
+    {
+      "word": "confine",
+      "meaning": "限制；监禁",
+      "example": "\"confine\" is used in context.",
+      "example_zh": "\"confine\" 用于语境中。"
+    },
+    {
+      "word": "confiscate",
+      "meaning": "没收；充公",
+      "example": "\"confiscate\" is used in context.",
+      "example_zh": "\"confiscate\" 用于语境中。"
+    },
+    {
+      "word": "conflagration",
+      "meaning": "大火；火灾",
+      "example": "\"conflagration\" is used in context.",
+      "example_zh": "\"conflagration\" 用于语境中。"
+    },
+    {
+      "word": "confluence",
+      "meaning": "汇合；汇集",
+      "example": "\"confluence\" is used in context.",
+      "example_zh": "\"confluence\" 用于语境中。"
+    },
+    {
+      "word": "conform",
+      "meaning": "遵守；符合",
+      "example": "\"conform\" is used in context.",
+      "example_zh": "\"conform\" 用于语境中。"
+    },
+    {
+      "word": "confound",
+      "meaning": "使困惑；混淆",
+      "example": "\"confound\" is used in context.",
+      "example_zh": "\"confound\" 用于语境中。"
+    },
+    {
+      "word": "congenial",
+      "meaning": "气味相投的；合意的",
+      "example": "\"congenial\" is used in context.",
+      "example_zh": "\"congenial\" 用于语境中。"
+    },
+    {
+      "word": "conjecture",
+      "meaning": "推测；猜测",
+      "example": "\"conjecture\" is used in context.",
+      "example_zh": "\"conjecture\" 用于语境中。"
+    },
+    {
+      "word": "conscience",
+      "meaning": "良心；良知",
+      "example": "\"conscience\" is used in context.",
+      "example_zh": "\"conscience\" 用于语境中。"
+    },
+    {
+      "word": "consecrate",
+      "meaning": "奉献；使神圣",
+      "example": "\"consecrate\" is used in context.",
+      "example_zh": "\"consecrate\" 用于语境中。"
+    },
+    {
+      "word": "consensus",
+      "meaning": "共识；一致意见",
+      "example": "\"consensus\" is used in context.",
+      "example_zh": "\"consensus\" 用于语境中。"
+    },
+    {
+      "word": "conservation",
+      "meaning": "保存；保护",
+      "example": "\"conservation\" is used in context.",
+      "example_zh": "\"conservation\" 用于语境中。"
+    },
+    {
+      "word": "consolidate",
+      "meaning": "巩固；合并",
+      "example": "\"consolidate\" is used in context.",
+      "example_zh": "\"consolidate\" 用于语境中。"
+    },
+    {
+      "word": "conspicuous",
+      "meaning": "显著的；显而易见的",
+      "example": "\"conspicuous\" is used in context.",
+      "example_zh": "\"conspicuous\" 用于语境中。"
+    },
+    {
+      "word": "conspiracy",
+      "meaning": "阴谋；密谋",
+      "example": "\"conspiracy\" is used in context.",
+      "example_zh": "\"conspiracy\" 用于语境中。"
+    },
+    {
+      "word": "constituent",
+      "meaning": "成分；选民；组成的",
+      "example": "\"constituent\" is used in context.",
+      "example_zh": "\"constituent\" 用于语境中。"
+    },
+    {
+      "word": "constrain",
+      "meaning": "约束；限制",
+      "example": "\"constrain\" is used in context.",
+      "example_zh": "\"constrain\" 用于语境中。"
+    },
+    {
+      "word": "construe",
+      "meaning": "解释；理解",
+      "example": "\"construe\" is used in context.",
+      "example_zh": "\"construe\" 用于语境中。"
+    },
+    {
+      "word": "consume",
+      "meaning": "消费；消耗",
+      "example": "\"consume\" is used in context.",
+      "example_zh": "\"consume\" 用于语境中。"
+    },
+    {
+      "word": "contagious",
+      "meaning": "传染性的；有感染力的",
+      "example": "\"contagious\" is used in context.",
+      "example_zh": "\"contagious\" 用于语境中。"
+    },
+    {
+      "word": "contemplate",
+      "meaning": "沉思；思考",
+      "example": "\"contemplate\" is used in context.",
+      "example_zh": "\"contemplate\" 用于语境中。"
+    },
+    {
+      "word": "contempt",
+      "meaning": "轻蔑；鄙视",
+      "example": "\"contempt\" is used in context.",
+      "example_zh": "\"contempt\" 用于语境中。"
+    },
+    {
+      "word": "contend",
+      "meaning": "竞争；声称",
+      "example": "\"contend\" is used in context.",
+      "example_zh": "\"contend\" 用于语境中。"
+    },
+    {
+      "word": "contentious",
+      "meaning": "有争议的；好争论的",
+      "example": "\"contentious\" is used in context.",
+      "example_zh": "\"contentious\" 用于语境中。"
+    },
+    {
+      "word": "contiguous",
+      "meaning": "相邻的；毗邻的",
+      "example": "\"contiguous\" is used in context.",
+      "example_zh": "\"contiguous\" 用于语境中。"
+    },
+    {
+      "word": "contingent",
+      "meaning": "依条件而定的；偶然的",
+      "example": "\"contingent\" is used in context.",
+      "example_zh": "\"contingent\" 用于语境中。"
+    },
+    {
+      "word": "contradict",
+      "meaning": "矛盾；反驳",
+      "example": "\"contradict\" is used in context.",
+      "example_zh": "\"contradict\" 用于语境中。"
+    },
+    {
+      "word": "contrite",
+      "meaning": "悔罪的；痛悔的",
+      "example": "\"contrite\" is used in context.",
+      "example_zh": "\"contrite\" 用于语境中。"
+    },
+    {
+      "word": "controversial",
+      "meaning": "有争议的",
+      "example": "\"controversial\" is used in context.",
+      "example_zh": "\"controversial\" 用于语境中。"
+    },
+    {
+      "word": "converge",
+      "meaning": "汇聚；集中",
+      "example": "\"converge\" is used in context.",
+      "example_zh": "\"converge\" 用于语境中。"
+    },
+    {
+      "word": "convivial",
+      "meaning": "欢乐的；友好的",
+      "example": "\"convivial\" is used in context.",
+      "example_zh": "\"convivial\" 用于语境中。"
+    },
+    {
+      "word": "convoluted",
+      "meaning": "复杂的；费解的",
+      "example": "\"convoluted\" is used in context.",
+      "example_zh": "\"convoluted\" 用于语境中。"
+    },
+    {
+      "word": "copious",
+      "meaning": "丰富的；大量的",
+      "example": "\"copious\" is used in context.",
+      "example_zh": "\"copious\" 用于语境中。"
+    },
+    {
+      "word": "cordial",
+      "meaning": "热诚的；亲切的",
+      "example": "\"cordial\" is used in context.",
+      "example_zh": "\"cordial\" 用于语境中。"
+    },
+    {
+      "word": "correlate",
+      "meaning": "相关；关联",
+      "example": "\"correlate\" is used in context.",
+      "example_zh": "\"correlate\" 用于语境中。"
+    },
+    {
+      "word": "corroborate",
+      "meaning": "证实；确证",
+      "example": "\"corroborate\" is used in context.",
+      "example_zh": "\"corroborate\" 用于语境中。"
+    },
+    {
+      "word": "cosmopolitan",
+      "meaning": "世界性的；全球的",
+      "example": "\"cosmopolitan\" is used in context.",
+      "example_zh": "\"cosmopolitan\" 用于语境中。"
+    },
+    {
+      "word": "countenance",
+      "meaning": "面容；支持；容忍",
+      "example": "\"countenance\" is used in context.",
+      "example_zh": "\"countenance\" 用于语境中。"
+    },
+    {
+      "word": "counteract",
+      "meaning": "抵消；对抗",
+      "example": "\"counteract\" is used in context.",
+      "example_zh": "\"counteract\" 用于语境中。"
+    },
+    {
+      "word": "coup",
+      "meaning": "政变；妙计",
+      "example": "\"coup\" is used in context.",
+      "example_zh": "\"coup\" 用于语境中。"
+    },
+    {
+      "word": "covert",
+      "meaning": "隐蔽的；秘密的",
+      "example": "\"covert\" is used in context.",
+      "example_zh": "\"covert\" 用于语境中。"
+    },
+    {
+      "word": "covet",
+      "meaning": "垂涎；贪求",
+      "example": "\"covet\" is used in context.",
+      "example_zh": "\"covet\" 用于语境中。"
+    },
+    {
+      "word": "credence",
+      "meaning": "信任；相信",
+      "example": "\"credence\" is used in context.",
+      "example_zh": "\"credence\" 用于语境中。"
+    },
+    {
+      "word": "credible",
+      "meaning": "可信的；可靠的",
+      "example": "\"credible\" is used in context.",
+      "example_zh": "\"credible\" 用于语境中。"
+    },
+    {
+      "word": "credulous",
+      "meaning": "轻信的；易受骗的",
+      "example": "\"credulous\" is used in context.",
+      "example_zh": "\"credulous\" 用于语境中。"
+    },
+    {
+      "word": "criterion",
+      "meaning": "标准；准则",
+      "example": "\"criterion\" is used in context.",
+      "example_zh": "\"criterion\" 用于语境中。"
+    },
+    {
+      "word": "cryptic",
+      "meaning": "神秘的；隐藏的",
+      "example": "\"cryptic\" is used in context.",
+      "example_zh": "\"cryptic\" 用于语境中。"
+    },
+    {
+      "word": "culpable",
+      "meaning": "有罪的；应受指责的",
+      "example": "\"culpable\" is used in context.",
+      "example_zh": "\"culpable\" 用于语境中。"
+    },
+    {
+      "word": "cultivate",
+      "meaning": "培养；耕作",
+      "example": "\"cultivate\" is used in context.",
+      "example_zh": "\"cultivate\" 用于语境中。"
+    },
+    {
+      "word": "cumulative",
+      "meaning": "累积的；渐增的",
+      "example": "\"cumulative\" is used in context.",
+      "example_zh": "\"cumulative\" 用于语境中。"
+    },
+    {
+      "word": "curator",
+      "meaning": "馆长；管理员",
+      "example": "\"curator\" is used in context.",
+      "example_zh": "\"curator\" 用于语境中。"
+    },
+    {
+      "word": "cynical",
+      "meaning": "愤世嫉俗的；怀疑的",
+      "example": "\"cynical\" is used in context.",
+      "example_zh": "\"cynical\" 用于语境中。"
+    },
+    {
+      "word": "dauntless",
+      "meaning": "无畏的；勇敢的",
+      "example": "\"dauntless\" is used in context.",
+      "example_zh": "\"dauntless\" 用于语境中。"
+    },
+    {
+      "word": "deadlock",
+      "meaning": "僵局；停顿",
+      "example": "\"deadlock\" is used in context.",
+      "example_zh": "\"deadlock\" 用于语境中。"
+    }
+  ]
+}

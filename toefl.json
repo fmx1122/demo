@@ -1,0 +1,1340 @@
+{
+  "1": [
+    {
+      "word": "abandon",
+      "meaning": "放弃；抛弃",
+      "example": "\"abandon\" is used in context.",
+      "example_zh": "\"abandon\" 用于语境中。"
+    },
+    {
+      "word": "abbreviate",
+      "meaning": "缩写；缩短",
+      "example": "\"abbreviate\" is used in context.",
+      "example_zh": "\"abbreviate\" 用于语境中。"
+    },
+    {
+      "word": "abide",
+      "meaning": "遵守；容忍",
+      "example": "\"abide\" is used in context.",
+      "example_zh": "\"abide\" 用于语境中。"
+    },
+    {
+      "word": "ability",
+      "meaning": "能力；才能",
+      "example": "\"ability\" is used in context.",
+      "example_zh": "\"ability\" 用于语境中。"
+    },
+    {
+      "word": "abolish",
+      "meaning": "废除；废止",
+      "example": "\"abolish\" is used in context.",
+      "example_zh": "\"abolish\" 用于语境中。"
+    },
+    {
+      "word": "abound",
+      "meaning": "大量存在；充满",
+      "example": "\"abound\" is used in context.",
+      "example_zh": "\"abound\" 用于语境中。"
+    },
+    {
+      "word": "abroad",
+      "meaning": "在国外；到处",
+      "example": "\"abroad\" is used in context.",
+      "example_zh": "\"abroad\" 用于语境中。"
+    },
+    {
+      "word": "abrupt",
+      "meaning": "突然的；唐突的",
+      "example": "\"abrupt\" is used in context.",
+      "example_zh": "\"abrupt\" 用于语境中。"
+    },
+    {
+      "word": "absence",
+      "meaning": "缺席；缺乏",
+      "example": "\"absence\" is used in context.",
+      "example_zh": "\"absence\" 用于语境中。"
+    },
+    {
+      "word": "absolute",
+      "meaning": "绝对的；完全的",
+      "example": "\"absolute\" is used in context.",
+      "example_zh": "\"absolute\" 用于语境中。"
+    },
+    {
+      "word": "absorb",
+      "meaning": "吸收；吸引",
+      "example": "\"absorb\" is used in context.",
+      "example_zh": "\"absorb\" 用于语境中。"
+    },
+    {
+      "word": "abstract",
+      "meaning": "抽象的；摘要",
+      "example": "\"abstract\" is used in context.",
+      "example_zh": "\"abstract\" 用于语境中。"
+    },
+    {
+      "word": "abundant",
+      "meaning": "丰富的；充裕的",
+      "example": "\"abundant\" is used in context.",
+      "example_zh": "\"abundant\" 用于语境中。"
+    },
+    {
+      "word": "abuse",
+      "meaning": "滥用；虐待",
+      "example": "\"abuse\" is used in context.",
+      "example_zh": "\"abuse\" 用于语境中。"
+    },
+    {
+      "word": "academic",
+      "meaning": "学术的；学院的",
+      "example": "\"academic\" is used in context.",
+      "example_zh": "\"academic\" 用于语境中。"
+    },
+    {
+      "word": "accelerate",
+      "meaning": "加速；促进",
+      "example": "\"accelerate\" is used in context.",
+      "example_zh": "\"accelerate\" 用于语境中。"
+    },
+    {
+      "word": "accept",
+      "meaning": "接受；承认",
+      "example": "\"accept\" is used in context.",
+      "example_zh": "\"accept\" 用于语境中。"
+    },
+    {
+      "word": "access",
+      "meaning": "通道；接近",
+      "example": "\"access\" is used in context.",
+      "example_zh": "\"access\" 用于语境中。"
+    },
+    {
+      "word": "accidentally",
+      "meaning": "意外地；偶然地",
+      "example": "\"accidentally\" is used in context.",
+      "example_zh": "\"accidentally\" 用于语境中。"
+    },
+    {
+      "word": "acclaim",
+      "meaning": "赞扬；欢呼",
+      "example": "\"acclaim\" is used in context.",
+      "example_zh": "\"acclaim\" 用于语境中。"
+    },
+    {
+      "word": "accommodate",
+      "meaning": "容纳；适应",
+      "example": "\"accommodate\" is used in context.",
+      "example_zh": "\"accommodate\" 用于语境中。"
+    },
+    {
+      "word": "accompany",
+      "meaning": "陪伴；伴随",
+      "example": "\"accompany\" is used in context.",
+      "example_zh": "\"accompany\" 用于语境中。"
+    },
+    {
+      "word": "accomplish",
+      "meaning": "完成；实现",
+      "example": "\"accomplish\" is used in context.",
+      "example_zh": "\"accomplish\" 用于语境中。"
+    },
+    {
+      "word": "accord",
+      "meaning": "一致；协议",
+      "example": "\"accord\" is used in context.",
+      "example_zh": "\"accord\" 用于语境中。"
+    },
+    {
+      "word": "account",
+      "meaning": "账户；描述",
+      "example": "\"account\" is used in context.",
+      "example_zh": "\"account\" 用于语境中。"
+    },
+    {
+      "word": "accumulate",
+      "meaning": "积累；积聚",
+      "example": "\"accumulate\" is used in context.",
+      "example_zh": "\"accumulate\" 用于语境中。"
+    },
+    {
+      "word": "accurate",
+      "meaning": "精确的；准确的",
+      "example": "\"accurate\" is used in context.",
+      "example_zh": "\"accurate\" 用于语境中。"
+    },
+    {
+      "word": "achieve",
+      "meaning": "达到；完成",
+      "example": "\"achieve\" is used in context.",
+      "example_zh": "\"achieve\" 用于语境中。"
+    },
+    {
+      "word": "acknowledge",
+      "meaning": "承认；致谢",
+      "example": "\"acknowledge\" is used in context.",
+      "example_zh": "\"acknowledge\" 用于语境中。"
+    },
+    {
+      "word": "acquire",
+      "meaning": "获得；学到",
+      "example": "\"acquire\" is used in context.",
+      "example_zh": "\"acquire\" 用于语境中。"
+    },
+    {
+      "word": "adapt",
+      "meaning": "适应；改编",
+      "example": "\"adapt\" is used in context.",
+      "example_zh": "\"adapt\" 用于语境中。"
+    },
+    {
+      "word": "adequate",
+      "meaning": "足够的；适当的",
+      "example": "\"adequate\" is used in context.",
+      "example_zh": "\"adequate\" 用于语境中。"
+    },
+    {
+      "word": "adhere",
+      "meaning": "坚持；黏附",
+      "example": "\"adhere\" is used in context.",
+      "example_zh": "\"adhere\" 用于语境中。"
+    },
+    {
+      "word": "adjacent",
+      "meaning": "邻近的；毗连的",
+      "example": "\"adjacent\" is used in context.",
+      "example_zh": "\"adjacent\" 用于语境中。"
+    },
+    {
+      "word": "adjust",
+      "meaning": "调整；适应",
+      "example": "\"adjust\" is used in context.",
+      "example_zh": "\"adjust\" 用于语境中。"
+    },
+    {
+      "word": "administer",
+      "meaning": "管理；执行",
+      "example": "\"administer\" is used in context.",
+      "example_zh": "\"administer\" 用于语境中。"
+    },
+    {
+      "word": "admission",
+      "meaning": "准许进入；承认",
+      "example": "\"admission\" is used in context.",
+      "example_zh": "\"admission\" 用于语境中。"
+    },
+    {
+      "word": "adolescent",
+      "meaning": "青少年；青春期的",
+      "example": "\"adolescent\" is used in context.",
+      "example_zh": "\"adolescent\" 用于语境中。"
+    },
+    {
+      "word": "adopt",
+      "meaning": "采用；收养",
+      "example": "\"adopt\" is used in context.",
+      "example_zh": "\"adopt\" 用于语境中。"
+    },
+    {
+      "word": "advance",
+      "meaning": "前进；进步",
+      "example": "\"advance\" is used in context.",
+      "example_zh": "\"advance\" 用于语境中。"
+    },
+    {
+      "word": "advent",
+      "meaning": "出现；到来",
+      "example": "\"advent\" is used in context.",
+      "example_zh": "\"advent\" 用于语境中。"
+    },
+    {
+      "word": "adverse",
+      "meaning": "不利的；逆向的",
+      "example": "\"adverse\" is used in context.",
+      "example_zh": "\"adverse\" 用于语境中。"
+    },
+    {
+      "word": "advocate",
+      "meaning": "提倡；拥护",
+      "example": "\"advocate\" is used in context.",
+      "example_zh": "\"advocate\" 用于语境中。"
+    },
+    {
+      "word": "aesthetic",
+      "meaning": "审美的；美学的",
+      "example": "\"aesthetic\" is used in context.",
+      "example_zh": "\"aesthetic\" 用于语境中。"
+    },
+    {
+      "word": "affect",
+      "meaning": "影响；感动",
+      "example": "\"affect\" is used in context.",
+      "example_zh": "\"affect\" 用于语境中。"
+    },
+    {
+      "word": "affiliate",
+      "meaning": "使隶属；附属机构",
+      "example": "\"affiliate\" is used in context.",
+      "example_zh": "\"affiliate\" 用于语境中。"
+    },
+    {
+      "word": "affirm",
+      "meaning": "断言；证实",
+      "example": "\"affirm\" is used in context.",
+      "example_zh": "\"affirm\" 用于语境中。"
+    },
+    {
+      "word": "affluent",
+      "meaning": "富裕的；丰富的",
+      "example": "\"affluent\" is used in context.",
+      "example_zh": "\"affluent\" 用于语境中。"
+    },
+    {
+      "word": "agenda",
+      "meaning": "议程；日程表",
+      "example": "\"agenda\" is used in context.",
+      "example_zh": "\"agenda\" 用于语境中。"
+    },
+    {
+      "word": "agent",
+      "meaning": "代理人；代理商",
+      "example": "\"agent\" is used in context.",
+      "example_zh": "\"agent\" 用于语境中。"
+    },
+    {
+      "word": "aggregate",
+      "meaning": "总计；集合",
+      "example": "\"aggregate\" is used in context.",
+      "example_zh": "\"aggregate\" 用于语境中。"
+    },
+    {
+      "word": "aggressive",
+      "meaning": "侵略的；好斗的",
+      "example": "\"aggressive\" is used in context.",
+      "example_zh": "\"aggressive\" 用于语境中。"
+    },
+    {
+      "word": "agriculture",
+      "meaning": "农业；农学",
+      "example": "\"agriculture\" is used in context.",
+      "example_zh": "\"agriculture\" 用于语境中。"
+    },
+    {
+      "word": "albeit",
+      "meaning": "虽然；尽管",
+      "example": "\"albeit\" is used in context.",
+      "example_zh": "\"albeit\" 用于语境中。"
+    },
+    {
+      "word": "alien",
+      "meaning": "外国的；外星人",
+      "example": "\"alien\" is used in context.",
+      "example_zh": "\"alien\" 用于语境中。"
+    },
+    {
+      "word": "align",
+      "meaning": "排列；使成一线",
+      "example": "\"align\" is used in context.",
+      "example_zh": "\"align\" 用于语境中。"
+    },
+    {
+      "word": "allegation",
+      "meaning": "指控；断言",
+      "example": "\"allegation\" is used in context.",
+      "example_zh": "\"allegation\" 用于语境中。"
+    },
+    {
+      "word": "alleged",
+      "meaning": "声称的；所谓的",
+      "example": "\"alleged\" is used in context.",
+      "example_zh": "\"alleged\" 用于语境中。"
+    },
+    {
+      "word": "allocate",
+      "meaning": "分配；配给",
+      "example": "\"allocate\" is used in context.",
+      "example_zh": "\"allocate\" 用于语境中。"
+    },
+    {
+      "word": "allowance",
+      "meaning": "津贴；零用钱",
+      "example": "\"allowance\" is used in context.",
+      "example_zh": "\"allowance\" 用于语境中。"
+    },
+    {
+      "word": "ally",
+      "meaning": "同盟国；盟友",
+      "example": "\"ally\" is used in context.",
+      "example_zh": "\"ally\" 用于语境中。"
+    },
+    {
+      "word": "alongside",
+      "meaning": "在旁边；与...一起",
+      "example": "\"alongside\" is used in context.",
+      "example_zh": "\"alongside\" 用于语境中。"
+    },
+    {
+      "word": "alter",
+      "meaning": "改变；更改",
+      "example": "\"alter\" is used in context.",
+      "example_zh": "\"alter\" 用于语境中。"
+    },
+    {
+      "word": "alternate",
+      "meaning": "交替的；轮流的",
+      "example": "\"alternate\" is used in context.",
+      "example_zh": "\"alternate\" 用于语境中。"
+    },
+    {
+      "word": "alternative",
+      "meaning": "替代的；选择",
+      "example": "\"alternative\" is used in context.",
+      "example_zh": "\"alternative\" 用于语境中。"
+    },
+    {
+      "word": "amateur",
+      "meaning": "业余爱好者；业余的",
+      "example": "\"amateur\" is used in context.",
+      "example_zh": "\"amateur\" 用于语境中。"
+    },
+    {
+      "word": "ambassador",
+      "meaning": "大使；使者",
+      "example": "\"ambassador\" is used in context.",
+      "example_zh": "\"ambassador\" 用于语境中。"
+    },
+    {
+      "word": "ambiguous",
+      "meaning": "模糊的；含糊的",
+      "example": "\"ambiguous\" is used in context.",
+      "example_zh": "\"ambiguous\" 用于语境中。"
+    },
+    {
+      "word": "ambition",
+      "meaning": "雄心；野心",
+      "example": "\"ambition\" is used in context.",
+      "example_zh": "\"ambition\" 用于语境中。"
+    },
+    {
+      "word": "amend",
+      "meaning": "修改；修正",
+      "example": "\"amend\" is used in context.",
+      "example_zh": "\"amend\" 用于语境中。"
+    },
+    {
+      "word": "amid",
+      "meaning": "在...之中",
+      "example": "\"amid\" is used in context.",
+      "example_zh": "\"amid\" 用于语境中。"
+    },
+    {
+      "word": "ample",
+      "meaning": "充足的；宽敞的",
+      "example": "\"ample\" is used in context.",
+      "example_zh": "\"ample\" 用于语境中。"
+    },
+    {
+      "word": "analogy",
+      "meaning": "类比；比拟",
+      "example": "\"analogy\" is used in context.",
+      "example_zh": "\"analogy\" 用于语境中。"
+    },
+    {
+      "word": "analysis",
+      "meaning": "分析；解析",
+      "example": "\"analysis\" is used in context.",
+      "example_zh": "\"analysis\" 用于语境中。"
+    }
+  ],
+  "2": [
+    {
+      "word": "ancestral",
+      "meaning": "祖先的；祖传的",
+      "example": "\"ancestral\" is used in context.",
+      "example_zh": "\"ancestral\" 用于语境中。"
+    },
+    {
+      "word": "anchor",
+      "meaning": "锚；主持人",
+      "example": "\"anchor\" is used in context.",
+      "example_zh": "\"anchor\" 用于语境中。"
+    },
+    {
+      "word": "ancient",
+      "meaning": "古代的；古老的",
+      "example": "\"ancient\" is used in context.",
+      "example_zh": "\"ancient\" 用于语境中。"
+    },
+    {
+      "word": "anecdote",
+      "meaning": "轶事；趣闻",
+      "example": "\"anecdote\" is used in context.",
+      "example_zh": "\"anecdote\" 用于语境中。"
+    },
+    {
+      "word": "angle",
+      "meaning": "角度；观点",
+      "example": "\"angle\" is used in context.",
+      "example_zh": "\"angle\" 用于语境中。"
+    },
+    {
+      "word": "animate",
+      "meaning": "使有生气；动画",
+      "example": "\"animate\" is used in context.",
+      "example_zh": "\"animate\" 用于语境中。"
+    },
+    {
+      "word": "annals",
+      "meaning": "编年史；记载",
+      "example": "\"annals\" is used in context.",
+      "example_zh": "\"annals\" 用于语境中。"
+    },
+    {
+      "word": "annex",
+      "meaning": "吞并；附加",
+      "example": "\"annex\" is used in context.",
+      "example_zh": "\"annex\" 用于语境中。"
+    },
+    {
+      "word": "anniversary",
+      "meaning": "周年纪念日",
+      "example": "\"anniversary\" is used in context.",
+      "example_zh": "\"anniversary\" 用于语境中。"
+    },
+    {
+      "word": "annotate",
+      "meaning": "注释；评注",
+      "example": "\"annotate\" is used in context.",
+      "example_zh": "\"annotate\" 用于语境中。"
+    },
+    {
+      "word": "announce",
+      "meaning": "宣布；通告",
+      "example": "\"announce\" is used in context.",
+      "example_zh": "\"announce\" 用于语境中。"
+    },
+    {
+      "word": "annual",
+      "meaning": "每年的；年度的",
+      "example": "\"annual\" is used in context.",
+      "example_zh": "\"annual\" 用于语境中。"
+    },
+    {
+      "word": "anonymous",
+      "meaning": "匿名的；无名的",
+      "example": "\"anonymous\" is used in context.",
+      "example_zh": "\"anonymous\" 用于语境中。"
+    },
+    {
+      "word": "antecedent",
+      "meaning": "前例；先例",
+      "example": "\"antecedent\" is used in context.",
+      "example_zh": "\"antecedent\" 用于语境中。"
+    },
+    {
+      "word": "anticipate",
+      "meaning": "预期；期望",
+      "example": "\"anticipate\" is used in context.",
+      "example_zh": "\"anticipate\" 用于语境中。"
+    },
+    {
+      "word": "antiquity",
+      "meaning": "古代；古迹",
+      "example": "\"antiquity\" is used in context.",
+      "example_zh": "\"antiquity\" 用于语境中。"
+    },
+    {
+      "word": "appeal",
+      "meaning": "呼吁；上诉；吸引力",
+      "example": "\"appeal\" is used in context.",
+      "example_zh": "\"appeal\" 用于语境中。"
+    },
+    {
+      "word": "appendix",
+      "meaning": "附录；阑尾",
+      "example": "\"appendix\" is used in context.",
+      "example_zh": "\"appendix\" 用于语境中。"
+    },
+    {
+      "word": "appetite",
+      "meaning": "食欲；胃口",
+      "example": "\"appetite\" is used in context.",
+      "example_zh": "\"appetite\" 用于语境中。"
+    },
+    {
+      "word": "applaud",
+      "meaning": "鼓掌；称赞",
+      "example": "\"applaud\" is used in context.",
+      "example_zh": "\"applaud\" 用于语境中。"
+    },
+    {
+      "word": "appliance",
+      "meaning": "器具；装置",
+      "example": "\"appliance\" is used in context.",
+      "example_zh": "\"appliance\" 用于语境中。"
+    },
+    {
+      "word": "applicable",
+      "meaning": "可适用的；合适的",
+      "example": "\"applicable\" is used in context.",
+      "example_zh": "\"applicable\" 用于语境中。"
+    },
+    {
+      "word": "applicant",
+      "meaning": "申请人",
+      "example": "\"applicant\" is used in context.",
+      "example_zh": "\"applicant\" 用于语境中。"
+    },
+    {
+      "word": "appoint",
+      "meaning": "任命；指定",
+      "example": "\"appoint\" is used in context.",
+      "example_zh": "\"appoint\" 用于语境中。"
+    },
+    {
+      "word": "apportion",
+      "meaning": "分配；分派",
+      "example": "\"apportion\" is used in context.",
+      "example_zh": "\"apportion\" 用于语境中。"
+    },
+    {
+      "word": "appraisal",
+      "meaning": "评价；估价",
+      "example": "\"appraisal\" is used in context.",
+      "example_zh": "\"appraisal\" 用于语境中。"
+    },
+    {
+      "word": "appreciate",
+      "meaning": "欣赏；感激",
+      "example": "\"appreciate\" is used in context.",
+      "example_zh": "\"appreciate\" 用于语境中。"
+    },
+    {
+      "word": "approach",
+      "meaning": "方法；途径",
+      "example": "\"approach\" is used in context.",
+      "example_zh": "\"approach\" 用于语境中。"
+    },
+    {
+      "word": "appropriate",
+      "meaning": "适当的；合适的",
+      "example": "\"appropriate\" is used in context.",
+      "example_zh": "\"appropriate\" 用于语境中。"
+    },
+    {
+      "word": "approve",
+      "meaning": "批准；赞成",
+      "example": "\"approve\" is used in context.",
+      "example_zh": "\"approve\" 用于语境中。"
+    },
+    {
+      "word": "approximately",
+      "meaning": "大约；近似",
+      "example": "\"approximately\" is used in context.",
+      "example_zh": "\"approximately\" 用于语境中。"
+    },
+    {
+      "word": "arbitrary",
+      "meaning": "任意的；武断的",
+      "example": "\"arbitrary\" is used in context.",
+      "example_zh": "\"arbitrary\" 用于语境中。"
+    },
+    {
+      "word": "archaeology",
+      "meaning": "考古学",
+      "example": "\"archaeology\" is used in context.",
+      "example_zh": "\"archaeology\" 用于语境中。"
+    },
+    {
+      "word": "archive",
+      "meaning": "档案；档案馆",
+      "example": "\"archive\" is used in context.",
+      "example_zh": "\"archive\" 用于语境中。"
+    },
+    {
+      "word": "ardent",
+      "meaning": "热心的；热烈的",
+      "example": "\"ardent\" is used in context.",
+      "example_zh": "\"ardent\" 用于语境中。"
+    },
+    {
+      "word": "arena",
+      "meaning": "竞技场；舞台",
+      "example": "\"arena\" is used in context.",
+      "example_zh": "\"arena\" 用于语境中。"
+    },
+    {
+      "word": "argue",
+      "meaning": "争论；辩论",
+      "example": "\"argue\" is used in context.",
+      "example_zh": "\"argue\" 用于语境中。"
+    },
+    {
+      "word": "arid",
+      "meaning": "干旱的；干燥的",
+      "example": "\"arid\" is used in context.",
+      "example_zh": "\"arid\" 用于语境中。"
+    },
+    {
+      "word": "aristocrat",
+      "meaning": "贵族",
+      "example": "\"aristocrat\" is used in context.",
+      "example_zh": "\"aristocrat\" 用于语境中。"
+    },
+    {
+      "word": "arithmetic",
+      "meaning": "算术；计算",
+      "example": "\"arithmetic\" is used in context.",
+      "example_zh": "\"arithmetic\" 用于语境中。"
+    },
+    {
+      "word": "armor",
+      "meaning": "盔甲；装甲",
+      "example": "\"armor\" is used in context.",
+      "example_zh": "\"armor\" 用于语境中。"
+    },
+    {
+      "word": "arouse",
+      "meaning": "唤醒；激起",
+      "example": "\"arouse\" is used in context.",
+      "example_zh": "\"arouse\" 用于语境中。"
+    },
+    {
+      "word": "arrange",
+      "meaning": "安排；整理",
+      "example": "\"arrange\" is used in context.",
+      "example_zh": "\"arrange\" 用于语境中。"
+    },
+    {
+      "word": "array",
+      "meaning": "数组；排列",
+      "example": "\"array\" is used in context.",
+      "example_zh": "\"array\" 用于语境中。"
+    },
+    {
+      "word": "arrest",
+      "meaning": "逮捕；阻止",
+      "example": "\"arrest\" is used in context.",
+      "example_zh": "\"arrest\" 用于语境中。"
+    },
+    {
+      "word": "articulate",
+      "meaning": "清晰的；发音",
+      "example": "\"articulate\" is used in context.",
+      "example_zh": "\"articulate\" 用于语境中。"
+    },
+    {
+      "word": "artifact",
+      "meaning": "人工制品；手工艺品",
+      "example": "\"artifact\" is used in context.",
+      "example_zh": "\"artifact\" 用于语境中。"
+    },
+    {
+      "word": "artificial",
+      "meaning": "人工的；人造的",
+      "example": "\"artificial\" is used in context.",
+      "example_zh": "\"artificial\" 用于语境中。"
+    },
+    {
+      "word": "ascend",
+      "meaning": "上升；攀登",
+      "example": "\"ascend\" is used in context.",
+      "example_zh": "\"ascend\" 用于语境中。"
+    },
+    {
+      "word": "ascertain",
+      "meaning": "查明；确定",
+      "example": "\"ascertain\" is used in context.",
+      "example_zh": "\"ascertain\" 用于语境中。"
+    },
+    {
+      "word": "ascribe",
+      "meaning": "归因于；归咎于",
+      "example": "\"ascribe\" is used in context.",
+      "example_zh": "\"ascribe\" 用于语境中。"
+    },
+    {
+      "word": "aspect",
+      "meaning": "方面；方位",
+      "example": "\"aspect\" is used in context.",
+      "example_zh": "\"aspect\" 用于语境中。"
+    },
+    {
+      "word": "aspiration",
+      "meaning": "渴望；志向",
+      "example": "\"aspiration\" is used in context.",
+      "example_zh": "\"aspiration\" 用于语境中。"
+    },
+    {
+      "word": "assault",
+      "meaning": "攻击；突袭",
+      "example": "\"assault\" is used in context.",
+      "example_zh": "\"assault\" 用于语境中。"
+    },
+    {
+      "word": "assemble",
+      "meaning": "集合；组装",
+      "example": "\"assemble\" is used in context.",
+      "example_zh": "\"assemble\" 用于语境中。"
+    },
+    {
+      "word": "assert",
+      "meaning": "断言；维护",
+      "example": "\"assert\" is used in context.",
+      "example_zh": "\"assert\" 用于语境中。"
+    },
+    {
+      "word": "assess",
+      "meaning": "评估；评定",
+      "example": "\"assess\" is used in context.",
+      "example_zh": "\"assess\" 用于语境中。"
+    },
+    {
+      "word": "asset",
+      "meaning": "资产；优势",
+      "example": "\"asset\" is used in context.",
+      "example_zh": "\"asset\" 用于语境中。"
+    },
+    {
+      "word": "assign",
+      "meaning": "分配；指派",
+      "example": "\"assign\" is used in context.",
+      "example_zh": "\"assign\" 用于语境中。"
+    },
+    {
+      "word": "assimilate",
+      "meaning": "吸收；同化",
+      "example": "\"assimilate\" is used in context.",
+      "example_zh": "\"assimilate\" 用于语境中。"
+    },
+    {
+      "word": "assist",
+      "meaning": "帮助；协助",
+      "example": "\"assist\" is used in context.",
+      "example_zh": "\"assist\" 用于语境中。"
+    },
+    {
+      "word": "associate",
+      "meaning": "联合；关联",
+      "example": "\"associate\" is used in context.",
+      "example_zh": "\"associate\" 用于语境中。"
+    },
+    {
+      "word": "assume",
+      "meaning": "假设；承担",
+      "example": "\"assume\" is used in context.",
+      "example_zh": "\"assume\" 用于语境中。"
+    },
+    {
+      "word": "assure",
+      "meaning": "保证；确保",
+      "example": "\"assure\" is used in context.",
+      "example_zh": "\"assure\" 用于语境中。"
+    },
+    {
+      "word": "astonishing",
+      "meaning": "令人惊讶的",
+      "example": "\"astonishing\" is used in context.",
+      "example_zh": "\"astonishing\" 用于语境中。"
+    },
+    {
+      "word": "astronomy",
+      "meaning": "天文学",
+      "example": "\"astronomy\" is used in context.",
+      "example_zh": "\"astronomy\" 用于语境中。"
+    },
+    {
+      "word": "asylum",
+      "meaning": "庇护；避难所",
+      "example": "\"asylum\" is used in context.",
+      "example_zh": "\"asylum\" 用于语境中。"
+    },
+    {
+      "word": "atmosphere",
+      "meaning": "大气；气氛",
+      "example": "\"atmosphere\" is used in context.",
+      "example_zh": "\"atmosphere\" 用于语境中。"
+    },
+    {
+      "word": "atom",
+      "meaning": "原子；微粒",
+      "example": "\"atom\" is used in context.",
+      "example_zh": "\"atom\" 用于语境中。"
+    },
+    {
+      "word": "attach",
+      "meaning": "附上；连接",
+      "example": "\"attach\" is used in context.",
+      "example_zh": "\"attach\" 用于语境中。"
+    },
+    {
+      "word": "attain",
+      "meaning": "达到；获得",
+      "example": "\"attain\" is used in context.",
+      "example_zh": "\"attain\" 用于语境中。"
+    },
+    {
+      "word": "attempt",
+      "meaning": "尝试；企图",
+      "example": "\"attempt\" is used in context.",
+      "example_zh": "\"attempt\" 用于语境中。"
+    },
+    {
+      "word": "attend",
+      "meaning": "参加；照顾",
+      "example": "\"attend\" is used in context.",
+      "example_zh": "\"attend\" 用于语境中。"
+    },
+    {
+      "word": "attitude",
+      "meaning": "态度；看法",
+      "example": "\"attitude\" is used in context.",
+      "example_zh": "\"attitude\" 用于语境中。"
+    }
+  ],
+  "3": [
+    {
+      "word": "attorney",
+      "meaning": "律师；代理人",
+      "example": "\"attorney\" is used in context.",
+      "example_zh": "\"attorney\" 用于语境中。"
+    },
+    {
+      "word": "attribute",
+      "meaning": "属性；特征",
+      "example": "\"attribute\" is used in context.",
+      "example_zh": "\"attribute\" 用于语境中。"
+    },
+    {
+      "word": "auction",
+      "meaning": "拍卖",
+      "example": "\"auction\" is used in context.",
+      "example_zh": "\"auction\" 用于语境中。"
+    },
+    {
+      "word": "audience",
+      "meaning": "观众；听众",
+      "example": "\"audience\" is used in context.",
+      "example_zh": "\"audience\" 用于语境中。"
+    },
+    {
+      "word": "authentic",
+      "meaning": "真实的；可信的",
+      "example": "\"authentic\" is used in context.",
+      "example_zh": "\"authentic\" 用于语境中。"
+    },
+    {
+      "word": "authority",
+      "meaning": "权威；权力",
+      "example": "\"authority\" is used in context.",
+      "example_zh": "\"authority\" 用于语境中。"
+    },
+    {
+      "word": "authorize",
+      "meaning": "授权；批准",
+      "example": "\"authorize\" is used in context.",
+      "example_zh": "\"authorize\" 用于语境中。"
+    },
+    {
+      "word": "automatic",
+      "meaning": "自动的",
+      "example": "\"automatic\" is used in context.",
+      "example_zh": "\"automatic\" 用于语境中。"
+    },
+    {
+      "word": "autonomous",
+      "meaning": "自治的；自主的",
+      "example": "\"autonomous\" is used in context.",
+      "example_zh": "\"autonomous\" 用于语境中。"
+    },
+    {
+      "word": "available",
+      "meaning": "可用的；有效的",
+      "example": "\"available\" is used in context.",
+      "example_zh": "\"available\" 用于语境中。"
+    },
+    {
+      "word": "average",
+      "meaning": "平均的；普通的",
+      "example": "\"average\" is used in context.",
+      "example_zh": "\"average\" 用于语境中。"
+    },
+    {
+      "word": "avert",
+      "meaning": "避免；转移",
+      "example": "\"avert\" is used in context.",
+      "example_zh": "\"avert\" 用于语境中。"
+    },
+    {
+      "word": "aviation",
+      "meaning": "航空；飞行",
+      "example": "\"aviation\" is used in context.",
+      "example_zh": "\"aviation\" 用于语境中。"
+    },
+    {
+      "word": "avid",
+      "meaning": "渴望的；热心的",
+      "example": "\"avid\" is used in context.",
+      "example_zh": "\"avid\" 用于语境中。"
+    },
+    {
+      "word": "award",
+      "meaning": "奖；奖品",
+      "example": "\"award\" is used in context.",
+      "example_zh": "\"award\" 用于语境中。"
+    },
+    {
+      "word": "awareness",
+      "meaning": "意识；知道",
+      "example": "\"awareness\" is used in context.",
+      "example_zh": "\"awareness\" 用于语境中。"
+    },
+    {
+      "word": "awkward",
+      "meaning": "笨拙的；尴尬的",
+      "example": "\"awkward\" is used in context.",
+      "example_zh": "\"awkward\" 用于语境中。"
+    },
+    {
+      "word": "background",
+      "meaning": "背景；经历",
+      "example": "\"background\" is used in context.",
+      "example_zh": "\"background\" 用于语境中。"
+    },
+    {
+      "word": "backbone",
+      "meaning": "脊梁骨；支柱",
+      "example": "\"backbone\" is used in context.",
+      "example_zh": "\"backbone\" 用于语境中。"
+    },
+    {
+      "word": "bacteria",
+      "meaning": "细菌",
+      "example": "\"bacteria\" is used in context.",
+      "example_zh": "\"bacteria\" 用于语境中。"
+    },
+    {
+      "word": "badge",
+      "meaning": "徽章；标志",
+      "example": "\"badge\" is used in context.",
+      "example_zh": "\"badge\" 用于语境中。"
+    },
+    {
+      "word": "baffle",
+      "meaning": "使困惑；使受挫",
+      "example": "\"baffle\" is used in context.",
+      "example_zh": "\"baffle\" 用于语境中。"
+    },
+    {
+      "word": "balance",
+      "meaning": "平衡；余额",
+      "example": "\"balance\" is used in context.",
+      "example_zh": "\"balance\" 用于语境中。"
+    },
+    {
+      "word": "ban",
+      "meaning": "禁止；禁令",
+      "example": "\"ban\" is used in context.",
+      "example_zh": "\"ban\" 用于语境中。"
+    },
+    {
+      "word": "bankruptcy",
+      "meaning": "破产",
+      "example": "\"bankruptcy\" is used in context.",
+      "example_zh": "\"bankruptcy\" 用于语境中。"
+    },
+    {
+      "word": "banner",
+      "meaning": "横幅；旗帜",
+      "example": "\"banner\" is used in context.",
+      "example_zh": "\"banner\" 用于语境中。"
+    },
+    {
+      "word": "banquet",
+      "meaning": "宴会；盛宴",
+      "example": "\"banquet\" is used in context.",
+      "example_zh": "\"banquet\" 用于语境中。"
+    },
+    {
+      "word": "barely",
+      "meaning": "几乎不；仅仅",
+      "example": "\"barely\" is used in context.",
+      "example_zh": "\"barely\" 用于语境中。"
+    },
+    {
+      "word": "bargain",
+      "meaning": "讨价还价；便宜货",
+      "example": "\"bargain\" is used in context.",
+      "example_zh": "\"bargain\" 用于语境中。"
+    },
+    {
+      "word": "barn",
+      "meaning": "谷仓；牲口棚",
+      "example": "\"barn\" is used in context.",
+      "example_zh": "\"barn\" 用于语境中。"
+    },
+    {
+      "word": "barrel",
+      "meaning": "桶；枪管",
+      "example": "\"barrel\" is used in context.",
+      "example_zh": "\"barrel\" 用于语境中。"
+    },
+    {
+      "word": "barren",
+      "meaning": "贫瘠的；不毛的",
+      "example": "\"barren\" is used in context.",
+      "example_zh": "\"barren\" 用于语境中。"
+    },
+    {
+      "word": "barrier",
+      "meaning": "障碍物；屏障",
+      "example": "\"barrier\" is used in context.",
+      "example_zh": "\"barrier\" 用于语境中。"
+    },
+    {
+      "word": "based",
+      "meaning": "基于；以...为基础",
+      "example": "\"based\" is used in context.",
+      "example_zh": "\"based\" 用于语境中。"
+    },
+    {
+      "word": "basement",
+      "meaning": "地下室；底层",
+      "example": "\"basement\" is used in context.",
+      "example_zh": "\"basement\" 用于语境中。"
+    },
+    {
+      "word": "basic",
+      "meaning": "基本的；基础的",
+      "example": "\"basic\" is used in context.",
+      "example_zh": "\"basic\" 用于语境中。"
+    },
+    {
+      "word": "basis",
+      "meaning": "基础；根据",
+      "example": "\"basis\" is used in context.",
+      "example_zh": "\"basis\" 用于语境中。"
+    },
+    {
+      "word": "battery",
+      "meaning": "电池；一组",
+      "example": "\"battery\" is used in context.",
+      "example_zh": "\"battery\" 用于语境中。"
+    },
+    {
+      "word": "beam",
+      "meaning": "光束；横梁；微笑",
+      "example": "\"beam\" is used in context.",
+      "example_zh": "\"beam\" 用于语境中。"
+    },
+    {
+      "word": "bear",
+      "meaning": "忍受；熊；生育",
+      "example": "\"bear\" is used in context.",
+      "example_zh": "\"bear\" 用于语境中。"
+    },
+    {
+      "word": "beast",
+      "meaning": "野兽；畜生",
+      "example": "\"beast\" is used in context.",
+      "example_zh": "\"beast\" 用于语境中。"
+    },
+    {
+      "word": "behalf",
+      "meaning": "代表；利益",
+      "example": "\"behalf\" is used in context.",
+      "example_zh": "\"behalf\" 用于语境中。"
+    },
+    {
+      "word": "behavior",
+      "meaning": "行为；举止",
+      "example": "\"behavior\" is used in context.",
+      "example_zh": "\"behavior\" 用于语境中。"
+    },
+    {
+      "word": "being",
+      "meaning": "存在；生物",
+      "example": "\"being\" is used in context.",
+      "example_zh": "\"being\" 用于语境中。"
+    },
+    {
+      "word": "belief",
+      "meaning": "信仰；相信",
+      "example": "\"belief\" is used in context.",
+      "example_zh": "\"belief\" 用于语境中。"
+    },
+    {
+      "word": "beloved",
+      "meaning": "心爱的；亲爱的",
+      "example": "\"beloved\" is used in context.",
+      "example_zh": "\"beloved\" 用于语境中。"
+    },
+    {
+      "word": "beneath",
+      "meaning": "在...下方",
+      "example": "\"beneath\" is used in context.",
+      "example_zh": "\"beneath\" 用于语境中。"
+    },
+    {
+      "word": "beneficial",
+      "meaning": "有益的；有利的",
+      "example": "\"beneficial\" is used in context.",
+      "example_zh": "\"beneficial\" 用于语境中。"
+    },
+    {
+      "word": "benefit",
+      "meaning": "利益；好处",
+      "example": "\"benefit\" is used in context.",
+      "example_zh": "\"benefit\" 用于语境中。"
+    },
+    {
+      "word": "beside",
+      "meaning": "在...旁边",
+      "example": "\"beside\" is used in context.",
+      "example_zh": "\"beside\" 用于语境中。"
+    },
+    {
+      "word": "betray",
+      "meaning": "背叛；泄露",
+      "example": "\"betray\" is used in context.",
+      "example_zh": "\"betray\" 用于语境中。"
+    },
+    {
+      "word": "beverage",
+      "meaning": "饮料",
+      "example": "\"beverage\" is used in context.",
+      "example_zh": "\"beverage\" 用于语境中。"
+    },
+    {
+      "word": "beyond",
+      "meaning": "在...那边；超出",
+      "example": "\"beyond\" is used in context.",
+      "example_zh": "\"beyond\" 用于语境中。"
+    },
+    {
+      "word": "bias",
+      "meaning": "偏见；偏差",
+      "example": "\"bias\" is used in context.",
+      "example_zh": "\"bias\" 用于语境中。"
+    },
+    {
+      "word": "bid",
+      "meaning": "出价；投标",
+      "example": "\"bid\" is used in context.",
+      "example_zh": "\"bid\" 用于语境中。"
+    },
+    {
+      "word": "bind",
+      "meaning": "捆绑；约束",
+      "example": "\"bind\" is used in context.",
+      "example_zh": "\"bind\" 用于语境中。"
+    },
+    {
+      "word": "biography",
+      "meaning": "传记",
+      "example": "\"biography\" is used in context.",
+      "example_zh": "\"biography\" 用于语境中。"
+    },
+    {
+      "word": "bizarre",
+      "meaning": "奇异的；古怪的",
+      "example": "\"bizarre\" is used in context.",
+      "example_zh": "\"bizarre\" 用于语境中。"
+    },
+    {
+      "word": "blame",
+      "meaning": "责备；谴责",
+      "example": "\"blame\" is used in context.",
+      "example_zh": "\"blame\" 用于语境中。"
+    },
+    {
+      "word": "blank",
+      "meaning": "空白的；茫然的",
+      "example": "\"blank\" is used in context.",
+      "example_zh": "\"blank\" 用于语境中。"
+    },
+    {
+      "word": "blast",
+      "meaning": "爆炸；一阵",
+      "example": "\"blast\" is used in context.",
+      "example_zh": "\"blast\" 用于语境中。"
+    },
+    {
+      "word": "blend",
+      "meaning": "混合；融合",
+      "example": "\"blend\" is used in context.",
+      "example_zh": "\"blend\" 用于语境中。"
+    },
+    {
+      "word": "bless",
+      "meaning": "祝福；保佑",
+      "example": "\"bless\" is used in context.",
+      "example_zh": "\"bless\" 用于语境中。"
+    },
+    {
+      "word": "bloom",
+      "meaning": "开花；绽放",
+      "example": "\"bloom\" is used in context.",
+      "example_zh": "\"bloom\" 用于语境中。"
+    },
+    {
+      "word": "blueprint",
+      "meaning": "蓝图；设计图",
+      "example": "\"blueprint\" is used in context.",
+      "example_zh": "\"blueprint\" 用于语境中。"
+    },
+    {
+      "word": "blur",
+      "meaning": "模糊；污迹",
+      "example": "\"blur\" is used in context.",
+      "example_zh": "\"blur\" 用于语境中。"
+    },
+    {
+      "word": "board",
+      "meaning": "板；董事会；上船",
+      "example": "\"board\" is used in context.",
+      "example_zh": "\"board\" 用于语境中。"
+    },
+    {
+      "word": "boast",
+      "meaning": "夸耀；自夸",
+      "example": "\"boast\" is used in context.",
+      "example_zh": "\"boast\" 用于语境中。"
+    },
+    {
+      "word": "bold",
+      "meaning": "大胆的；粗体的",
+      "example": "\"bold\" is used in context.",
+      "example_zh": "\"bold\" 用于语境中。"
+    },
+    {
+      "word": "bond",
+      "meaning": "债券；联系；粘合",
+      "example": "\"bond\" is used in context.",
+      "example_zh": "\"bond\" 用于语境中。"
+    },
+    {
+      "word": "bonus",
+      "meaning": "奖金；红利",
+      "example": "\"bonus\" is used in context.",
+      "example_zh": "\"bonus\" 用于语境中。"
+    },
+    {
+      "word": "boom",
+      "meaning": "繁荣；暴涨",
+      "example": "\"boom\" is used in context.",
+      "example_zh": "\"boom\" 用于语境中。"
+    },
+    {
+      "word": "boost",
+      "meaning": "促进；提高",
+      "example": "\"boost\" is used in context.",
+      "example_zh": "\"boost\" 用于语境中。"
+    },
+    {
+      "word": "border",
+      "meaning": "边界；边境",
+      "example": "\"border\" is used in context.",
+      "example_zh": "\"border\" 用于语境中。"
+    }
+  ]
+}

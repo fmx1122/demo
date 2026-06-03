@@ -1,0 +1,100 @@
+{
+  "libraries": [
+    {
+      "id": "cet4",
+      "name": "CET-4",
+      "nameFull": "大学英语四级",
+      "icon": "📘",
+      "color": "#3498db",
+      "desc": "大学英语四级核心词汇",
+      "wordCount": 60,
+      "level": 1,
+      "file": "cet4.json",
+      "builtIn": true
+    },
+    {
+      "id": "cet6",
+      "name": "CET-6",
+      "nameFull": "大学英语六级",
+      "icon": "📗",
+      "color": "#27ae60",
+      "desc": "大学英语六级核心词汇",
+      "wordCount": 60,
+      "level": 2,
+      "file": "cet6.json",
+      "builtIn": true
+    },
+    {
+      "id": "ielts",
+      "name": "IELTS",
+      "nameFull": "雅思词汇",
+      "icon": "🌏",
+      "color": "#e67e22",
+      "desc": "雅思考试核心词汇",
+      "wordCount": 60,
+      "level": 2,
+      "file": "ielts.json",
+      "builtIn": true
+    },
+    {
+      "id": "toefl",
+      "name": "TOEFL",
+      "nameFull": "托福词汇",
+      "icon": "🎓",
+      "color": "#9b59b6",
+      "desc": "托福考试核心词汇",
+      "wordCount": 60,
+      "level": 3,
+      "file": "toefl.json",
+      "builtIn": true
+    },
+    {
+      "id": "gre",
+      "name": "GRE",
+      "nameFull": "GRE 词汇",
+      "icon": "🧠",
+      "color": "#c0392b",
+      "desc": "GRE 考试核心词汇",
+      "wordCount": 60,
+      "level": 3,
+      "file": "gre.json",
+      "builtIn": true
+    },
+    {
+      "id": "gaokao",
+      "name": "高考",
+      "nameFull": "高考词汇",
+      "icon": "📕",
+      "color": "#e74c3c",
+      "desc": "高中英语核心词汇",
+      "wordCount": 60,
+      "level": 1,
+      "file": "gaokao.json",
+      "builtIn": true
+    },
+    {
+      "id": "business",
+      "name": "BEC",
+      "nameFull": "商务英语",
+      "icon": "💼",
+      "color": "#16a085",
+      "desc": "商务英语核心词汇",
+      "wordCount": 60,
+      "level": 2,
+      "file": "business.json",
+      "builtIn": true
+    },
+    {
+      "id": "custom",
+      "name": "自定义",
+      "nameFull": "自定义词库",
+      "icon": "🔧",
+      "color": "#7f8c8d",
+      "desc": "通过 URL 加载自己的词库",
+      "wordCount": 0,
+      "level": 1,
+      "file": null,
+      "builtIn": true
+    }
+  ]
+}

@@ -1,0 +1,1224 @@
+{
+  "1": [
+    {
+      "word": "apple",
+      "meaning": "苹果",
+      "pos": "名词",
+      "fullMeaning": "苹果；苹果公司",
+      "phrases": [
+        {
+          "en": "apple pie",
+          "zh": "苹果派"
+        },
+        {
+          "en": "apple of one's eye",
+          "zh": "宝贝疙瘩"
+        }
+      ],
+      "example": "She ate an apple for breakfast.",
+      "image": "https://picsum.photos/id/1/200/150",
+      "example_zh": "她早餐吃了一个苹果。"
+    },
+    {
+      "word": "book",
+      "meaning": "书",
+      "pos": "名词",
+      "fullMeaning": "书籍；预订",
+      "phrases": [
+        {
+          "en": "book club",
+          "zh": "图书俱乐部"
+        },
+        {
+          "en": "by the book",
+          "zh": ""
+        }
+      ],
+      "example": "I'm reading a book.",
+      "image": "https://picsum.photos/id/2/200/150",
+      "example_zh": "我正在读一本书。"
+    },
+    {
+      "word": "run",
+      "meaning": "跑",
+      "pos": "动词",
+      "fullMeaning": "奔跑；运行；管理",
+      "phrases": [
+        {
+          "en": "run away",
+          "zh": "逃走"
+        },
+        {
+          "en": "run out",
+          "zh": "期满"
+        }
+      ],
+      "example": "He can run fast.",
+      "image": "https://picsum.photos/id/3/200/150",
+      "example_zh": "他跑得很快。"
+    },
+    {
+      "word": "big",
+      "meaning": "大",
+      "pos": "形容词",
+      "fullMeaning": "大的；重要的",
+      "phrases": [
+        {
+          "en": "big deal",
+          "zh": "大事"
+        },
+        {
+          "en": "big picture",
+          "zh": "大图像"
+        }
+      ],
+      "example": "That's a big house.",
+      "image": "https://picsum.photos/id/4/200/150",
+      "example_zh": "那是一栋大房子。"
+    },
+    {
+      "word": "cat",
+      "meaning": "猫",
+      "pos": "名词",
+      "fullMeaning": "猫；猫科动物",
+      "phrases": [
+        {
+          "en": "cat nap",
+          "zh": "猫打盹"
+        },
+        {
+          "en": "rain cats and dogs",
+          "zh": "雨猫雨狗"
+        }
+      ],
+      "example": "The cat is sleeping.",
+      "image": "https://picsum.photos/id/5/200/150",
+      "example_zh": "猫正在睡觉。"
+    },
+    {
+      "word": "dog",
+      "meaning": "狗",
+      "pos": "名词",
+      "fullMeaning": "狗；犬",
+      "phrases": [
+        {
+          "en": "dog days",
+          "zh": "狗日"
+        },
+        {
+          "en": "top dog",
+          "zh": "头"
+        }
+      ],
+      "example": "The dog is barking.",
+      "image": "https://picsum.photos/id/6/200/150",
+      "example_zh": "小狗在汪汪叫。"
+    },
+    {
+      "word": "happy",
+      "meaning": "快乐的",
+      "pos": "形容词",
+      "fullMeaning": "快乐的；幸福的",
+      "phrases": [
+        {
+          "en": "happy hour",
+          "zh": "优惠时段"
+        },
+        {
+          "en": "happy go lucky",
+          "zh": "随遇而安"
+        }
+      ],
+      "example": "She looks happy.",
+      "image": "https://picsum.photos/id/7/200/150",
+      "example_zh": "她看起来很开心。"
+    },
+    {
+      "word": "sad",
+      "meaning": "悲伤的",
+      "pos": "形容词",
+      "fullMeaning": "悲伤的；难过的",
+      "phrases": [
+        {
+          "en": "sad face",
+          "zh": "脸悲色"
+        },
+        {
+          "en": "sad story",
+          "zh": "悲伤的故事"
+        }
+      ],
+      "example": "He felt sad.",
+      "image": "https://picsum.photos/id/8/200/150",
+      "example_zh": "他心里很难过。"
+    },
+    {
+      "word": "fast",
+      "meaning": "快速的",
+      "pos": "形容词/副词",
+      "fullMeaning": "快速的；牢固的",
+      "phrases": [
+        {
+          "en": "fast food",
+          "zh": "快餐"
+        },
+        {
+          "en": "hold fast",
+          "zh": "抓紧"
+        }
+      ],
+      "example": "He drives fast.",
+      "image": "https://picsum.photos/id/9/200/150",
+      "example_zh": "他开车开得很快。"
+    },
+    {
+      "word": "slow",
+      "meaning": "慢的",
+      "pos": "形容词",
+      "fullMeaning": "缓慢的；迟钝的",
+      "phrases": [
+        {
+          "en": "slow down",
+          "zh": "怠工"
+        },
+        {
+          "en": "slow motion",
+          "zh": ""
+        }
+      ],
+      "example": "The traffic is slow.",
+      "image": "https://picsum.photos/id/10/200/150",
+      "example_zh": "交通很慢。"
+    },
+    {
+      "word": "red",
+      "meaning": "红色",
+      "pos": "名词/形容词",
+      "fullMeaning": "红色；红色的",
+      "phrases": [
+        {
+          "en": "red carpet",
+          "zh": "红毯"
+        },
+        {
+          "en": "red wine",
+          "zh": "红酒"
+        }
+      ],
+      "example": "She wore a red dress.",
+      "image": "https://picsum.photos/id/11/200/150",
+      "example_zh": "她穿着一件红色的连衣裙。"
+    },
+    {
+      "word": "blue",
+      "meaning": "蓝色",
+      "pos": "名词/形容词",
+      "fullMeaning": "蓝色；蓝色的；忧郁的",
+      "phrases": [
+        {
+          "en": "blue sky",
+          "zh": "苍穹1"
+        },
+        {
+          "en": "feeling blue",
+          "zh": "于蓝"
+        }
+      ],
+      "example": "The sky is blue.",
+      "image": "https://picsum.photos/id/12/200/150",
+      "example_zh": "幸好天还是蓝色的。"
+    },
+    {
+      "word": "green",
+      "meaning": "绿色",
+      "pos": "名词/形容词",
+      "fullMeaning": "绿色；绿色的；环保的",
+      "phrases": [
+        {
+          "en": "green light",
+          "zh": "绿光"
+        },
+        {
+          "en": "green energy",
+          "zh": "青劲"
+        }
+      ],
+      "example": "The leaves are green.",
+      "image": "https://picsum.photos/id/13/200/150",
+      "example_zh": "叶子是绿色的。"
+    },
+    {
+      "word": "yellow",
+      "meaning": "黄色",
+      "pos": "名词/形容词",
+      "fullMeaning": "黄色；黄色的；胆怯的",
+      "phrases": [
+        {
+          "en": "yellow fever",
+          "zh": "黄热病"
+        },
+        {
+          "en": "yellow bellied",
+          "zh": "黄肚皮"
+        }
+      ],
+      "example": "The sun is yellow.",
+      "image": "https://picsum.photos/id/14/200/150",
+      "example_zh": "太阳是黄色的。"
+    },
+    {
+      "word": "eat",
+      "meaning": "吃",
+      "pos": "动词",
+      "fullMeaning": "吃；用餐",
+      "phrases": [
+        {
+          "en": "eat out",
+          "zh": "外出就餐"
+        },
+        {
+          "en": "eat up",
+          "zh": "吃掉"
+        }
+      ],
+      "example": "Let's eat dinner.",
+      "image": "https://picsum.photos/id/15/200/150",
+      "example_zh": "我们一起吃晚饭吧。"
+    },
+    {
+      "word": "drink",
+      "meaning": "喝",
+      "pos": "动词/名词",
+      "fullMeaning": "喝；饮料",
+      "phrases": [
+        {
+          "en": "drink up",
+          "zh": "喝光"
+        },
+        {
+          "en": "soft drink",
+          "zh": "软饮料"
+        }
+      ],
+      "example": "I drink water.",
+      "image": "https://picsum.photos/id/16/200/150",
+      "example_zh": "Mandarin"
+    },
+    {
+      "word": "sleep",
+      "meaning": "睡觉",
+      "pos": "动词/名词",
+      "fullMeaning": "睡觉；睡眠",
+      "phrases": [
+        {
+          "en": "sleep in",
+          "zh": "睡在"
+        },
+        {
+          "en": "fall asleep",
+          "zh": "入睡"
+        }
+      ],
+      "example": "I need to sleep.",
+      "image": "https://picsum.photos/id/17/200/150",
+      "example_zh": "我需要睡觉"
+    },
+    {
+      "word": "jump",
+      "meaning": "跳",
+      "pos": "动词",
+      "fullMeaning": "跳跃；猛增",
+      "phrases": [
+        {
+          "en": "jump rope",
+          "zh": "跳绳"
+        },
+        {
+          "en": "jump start",
+          "zh": "助推起動"
+        }
+      ],
+      "example": "He can jump high.",
+      "image": "https://picsum.photos/id/18/200/150",
+      "example_zh": "他可以跳得很高。"
+    },
+    {
+      "word": "sing",
+      "meaning": "唱歌",
+      "pos": "动词",
+      "fullMeaning": "唱歌；鸣叫",
+      "phrases": [
+        {
+          "en": "sing along",
+          "zh": "合唱"
+        },
+        {
+          "en": "sing a song",
+          "zh": "唱支歌"
+        }
+      ],
+      "example": "She loves to sing.",
+      "image": "https://picsum.photos/id/19/200/150",
+      "example_zh": "她喜欢唱歌。"
+    },
+    {
+      "word": "dance",
+      "meaning": "跳舞",
+      "pos": "动词/名词",
+      "fullMeaning": "跳舞；舞蹈",
+      "phrases": [
+        {
+          "en": "dance floor",
+          "zh": "舞池"
+        },
+        {
+          "en": "dance party",
+          "zh": "舞会"
+        }
+      ],
+      "example": "They dance together.",
+      "image": "https://picsum.photos/id/20/200/150",
+      "example_zh": "他们一起跳舞。"
+    },
+    {
+      "word": "teacher",
+      "meaning": "老师",
+      "pos": "名词",
+      "fullMeaning": "教师；老师",
+      "phrases": [
+        {
+          "en": "teacher's pet",
+          "zh": "老师宠物"
+        },
+        {
+          "en": "head teacher",
+          "zh": "校長"
+        }
+      ],
+      "example": "The teacher explains the lesson.",
+      "image": "https://picsum.photos/id/21/200/150",
+      "example_zh": "老师解释了课程。"
+    },
+    {
+      "word": "student",
+      "meaning": "学生",
+      "pos": "名词",
+      "fullMeaning": "学生；学员",
+      "phrases": [
+        {
+          "en": "student loan",
+          "zh": "学生贷款"
+        },
+        {
+          "en": "exchange student",
+          "zh": "交流生"
+        }
+      ],
+      "example": "He is a good student.",
+      "image": "https://picsum.photos/id/22/200/150",
+      "example_zh": "他是一个好学生。"
+    },
+    {
+      "word": "school",
+      "meaning": "学校",
+      "pos": "名词",
+      "fullMeaning": "学校；学派",
+      "phrases": [
+        {
+          "en": "school bus",
+          "zh": "校车"
+        },
+        {
+          "en": "school year",
+          "zh": "学年"
+        }
+      ],
+      "example": "I go to school every day.",
+      "image": "https://picsum.photos/id/23/200/150",
+      "example_zh": "我每天都去上学。"
+    }
+  ],
+  "2": [
+    {
+      "word": "beautiful",
+      "meaning": "美丽的",
+      "pos": "形容词",
+      "fullMeaning": "美丽的；美好的",
+      "phrases": [
+        {
+          "en": "beautiful day",
+          "zh": "美好的一天"
+        },
+        {
+          "en": "beautiful mind",
+          "zh": "美丽的心灵"
+        }
+      ],
+      "example": "The scenery is beautiful.",
+      "image": "https://picsum.photos/id/24/200/150",
+      "example_zh": "风景很美。"
+    },
+    {
+      "word": "understand",
+      "meaning": "理解",
+      "pos": "动词",
+      "fullMeaning": "理解；懂；谅解",
+      "phrases": [
+        {
+          "en": "understand each other",
+          "zh": "交情匪浅"
+        },
+        {
+          "en": "make oneself understood",
+          "zh": "让自己被理解"
+        }
+      ],
+      "example": "I understand the problem.",
+      "image": "https://picsum.photos/id/25/200/150",
+      "example_zh": "我理解这个问题。"
+    },
+    {
+      "word": "important",
+      "meaning": "重要的",
+      "pos": "形容词",
+      "fullMeaning": "重要的；重大的",
+      "phrases": [
+        {
+          "en": "important decision",
+          "zh": "重要决策"
+        },
+        {
+          "en": "important role",
+          "zh": "重要角色"
+        }
+      ],
+      "example": "It's an important meeting.",
+      "image": "https://picsum.photos/id/26/200/150",
+      "example_zh": "这是一次重要的会议。"
+    },
+    {
+      "word": "different",
+      "meaning": "不同的",
+      "pos": "形容词",
+      "fullMeaning": "不同的；差异的",
+      "phrases": [
+        {
+          "en": "different from",
+          "zh": "不介于"
+        },
+        {
+          "en": "different opinion",
+          "zh": "不同意见"
+        }
+      ],
+      "example": "They have different views.",
+      "image": "https://picsum.photos/id/27/200/150",
+      "example_zh": "他们有不同的观点。"
+    },
+    {
+      "word": "experience",
+      "meaning": "经验",
+      "pos": "名词/动词",
+      "fullMeaning": "经验；经历；体验",
+      "phrases": [
+        {
+          "en": "work experience",
+          "zh": "工作经验"
+        },
+        {
+          "en": "life experience",
+          "zh": "人生经历"
+        }
+      ],
+      "example": "She has much experience.",
+      "image": "https://picsum.photos/id/28/200/150",
+      "example_zh": "她有丰富的经验。"
+    },
+    {
+      "word": "decide",
+      "meaning": "决定",
+      "pos": "动词",
+      "fullMeaning": "决定；决心",
+      "phrases": [
+        {
+          "en": "decide on",
+          "zh": "决定"
+        },
+        {
+          "en": "decide to",
+          "zh": "做决定。"
+        }
+      ],
+      "example": "He decided to go.",
+      "image": "https://picsum.photos/id/29/200/150",
+      "example_zh": "他决定走了。"
+    },
+    {
+      "word": "necessary",
+      "meaning": "必要的",
+      "pos": "形容词",
+      "fullMeaning": "必要的；必然的",
+      "phrases": [
+        {
+          "en": "necessary evil",
+          "zh": "必要之恶"
+        },
+        {
+          "en": "if necessary",
+          "zh": "如必要"
+        }
+      ],
+      "example": "It's necessary to study.",
+      "image": "https://picsum.photos/id/30/200/150",
+      "example_zh": "学习是必要的。"
+    },
+    {
+      "word": "opportunity",
+      "meaning": "机会",
+      "pos": "名词",
+      "fullMeaning": "机会；时机",
+      "phrases": [
+        {
+          "en": "golden opportunity",
+          "zh": "<g x=1 id=\"90\">【</g>黄金机会】"
+        },
+        {
+          "en": "take opportunity",
+          "zh": "抓住机会"
+        }
+      ],
+      "example": "This is a great opportunity.",
+      "image": "https://picsum.photos/id/31/200/150",
+      "example_zh": "这是一个很好的机会。"
+    },
+    {
+      "word": "challenge",
+      "meaning": "挑战",
+      "pos": "名词/动词",
+      "fullMeaning": "挑战；质疑",
+      "phrases": [
+        {
+          "en": "face challenge",
+          "zh": "面临挑战"
+        },
+        {
+          "en": "challenge accepted",
+          "zh": "接受挑战"
+        }
+      ],
+      "example": "It's a big challenge.",
+      "image": "https://picsum.photos/id/32/200/150",
+      "example_zh": "这是一个巨大的挑战。"
+    },
+    {
+      "word": "achieve",
+      "meaning": "实现",
+      "pos": "动词",
+      "fullMeaning": "实现；取得；达到",
+      "phrases": [
+        {
+          "en": "achieve goal",
+          "zh": "实现目标"
+        },
+        {
+          "en": "achieve success",
+          "zh": "功成"
+        }
+      ],
+      "example": "He achieved his dream.",
+      "image": "https://picsum.photos/id/33/200/150",
+      "example_zh": "他实现了自己的梦想。"
+    },
+    {
+      "word": "believe",
+      "meaning": "相信",
+      "pos": "动词",
+      "fullMeaning": "相信；信任",
+      "phrases": [
+        {
+          "en": "believe in",
+          "zh": "相信"
+        },
+        {
+          "en": "make believe",
+          "zh": "假装"
+        }
+      ],
+      "example": "I believe you.",
+      "image": "https://picsum.photos/id/34/200/150",
+      "example_zh": "我相信你。"
+    },
+    {
+      "word": "consider",
+      "meaning": "考虑",
+      "pos": "动词",
+      "fullMeaning": "考虑；认为",
+      "phrases": [
+        {
+          "en": "consider as",
+          "zh": "考虑为"
+        },
+        {
+          "en": "all things considered",
+          "zh": "综上所述"
+        }
+      ],
+      "example": "Please consider my proposal.",
+      "image": "https://picsum.photos/id/35/200/150",
+      "example_zh": "请考虑我的建议。"
+    },
+    {
+      "word": "develop",
+      "meaning": "发展",
+      "pos": "动词",
+      "fullMeaning": "发展；开发；成长",
+      "phrases": [
+        {
+          "en": "develop skills",
+          "zh": "开发新技能"
+        },
+        {
+          "en": "develop into",
+          "zh": "演变成"
+        }
+      ],
+      "example": "The city developed rapidly.",
+      "image": "https://picsum.photos/id/36/200/150",
+      "example_zh": "这座城市发展迅速。"
+    },
+    {
+      "word": "environment",
+      "meaning": "环境",
+      "pos": "名词",
+      "fullMeaning": "环境；周围",
+      "phrases": [
+        {
+          "en": "natural environment",
+          "zh": "自然环境"
+        },
+        {
+          "en": "working environment",
+          "zh": "工作环境。"
+        }
+      ],
+      "example": "Protect the environment.",
+      "image": "https://picsum.photos/id/37/200/150",
+      "example_zh": "保护环境"
+    },
+    {
+      "word": "government",
+      "meaning": "政府",
+      "pos": "名词",
+      "fullMeaning": "政府；内阁",
+      "phrases": [
+        {
+          "en": "local government",
+          "zh": "地方政府 ,地方自治"
+        },
+        {
+          "en": "government official",
+          "zh": "政府官员"
+        }
+      ],
+      "example": "The government passed a law.",
+      "image": "https://picsum.photos/id/38/200/150",
+      "example_zh": "政府通过了一项法律。"
+    },
+    {
+      "word": "health",
+      "meaning": "健康",
+      "pos": "名词",
+      "fullMeaning": "健康；卫生",
+      "phrases": [
+        {
+          "en": "health care",
+          "zh": "卫生保健"
+        },
+        {
+          "en": "mental health",
+          "zh": "心理健康"
+        }
+      ],
+      "example": "Health is important.",
+      "image": "https://picsum.photos/id/39/200/150",
+      "example_zh": "健康很重要。"
+    },
+    {
+      "word": "increase",
+      "meaning": "增加",
+      "pos": "动词/名词",
+      "fullMeaning": "增加；增长",
+      "phrases": [
+        {
+          "en": "increase rapidly",
+          "zh": "迅速增加"
+        },
+        {
+          "en": "on the increase",
+          "zh": "在增加"
+        }
+      ],
+      "example": "Prices increased.",
+      "image": "https://picsum.photos/id/40/200/150",
+      "example_zh": "价格上涨。"
+    },
+    {
+      "word": "knowledge",
+      "meaning": "知识",
+      "pos": "名词",
+      "fullMeaning": "知识；学问",
+      "phrases": [
+        {
+          "en": "knowledge base",
+          "zh": "知识库"
+        },
+        {
+          "en": "common knowledge",
+          "zh": "公识"
+        }
+      ],
+      "example": "Knowledge is power.",
+      "image": "https://picsum.photos/id/41/200/150",
+      "example_zh": "知识就是力量。"
+    },
+    {
+      "word": "manage",
+      "meaning": "管理",
+      "pos": "动词",
+      "fullMeaning": "管理；经营；控制",
+      "phrases": [
+        {
+          "en": "manage time",
+          "zh": "管理时间"
+        },
+        {
+          "en": "manage to",
+          "zh": "设法"
+        }
+      ],
+      "example": "She manages the team.",
+      "image": "https://picsum.photos/id/42/200/150",
+      "example_zh": "她管理团队。"
+    },
+    {
+      "word": "natural",
+      "meaning": "自然的",
+      "pos": "形容词",
+      "fullMeaning": "自然的；天然的",
+      "phrases": [
+        {
+          "en": "natural disaster",
+          "zh": "天灾 ,自然灾害"
+        },
+        {
+          "en": "natural beauty",
+          "zh": "天生丽质"
+        }
+      ],
+      "example": "It's natural to be nervous.",
+      "image": "https://picsum.photos/id/43/200/150",
+      "example_zh": "紧张是很自然的。"
+    },
+    {
+      "word": "provide",
+      "meaning": "提供",
+      "pos": "动词",
+      "fullMeaning": "提供；供给",
+      "phrases": [
+        {
+          "en": "provide for",
+          "zh": "扶养 ,供养, 赡养"
+        },
+        {
+          "en": "provide with",
+          "zh": "提供"
+        }
+      ],
+      "example": "The hotel provides breakfast.",
+      "image": "https://picsum.photos/id/44/200/150",
+      "example_zh": "酒店提供早餐。"
+    }
+  ],
+  "3": [
+    {
+      "word": "abandon",
+      "meaning": "抛弃",
+      "pos": "动词",
+      "fullMeaning": "抛弃；放弃；遗弃",
+      "phrases": [
+        {
+          "en": "abandon ship",
+          "zh": "跳船"
+        },
+        {
+          "en": "abandon hope",
+          "zh": "放弃希望"
+        }
+      ],
+      "example": "They had to abandon the car.",
+      "image": "https://picsum.photos/id/45/200/150",
+      "example_zh": "他们不得不放弃这辆车。"
+    },
+    {
+      "word": "brilliant",
+      "meaning": "灿烂的",
+      "pos": "形容词",
+      "fullMeaning": "灿烂的；杰出的；聪明的",
+      "phrases": [
+        {
+          "en": "brilliant idea",
+          "zh": "高见"
+        },
+        {
+          "en": "brilliant mind",
+          "zh": "才华横溢的头脑"
+        }
+      ],
+      "example": "She is a brilliant student.",
+      "image": "https://picsum.photos/id/46/200/150",
+      "example_zh": "她是一个优秀的学生。"
+    },
+    {
+      "word": "dedicate",
+      "meaning": "奉献",
+      "pos": "动词",
+      "fullMeaning": "奉献；献身；题献",
+      "phrases": [
+        {
+          "en": "dedicate to",
+          "zh": "奉献给"
+        },
+        {
+          "en": "dedicated follower",
+          "zh": "专用关注者"
+        }
+      ],
+      "example": "He dedicated his life to science.",
+      "image": "https://picsum.photos/id/47/200/150",
+      "example_zh": "他毕生致力于科学。"
+    },
+    {
+      "word": "essential",
+      "meaning": "必要的",
+      "pos": "形容词/名词",
+      "fullMeaning": "必要的；本质的；必需品",
+      "phrases": [
+        {
+          "en": "essential oil",
+          "zh": "精油"
+        },
+        {
+          "en": "essential part",
+          "zh": "必备零件"
+        }
+      ],
+      "example": "Water is essential.",
+      "image": "https://picsum.photos/id/48/200/150",
+      "example_zh": "水是必不可少的。"
+    },
+    {
+      "word": "flexible",
+      "meaning": "灵活的",
+      "pos": "形容词",
+      "fullMeaning": "灵活的；柔韧的",
+      "phrases": [
+        {
+          "en": "flexible schedule",
+          "zh": "灵活的日程安排"
+        },
+        {
+          "en": "flexible material",
+          "zh": "弹性材料"
+        }
+      ],
+      "example": "We need flexible working hours.",
+      "image": "https://picsum.photos/id/49/200/150",
+      "example_zh": "我们需要灵活的工作时间。"
+    },
+    {
+      "word": "generate",
+      "meaning": "产生",
+      "pos": "动词",
+      "fullMeaning": "产生；生成；发电",
+      "phrases": [
+        {
+          "en": "generate electricity",
+          "zh": "发电"
+        },
+        {
+          "en": "generate interest",
+          "zh": "产生兴趣"
+        }
+      ],
+      "example": "Solar panels generate power.",
+      "image": "https://picsum.photos/id/50/200/150",
+      "example_zh": "太阳能电池板发电。"
+    },
+    {
+      "word": "hypothesis",
+      "meaning": "假设",
+      "pos": "名词",
+      "fullMeaning": "假设；假说",
+      "phrases": [
+        {
+          "en": "test hypothesis",
+          "zh": "测试假说"
+        },
+        {
+          "en": "working hypothesis",
+          "zh": "工作假设"
+        }
+      ],
+      "example": "The hypothesis was confirmed.",
+      "image": "https://picsum.photos/id/51/200/150",
+      "example_zh": "该假设得到证实。"
+    },
+    {
+      "word": "illustrate",
+      "meaning": "阐明",
+      "pos": "动词",
+      "fullMeaning": "阐明；举例说明；图解",
+      "phrases": [
+        {
+          "en": "illustrate point",
+          "zh": "说明要点"
+        },
+        {
+          "en": "well illustrated",
+          "zh": "插图丰富"
+        }
+      ],
+      "example": "Let me illustrate with an example.",
+      "image": "https://picsum.photos/id/52/200/150",
+      "example_zh": "让我用一个例子来说明。"
+    },
+    {
+      "word": "justify",
+      "meaning": "证明",
+      "pos": "动词",
+      "fullMeaning": "证明…正当；为…辩护",
+      "phrases": [
+        {
+          "en": "justify action",
+          "zh": ""
+        },
+        {
+          "en": "justify expense",
+          "zh": "证明费用合理"
+        }
+      ],
+      "example": "He tried to justify his behavior.",
+      "image": "https://picsum.photos/id/53/200/150",
+      "example_zh": "他试图为自己的行为辩护。"
+    },
+    {
+      "word": "laboratory",
+      "meaning": "实验室",
+      "pos": "名词",
+      "fullMeaning": "实验室；研究室",
+      "phrases": [
+        {
+          "en": "research laboratory",
+          "zh": "研究实验室"
+        },
+        {
+          "en": "science lab",
+          "zh": "科学实验室"
+        }
+      ],
+      "example": "They work in a laboratory.",
+      "image": "https://picsum.photos/id/54/200/150",
+      "example_zh": "他们在实验室工作。"
+    },
+    {
+      "word": "modify",
+      "meaning": "修改",
+      "pos": "动词",
+      "fullMeaning": "修改；修饰；改变",
+      "phrases": [
+        {
+          "en": "modify behavior",
+          "zh": "修改行为"
+        },
+        {
+          "en": "modified version",
+          "zh": "修改过后的版本"
+        }
+      ],
+      "example": "We need to modify the plan.",
+      "image": "https://picsum.photos/id/55/200/150",
+      "example_zh": "我们需要修改计划。"
+    },
+    {
+      "word": "neglect",
+      "meaning": "忽视",
+      "pos": "动词/名词",
+      "fullMeaning": "忽视；疏忽；忽略",
+      "phrases": [
+        {
+          "en": "neglect duty",
+          "zh": "疏忽税"
+        },
+        {
+          "en": "neglect of children",
+          "zh": "忽视儿童"
+        }
+      ],
+      "example": "Don't neglect your health.",
+      "image": "https://picsum.photos/id/56/200/150",
+      "example_zh": "不要忽视自己的健康。"
+    },
+    {
+      "word": "obtain",
+      "meaning": "获得",
+      "pos": "动词",
+      "fullMeaning": "获得；得到",
+      "phrases": [
+        {
+          "en": "obtain information",
+          "zh": "获取信息"
+        },
+        {
+          "en": "obtain permission",
+          "zh": "获准"
+        }
+      ],
+      "example": "How to obtain a visa?",
+      "image": "https://picsum.photos/id/57/200/150",
+      "example_zh": "如何获得签证？"
+    },
+    {
+      "word": "participate",
+      "meaning": "参加",
+      "pos": "动词",
+      "fullMeaning": "参加；参与",
+      "phrases": [
+        {
+          "en": "participate in",
+          "zh": "参加"
+        },
+        {
+          "en": "active participation",
+          "zh": "积极参与"
+        }
+      ],
+      "example": "Everyone should participate.",
+      "image": "https://picsum.photos/id/58/200/150",
+      "example_zh": "每个人都应该参与。"
+    },
+    {
+      "word": "quantity",
+      "meaning": "数量",
+      "pos": "名词",
+      "fullMeaning": "数量；分量",
+      "phrases": [
+        {
+          "en": "large quantity",
+          "zh": "大批量"
+        },
+        {
+          "en": "unknown quantity",
+          "zh": "未知数量"
+        }
+      ],
+      "example": "The quantity is insufficient.",
+      "image": "https://picsum.photos/id/59/200/150",
+      "example_zh": "数量不足。"
+    },
+    {
+      "word": "research",
+      "meaning": "研究",
+      "pos": "名词/动词",
+      "fullMeaning": "研究；调查",
+      "phrases": [
+        {
+          "en": "research paper",
+          "zh": "学术论文"
+        },
+        {
+          "en": "market research",
+          "zh": "市场调查"
+        }
+      ],
+      "example": "She is doing research on cancer.",
+      "image": "https://picsum.photos/id/60/200/150",
+      "example_zh": "她正在做癌症研究。"
+    },
+    {
+      "word": "significant",
+      "meaning": "重要的",
+      "pos": "形容词",
+      "fullMeaning": "重要的；显著的",
+      "phrases": [
+        {
+          "en": "significant difference",
+          "zh": "显著性差异"
+        },
+        {
+          "en": "significant other",
+          "zh": "爱人"
+        }
+      ],
+      "example": "There was a significant change.",
+      "image": "https://picsum.photos/id/61/200/150",
+      "example_zh": "发生了重大变化。"
+    },
+    {
+      "word": "theory",
+      "meaning": "理论",
+      "pos": "名词",
+      "fullMeaning": "理论；原理",
+      "phrases": [
+        {
+          "en": "theory of evolution",
+          "zh": "进化论"
+        },
+        {
+          "en": "in theory",
+          "zh": "理论上是这样"
+        }
+      ],
+      "example": "That's an interesting theory.",
+      "image": "https://picsum.photos/id/62/200/150",
+      "example_zh": "这是一个有趣的理论。"
+    },
+    {
+      "word": "unique",
+      "meaning": "独特的",
+      "pos": "形容词",
+      "fullMeaning": "独特的；独一无二的",
+      "phrases": [
+        {
+          "en": "unique opportunity",
+          "zh": "一个独特的机会"
+        },
+        {
+          "en": "unique style",
+          "zh": "独一无二的风格。"
+        }
+      ],
+      "example": "Each snowflake is unique.",
+      "image": "https://picsum.photos/id/63/200/150",
+      "example_zh": "每片雪花都是独一无二的。"
+    },
+    {
+      "word": "valid",
+      "meaning": "有效的",
+      "pos": "形容词",
+      "fullMeaning": "有效的；正当的；有根据的",
+      "phrases": [
+        {
+          "en": "valid reason",
+          "zh": "正当理由"
+        },
+        {
+          "en": "valid passport",
+          "zh": "有效护照"
+        }
+      ],
+      "example": "Your ticket is valid for one day.",
+      "image": "https://picsum.photos/id/64/200/150",
+      "example_zh": "您的车票有效期为一天。"
+    }
+  ]
+}

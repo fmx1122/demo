@@ -1,0 +1,2789 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>词锁：密语逃生 - 最终版</title>
+    <style>
+        /* ===== 主题变量系统 ===== */
+        :root, body.theme-1 {
+            --primary: #e94560;
+            --primary-dark: #c72a48;
+            --secondary: #ffd966;
+            --accent: #27ae60;
+            --bg-dark: #1a1a2e;
+            --bg-mid: #0f3460;
+            --bg-light: #16213e;
+            --text: #ffffff;
+            --room-name: "书房密室";
+            --room-icon: "📚";
+            --theme-floor-a: #5d3a1a;
+            --theme-floor-b: #2a1808;
+            --theme-wall-a: #6b4423;
+            --theme-wall-b: #3a2410;
+            --theme-light: rgba(255, 200, 100, 0.35);
+            --objs: "📚 🕯️ 📖 🪑 🖋️";
+        }
+        body.theme-2 {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #1abc9c;
+            --accent: #f39c12;
+            --bg-dark: #0a1929;
+            --bg-mid: #1e3a5f;
+            --bg-light: #142a47;
+            --text: #e8f4ff;
+            --room-name: "实验室密室";
+            --room-icon: "🔬";
+            --theme-floor-a: #2c3e50;
+            --theme-floor-b: #0d1822;
+            --theme-wall-a: #34495e;
+            --theme-wall-b: #1a2530;
+            --theme-light: rgba(100, 200, 255, 0.30);
+            --objs: "🧪 🔬 💡 ⚗️ 🧬";
+        }
+        body.theme-3 {
+            --primary: #9b59b6;
+            --primary-dark: #7d3c98;
+            --secondary: #f39c12;
+            --accent: #ffd966;
+            --bg-dark: #1a0a2e;
+            --bg-mid: #3a1a5f;
+            --bg-light: #28143f;
+            --text: #f3e6ff;
+            --room-name: "音乐厅密室";
+            --room-icon: "🎭";
+            --theme-floor-a: #4a1f5c;
+            --theme-floor-b: #1a0828;
+            --theme-wall-a: #5b2a6e;
+            --theme-wall-b: #2e1338;
+            --theme-light: rgba(255, 180, 220, 0.30);
+            --objs: "🎹 🎻 🎼 🎭 🎷";
+        }
+
+        * { box-sizing: border-box; user-select: none; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-dark);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.8s ease, color 0.4s ease;
+        }
+        .bg-slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .bg-slider .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+        .bg-slider .slide.active { opacity: 1; }
+        .game-container {
+            max-width: 800px;
+            width: 100%;
+            z-index: 1;
+            position: relative;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .ticket {
+            font-size: 24px;
+            background: var(--bg-light);
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .settings-btn {
+            background: #4a627a;
+            font-size: 18px;
+            padding: 8px 16px;
+        }
+        button {
+            font-size: 20px;
+            padding: 12px 24px;
+            margin: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+        button:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: scale(1.02);
+        }
+        button:disabled {
+            background: gray;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .room {
+            background: var(--bg-mid);
+            padding: 20px;
+            border-radius: 20px;
+            margin-top: 30px;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            transition: background 0.8s ease;
+        }
+        .level-badge {
+            background: var(--secondary);
+            color: black;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .challenge-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background: #0a1a2a;
+            border-radius: 15px;
+        }
+        .progress {
+            font-size: 18px;
+            margin: 10px 0;
+            background: #00000055;
+            padding: 8px;
+            border-radius: 10px;
+        }
+        @keyframes correctFlash {
+            0% { background-color: rgba(46, 204, 113, 0); transform: scale(1); }
+            50% { background-color: rgba(46, 204, 113, 0.8); transform: scale(1.05); }
+            100% { background-color: rgba(46, 204, 113, 0); transform: scale(1); }
+        }
+        @keyframes wrongShake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); background-color: rgba(231, 76, 60, 0.5); }
+            75% { transform: translateX(5px); background-color: rgba(231, 76, 60, 0.5); }
+            100% { transform: translateX(0); }
+        }
+        .correct-animation { animation: correctFlash 0.3s ease; }
+        .wrong-animation { animation: wrongShake 0.3s ease; }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: linear-gradient(145deg, var(--bg-mid), var(--bg-light));
+            padding: 30px 25px;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: fadeInUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.25);
+            background: rgba(0,0,0,0.35);
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            z-index: 10;
+            padding: 0;
+        }
+        .modal-close:hover {
+            background: var(--primary, #e94560);
+            border-color: var(--primary, #e94560);
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 4px 12px rgba(233, 69, 96, 0.5);
+        }
+        .modal-close:active {
+            transform: rotate(90deg) scale(0.95);
+        }
+        .modal-content h3 {
+            padding-right: 30px;
+        }
+
+        /* ===== 📖 词汇学习室 ===== */
+        .vr-header { margin-bottom: 10px; }
+        .vr-lib-info { display: flex; justify-content: space-between; align-items: center; font-size: 16px; gap: 10px; flex-wrap: wrap; }
+        .vr-lib-info span { font-weight: bold; }
+        .vr-daily-count { font-size: 13px; color: #ffd966; background: rgba(0,0,0,0.3); padding: 3px 10px; border-radius: 20px; }
+        .vr-progress { width: 100%; height: 8px; background: #333; border-radius: 4px; margin: 6px 0; overflow: hidden; position: relative; }
+        .vr-progress-fill { height: 100%; background: linear-gradient(90deg, #2ecc71, #27ae60); border-radius: 4px; transition: width 0.3s ease; }
+        .vr-progress-text { position: absolute; right: 4px; top: -16px; font-size: 10px; color: #aaa; }
+        .vr-mastery-bar { display: flex; justify-content: space-between; font-size: 12px; color: #bbb; gap: 10px; }
+        .vr-controls { display: flex; gap: 8px; margin: 10px 0; align-items: center; flex-wrap: wrap; }
+        .vr-tabs { display: flex; gap: 4px; }
+        .vr-tab { background: rgba(255,255,255,0.08); border: 1px solid transparent; border-radius: 20px; padding: 4px 12px; font-size: 12px; cursor: pointer; color: #ccc; transition: all 0.2s; }
+        .vr-tab:hover { background: rgba(255,255,255,0.15); }
+        .vr-tab.active { background: var(--primary, #e94560); color: #fff; border-color: var(--primary, #e94560); }
+        .vr-search { flex: 1; min-width: 120px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 6px 14px; color: #fff; font-size: 13px; outline: none; }
+        .vr-search:focus { border-color: var(--primary, #e94560); }
+        .vr-word-list { max-height: 55vh; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; margin: 6px 0; padding-right: 4px; }
+        .vr-word-list::-webkit-scrollbar { width: 4px; }
+        .vr-word-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+        .vr-word-card { background: rgba(0,0,0,0.25); border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; transition: all 0.2s; border: 1px solid transparent; cursor: default; }
+        .vr-word-card:hover { background: rgba(0,0,0,0.35); border-color: rgba(255,255,255,0.08); }
+        .vr-word-card .vr-w { font-size: 16px; font-weight: bold; min-width: 100px; }
+        .vr-word-card .vr-m { flex: 1; font-size: 14px; color: #ddd; }
+        .vr-word-card .vr-actions { display: flex; gap: 4px; align-items: center; }
+        .vr-word-card .vr-speak { background: none; border: none; font-size: 18px; cursor: pointer; padding: 4px; border-radius: 50%; transition: 0.2s; }
+        .vr-word-card .vr-speak:hover { background: rgba(255,255,255,0.1); }
+        .vr-word-card .vr-toggle { background: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; padding: 0; }
+        .vr-word-card .vr-toggle.mastered { background: #2ecc71; border-color: #2ecc71; color: #fff; }
+        .vr-word-card .vr-toggle:hover { background: rgba(46,204,113,0.3); }
+        .vr-word-card .vr-level-badge { font-size: 10px; padding: 2px 6px; border-radius: 10px; background: rgba(255,255,255,0.1); color: #888; }
+        .vr-word-card .vr-example { font-size: 11px; color: #888; width: 100%; margin-top: 2px; }
+        .vr-no-words { color: #888; padding: 20px; text-align: center; font-size: 14px; }
+
+        /* ===== 📚 词库选择器卡片网格 ===== */
+        .lib-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .lib-pick-card {
+            background: linear-gradient(145deg, var(--bg-light), var(--bg-mid));
+            border: 2px solid rgba(255,255,255,0.15);
+            border-radius: 14px;
+            padding: 12px 8px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: center;
+            position: relative;
+            color: #fff;
+        }
+        .lib-pick-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--secondary, #ffd966);
+            box-shadow: 0 6px 18px rgba(255, 217, 102, 0.2);
+        }
+        .lib-pick-card.active {
+            border-color: var(--primary, #e94560);
+            background: linear-gradient(145deg, rgba(233, 69, 96, 0.25), rgba(233, 69, 96, 0.1));
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.4);
+        }
+        .lib-pick-card.active::after {
+            content: "✓";
+            position: absolute;
+            top: 6px; right: 8px;
+            color: var(--secondary, #ffd966);
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .lib-pick-card .lib-icon {
+            font-size: 32px;
+            margin-bottom: 4px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        .lib-pick-card .lib-name {
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+        .lib-pick-card .lib-desc {
+            font-size: 11px;
+            color: #aaa;
+            margin-bottom: 6px;
+        }
+        .lib-pick-card .lib-progress {
+            width: 100%;
+            height: 6px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+        .lib-pick-card .lib-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent, #2ecc71), var(--secondary, #ffd966));
+            transition: width 0.5s ease;
+        }
+        .lib-pick-card .lib-stat {
+            font-size: 10px;
+            color: #ccc;
+            margin-top: 4px;
+        }
+
+        /* ===== 🏆 词库检验场景 ===== */
+        .mastery-header {
+            background: linear-gradient(135deg, var(--primary, #e94560), var(--primary-dark, #c72a48));
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+        .mastery-header h3 {
+            color: #fff;
+            margin: 0 0 4px 0;
+        }
+        .mastery-progress {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            height: 14px;
+            overflow: hidden;
+            margin: 8px 0;
+            position: relative;
+        }
+        .mastery-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71, #ffd966, #e94560);
+            transition: width 0.6s ease;
+        }
+        .mastery-progress-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        .mastery-modes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .mastery-mode-btn {
+            background: var(--bg-light);
+            border: 2px solid rgba(255,255,255,0.15);
+            color: #fff;
+            border-radius: 12px;
+            padding: 12px 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .mastery-mode-btn:hover {
+            transform: scale(1.03);
+            border-color: var(--secondary, #ffd966);
+        }
+        .mastery-mode-btn .mode-icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .mastery-mode-btn .mode-name {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .mastery-mode-btn .mode-desc {
+            font-size: 10px;
+            color: #aaa;
+            margin-top: 2px;
+        }
+        .mastery-question {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px 0;
+            text-align: center;
+        }
+        .mastery-question .q-word {
+            font-size: 30px;
+            font-weight: bold;
+            color: var(--secondary, #ffd966);
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+        .mastery-question .q-hint {
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+        .mastery-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .mastery-opt {
+            background: var(--bg-mid);
+            border: 2px solid rgba(255,255,255,0.15);
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .mastery-opt:hover { background: var(--primary, #e94560); transform: scale(1.02); }
+        .mastery-opt.correct { background: #27ae60 !important; border-color: #2ecc71; }
+        .mastery-opt.wrong   { background: #c0392b !important; border-color: #e74c3c; opacity: 0.7; }
+        .mastery-spell-input {
+            width: 80%;
+            padding: 10px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            outline: none;
+            font-family: 'Courier New', monospace;
+            margin-top: 10px;
+        }
+        .mastery-spell-input:focus { border-color: var(--secondary, #ffd966); }
+        .mastery-feedback {
+            min-height: 30px;
+            margin: 8px 0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .mastery-feedback.correct { color: #2ecc71; }
+        .mastery-feedback.wrong   { color: #ff6b6b; }
+        .mastery-score-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #ccc;
+            margin-top: 6px;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-content h3 { margin-top: 0; color: #ffd966; font-size: 28px; }
+        .question-word {
+            font-size: 42px;
+            font-weight: bold;
+            background: #00000066;
+            padding: 15px;
+            border-radius: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .speaker-btn {
+            background: #3498db;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .speaker-btn:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+        .voice-switch-btn {
+            background: #2c3e50;
+            font-size: 16px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .voice-switch-btn:hover {
+            background: #1a2632;
+        }
+        .modal-input {
+            width: 90%;
+            padding: 14px;
+            font-size: 18px;
+            border: none;
+            border-radius: 40px;
+            background: #ecf0f1;
+            text-align: center;
+            outline: none;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .modal-info {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 16px;
+            background: #00000044;
+            padding: 8px 12px;
+            border-radius: 40px;
+        }
+        .modal-buttons { display: flex; gap: 15px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+        .modal-buttons button { flex: 1; margin: 0; font-size: 18px; padding: 10px; }
+        .submit-btn { background: #27ae60; }
+        .submit-btn:hover { background: #2ecc71; }
+        .cancel-btn { background: #7f8c8d; }
+        .cancel-btn:hover { background: #95a5a6; }
+        .mistake-badge { color: #ff7675; font-weight: bold; }
+        .timer-bar { width: 100%; height: 6px; background: #555; border-radius: 3px; margin-top: 10px; overflow: hidden; }
+        .timer-progress { width: 100%; height: 100%; background: #f39c12; transition: width 0.1s linear; }
+        .setting-row { display: flex; justify-content: space-between; align-items: center; margin: 15px 0; text-align: left; }
+        .toggle-switch {
+            width: 50px; height: 24px; background: #ccc; border-radius: 30px;
+            cursor: pointer; position: relative; transition: 0.2s;
+        }
+        .toggle-switch.active { background: #27ae60; }
+        .toggle-switch:after {
+            content: ""; width: 20px; height: 20px; background: white;
+            border-radius: 50%; position: absolute; top: 2px; left: 4px; transition: 0.2s;
+        }
+        .toggle-switch.active:after { left: 26px; }
+        select {
+            background: #2c3e50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: black;
+            padding: 20px;
+            border-radius: 20px;
+            z-index: 2000;
+            font-size: 24px;
+        }
+        .shop-item {
+            background: #0f3460;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .achievement-badge {
+            background: #f39c12;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        /* ===== 单词详解页面样式 ===== */
+        .word-detail {
+            text-align: left;
+            padding: 6px 4px;
+        }
+        .word-detail-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            flex-wrap: wrap;
+        }
+        .word-detail-header .status-badge {
+            background: #27ae60;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .word-detail-header .detail-word {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffd966;
+            letter-spacing: 1px;
+            font-family: 'Segoe UI', monospace;
+        }
+        .word-detail-header .header-spacer {
+            width: 1px;
+        }
+        .detail-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin: 10px 0;
+            padding: 10px 12px;
+            background: rgba(0,0,0,0.28);
+            border-radius: 12px;
+        }
+        .detail-row .label {
+            flex-shrink: 0;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            line-height: 1.4;
+            min-width: 64px;
+            text-align: center;
+        }
+        .detail-row.label-pos .label     { background: #9b59b6; }
+        .detail-row.label-meaning .label { background: #e94560; }
+        .detail-row.label-phrase .label  { background: #f39c12; color: #1a1a2e; }
+        .detail-row.label-example .label { background: #3498db; }
+        .detail-row .content {
+            flex: 1;
+            line-height: 1.6;
+            word-break: break-word;
+            color: #f1f1f1;
+        }
+        .phrases-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .phrase-item {
+            background: #0f3460;
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+            max-width: 100%;
+        }
+        .phrase-item .phrase-en {
+            color: #ffd966;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+        .phrase-item .phrase-zh {
+            color: #ccc;
+            font-size: 13px;
+        }
+        .phrase-item.no-zh {
+            color: #ffd966;
+            font-weight: bold;
+        }
+        .example-box {
+            background: #16213e;
+            border-left: 4px solid #3498db;
+            padding: 10px 12px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+        .example-box .example-en {
+            font-style: italic;
+            color: #fff;
+        }
+        .example-box .example-zh {
+            color: #aaa;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        .example-box .inline-speaker {
+            background: #3498db;
+            border: none;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            margin-left: 6px;
+            transition: 0.2s;
+        }
+        .example-box .inline-speaker:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+        .word-detail .detail-image {
+            width: 100%;
+            max-height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-top: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: block;
+        }
+
+        /* ===== 游戏中心 ===== */
+        .game-center-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin: 16px 0;
+        }
+        .game-card {
+            background: linear-gradient(145deg, #0f3460, #16213e);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .game-card:hover:not(.locked) {
+            transform: translateY(-3px);
+            border-color: #ffd966;
+            box-shadow: 0 8px 18px rgba(255, 217, 102, 0.2);
+        }
+        .game-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(60%);
+        }
+        .game-card .game-icon {
+            font-size: 42px;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .game-card .game-name {
+            font-size: 17px;
+            font-weight: bold;
+            color: #ffd966;
+            margin: 4px 0;
+        }
+        .game-card .game-desc {
+            font-size: 12px;
+            color: #ccc;
+            min-height: 32px;
+            line-height: 1.4;
+        }
+        .game-card .game-meta {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        .game-card .meta-tag {
+            background: rgba(0,0,0,0.4);
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+        .game-card .meta-tag.ticket { color: #ffd966; }
+        .game-card .meta-tag.best   { color: #2ecc71; }
+        .game-card .lock-overlay {
+            position: absolute;
+            top: 8px; right: 10px;
+            font-size: 18px;
+        }
+        .game-card.soon {
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+        }
+        .game-card.soon .game-name { color: #95a5a6; }
+
+        /* 英文行（点击翻译） */
+        .game-en, .game-en-desc {
+            font-style: italic;
+            color: #95a5a6;
+            cursor: pointer;
+            text-decoration: underline dotted;
+            text-underline-offset: 3px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .game-en {
+            font-size: 13px;
+            font-weight: bold;
+            margin: 2px 0;
+        }
+        .game-en-desc {
+            font-size: 11px;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+        .game-en:hover, .game-en-desc:hover {
+            color: var(--secondary, #ffd966);
+            text-decoration: underline solid;
+        }
+        .game-en::after {
+            content: " 🔍";
+            font-size: 9px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .game-en:hover::after { opacity: 0.7; }
+
+        /* ===== 小游戏中 EN+ZH 双语显示 ===== */
+        .en-zh-pair {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            line-height: 1.2;
+        }
+        .en-zh-pair .en-main {
+            font-weight: bold;
+            color: var(--secondary, #ffd966);
+        }
+        .en-zh-pair .zh-sub {
+            font-size: 0.65em;
+            color: rgba(255,255,255,0.75);
+            max-width: 130px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 例句块（统一在游戏中显示） */
+        .game-example {
+            background: rgba(0,0,0,0.35);
+            border-left: 3px solid var(--secondary, #ffd966);
+            border-radius: 6px;
+            padding: 6px 10px;
+            margin: 6px 0;
+            text-align: left;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .game-example-en { font-style: italic; color: #fff; }
+        .game-example-zh { color: #b8b8b8; font-size: 11px; margin-top: 2px; }
+
+        /* ===== 找词游戏中：单词列表 EN+ZH ===== */
+        .ws-word {
+            padding: 5px 10px;
+            text-align: center;
+            min-width: 70px;
+        }
+        .ws-word-en {
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .ws-word-zh {
+            font-size: 10px;
+            color: #aaa;
+            margin-top: 1px;
+            max-width: 110px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .ws-word.found .ws-word-en, .ws-word.found .ws-word-zh { color: #fff; }
+
+        /* ===== 打字游戏中：下落单词 EN+ZH ===== */
+        .typing-falling-word {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            padding: 5px 12px;
+            line-height: 1.2;
+        }
+        .typing-falling-word .tf-en {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--secondary, #ffd966);
+            font-family: 'Courier New', monospace;
+        }
+        .typing-falling-word .tf-zh {
+            font-size: 10px;
+            color: rgba(255,255,255,0.7);
+            max-width: 130px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ===== 塔防敌人 EN+ZH ===== */
+        .td-enemy {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            min-width: 96px;
+            min-height: 50px;
+            padding: 4px 8px;
+            line-height: 1.2;
+        }
+        .td-enemy .td-en-en {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--secondary, #ffd966);
+            font-family: 'Courier New', monospace;
+        }
+        .td-enemy .td-en-zh {
+            font-size: 9px;
+            color: rgba(255,255,255,0.75);
+            max-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .td-enemy .td-enemy-hp {
+            position: absolute;
+            top: -8px;
+            left: 4px; right: 4px;
+        }
+
+        /* 翻译弹窗 */
+        .translate-popup {
+            position: fixed;
+            background: linear-gradient(135deg, var(--primary, #e94560), var(--primary-dark, #c72a48));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 7000;
+            opacity: 0;
+            transform: translateY(-8px) scale(0.9);
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            pointer-events: none;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 16px var(--primary, #e94560);
+            white-space: nowrap;
+            max-width: 90vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .translate-popup.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .translate-popup::before {
+            content: "";
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid var(--primary, #e94560);
+        }
+
+        /* ===== 记忆翻牌游戏 ===== */
+        .memory-stats {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin: 8px 0 14px 0;
+            font-size: 14px;
+        }
+        .memory-stats span b { color: #ffd966; font-size: 16px; }
+        .memory-grid {
+            display: grid;
+            gap: 10px;
+            margin: 8px 0 16px 0;
+            padding: 6px;
+            perspective: 1000px;
+        }
+        .memory-grid.size-6  { grid-template-columns: repeat(3, 1fr); }
+        .memory-grid.size-8  { grid-template-columns: repeat(4, 1fr); }
+        .memory-grid.size-12 { grid-template-columns: repeat(4, 1fr); }
+        .memory-grid.size-18 { grid-template-columns: repeat(6, 1fr); }
+        .mem-card {
+            position: relative;
+            aspect-ratio: 1 / 1.15;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .mem-card.flipped { transform: rotateY(180deg); }
+        .mem-card.matched .mem-face { box-shadow: 0 0 16px rgba(46, 204, 113, 0.7); border-color: #2ecc71; }
+        .mem-card.shake { animation: mmShake 0.4s ease; }
+        @keyframes mmShake {
+            0%, 100% { transform: rotateY(180deg) translateX(0); }
+            25% { transform: rotateY(180deg) translateX(-6px); }
+            75% { transform: rotateY(180deg) translateX(6px); }
+        }
+        .mem-face {
+            position: absolute;
+            inset: 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border: 2px solid rgba(255,255,255,0.15);
+            font-weight: bold;
+            word-break: break-word;
+            overflow: hidden;
+        }
+        .mem-face.front {
+            background: linear-gradient(135deg, #e94560, #c72a48);
+            color: #fff;
+            font-size: 28px;
+        }
+        .mem-face.front::after {
+            content: "?";
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+        .mem-face.back {
+            background: linear-gradient(135deg, #0f3460, #16213e);
+            color: #ffd966;
+            transform: rotateY(180deg);
+            font-size: 15px;
+            line-height: 1.3;
+        }
+        .mem-card.matched .mem-face.back {
+            background: linear-gradient(135deg, #1e8449, #145a32);
+            color: #fff;
+        }
+        .mem-card.disabled { pointer-events: none; }
+        .mem-face.back .en { color: #ffd966; font-size: 16px; font-weight: bold; }
+        .mem-face.back .zh { color: #ecf0f1; font-size: 14px; margin-top: 4px; }
+
+        /* ===== 密室 3D 概念图 ===== */
+        .room-scene {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            margin: 16px 0;
+            border-radius: 20px;
+            overflow: hidden;
+            perspective: 900px;
+            perspective-origin: 50% 30%;
+            background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg-dark) 100%);
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.6), 0 8px 20px rgba(0,0,0,0.5);
+        }
+        .room-scene .room-wall {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 65%;
+            background:
+                radial-gradient(ellipse at 50% 30%, var(--theme-light), transparent 70%),
+                linear-gradient(135deg, var(--theme-wall-a), var(--theme-wall-b));
+        }
+        .room-scene .room-floor {
+            position: absolute;
+            bottom: 0; left: -10%; right: -10%;
+            height: 60%;
+            background:
+                linear-gradient(180deg, var(--theme-floor-a), var(--theme-floor-b));
+            transform: rotateX(62deg);
+            transform-origin: top center;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+        }
+        .room-scene .room-floor::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(90deg, transparent 0, transparent 60px, rgba(0,0,0,0.2) 60px, rgba(0,0,0,0.2) 62px);
+        }
+        .room-scene .room-objects {
+            position: absolute;
+            bottom: 28%;
+            left: 0; right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            z-index: 3;
+            padding: 0 30px;
+        }
+        .room-scene .room-obj {
+            font-size: 52px;
+            filter: drop-shadow(0 6px 10px rgba(0,0,0,0.7));
+            animation: floatY 3.5s ease-in-out infinite;
+        }
+        .room-scene .room-obj:nth-child(2) { animation-delay: 0.4s; font-size: 44px; }
+        .room-scene .room-obj:nth-child(3) { animation-delay: 0.8s; }
+        .room-scene .room-obj:nth-child(4) { animation-delay: 1.2s; font-size: 48px; }
+        .room-scene .room-obj:nth-child(5) { animation-delay: 1.6s; }
+        @keyframes floatY {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-6px); }
+        }
+        .room-scene .room-door {
+            position: absolute;
+            right: 8%;
+            top: 25%;
+            font-size: 64px;
+            z-index: 4;
+            filter: drop-shadow(0 0 12px var(--theme-light));
+            animation: doorGlow 2.5s ease-in-out infinite;
+        }
+        @keyframes doorGlow {
+            0%, 100% { filter: drop-shadow(0 0 8px var(--theme-light)); }
+            50%      { filter: drop-shadow(0 0 20px var(--theme-light)); }
+        }
+        .room-scene .room-light {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, var(--theme-light), transparent 70%);
+            animation: lightPulse 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes lightPulse {
+            0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            50%      { opacity: 1;   transform: translateX(-50%) scale(1.15); }
+        }
+        .room-scene .room-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .room-scene .room-particles span {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--theme-light);
+            border-radius: 50%;
+            animation: particleFloat 8s linear infinite;
+        }
+        @keyframes particleFloat {
+            0%   { transform: translateY(100%); opacity: 0; }
+            10%  { opacity: 1; }
+            100% { transform: translateY(-100%); opacity: 0; }
+        }
+
+        /* ===== 剧情开场动画 ===== */
+        .opening-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            background: radial-gradient(ellipse at center, #1a0a2e 0%, #000 80%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #f3e6ff;
+            animation: openingFadeIn 1.5s ease;
+        }
+        @keyframes openingFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .opening-title {
+            font-size: 56px;
+            font-weight: bold;
+            letter-spacing: 8px;
+            color: var(--secondary, #ffd966);
+            text-shadow: 0 0 30px var(--primary, #e94560), 0 0 60px var(--primary-dark, #c72a48);
+            margin-bottom: 8px;
+            animation: titleAppear 2s ease;
+        }
+        @keyframes titleAppear {
+            from { transform: scale(0.5); opacity: 0; letter-spacing: 30px; }
+            to   { transform: scale(1);   opacity: 1; letter-spacing: 8px;  }
+        }
+        .opening-subtitle {
+            font-size: 18px;
+            color: #aaa;
+            margin-bottom: 40px;
+            letter-spacing: 4px;
+            animation: openingFadeIn 2s ease 0.5s backwards;
+        }
+        .opening-story {
+            max-width: 600px;
+            min-height: 180px;
+            padding: 0 30px;
+            font-size: 19px;
+            line-height: 2;
+            text-align: center;
+        }
+        .opening-story .line {
+            opacity: 0;
+            animation: lineAppear 1.2s ease forwards;
+            margin: 8px 0;
+        }
+        @keyframes lineAppear {
+            from { opacity: 0; transform: translateY(15px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .opening-buttons {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            animation: lineAppear 1s ease 4s forwards;
+        }
+        .opening-skip {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #888;
+            font-size: 14px;
+            cursor: pointer;
+            background: none;
+            border: 1px solid #555;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin: 0;
+        }
+        .opening-skip:hover { color: white; border-color: white; }
+        .opening-fog {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(255,255,255,0.05), transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.05), transparent 50%);
+            pointer-events: none;
+        }
+
+        /* ===== 逃生倒计时 ===== */
+        .countdown-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.4);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 10px 0;
+            font-size: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .countdown-bar .cd-time {
+            color: var(--secondary, #ffd966);
+            font-weight: bold;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+        }
+        .countdown-bar.warning .cd-time { color: #f39c12; }
+        .countdown-bar.danger  .cd-time { color: #e74c3c; animation: cdBlink 0.6s ease infinite; }
+        @keyframes cdBlink { 50% { opacity: 0.4; } }
+        .countdown-bar .cd-progress {
+            flex: 1;
+            height: 6px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 3px;
+            margin: 0 12px;
+            overflow: hidden;
+        }
+        .countdown-bar .cd-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent, #27ae60), var(--secondary, #ffd966));
+            transition: width 1s linear;
+        }
+        .countdown-bar.warning .cd-progress-fill { background: linear-gradient(90deg, #f39c12, #e67e22); }
+        .countdown-bar.danger  .cd-progress-fill { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+
+        /* ===== 线索碎片 ===== */
+        .clue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 14px 0;
+        }
+        .clue-slot {
+            background: rgba(0,0,0,0.4);
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            min-height: 100px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .clue-slot.collected {
+            border-style: solid;
+            border-color: var(--secondary, #ffd966);
+            background: linear-gradient(145deg, var(--bg-light), var(--bg-mid));
+            box-shadow: 0 0 12px rgba(255, 217, 102, 0.4);
+            animation: clueGlow 0.6s ease;
+        }
+        @keyframes clueGlow {
+            0%   { transform: scale(0.7) rotate(-10deg); }
+            50%  { transform: scale(1.15) rotate(5deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+        .clue-slot .clue-icon { font-size: 36px; }
+        .clue-slot .clue-name { font-size: 13px; color: var(--secondary, #ffd966); margin: 4px 0; font-weight: bold; }
+        .clue-slot .clue-desc { font-size: 11px; color: #ccc; line-height: 1.4; }
+        .clue-slot.empty .clue-icon { color: #555; opacity: 0.3; }
+        .clue-slot.empty .clue-name { color: #666; }
+        .clue-toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: linear-gradient(145deg, var(--bg-light), var(--bg-mid));
+            border: 2px solid var(--secondary, #ffd966);
+            border-radius: 16px;
+            padding: 14px 22px;
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.6), 0 0 30px rgba(255,217,102,0.3);
+            animation: clueToastIn 0.5s ease;
+        }
+        .clue-toast.show { display: flex; }
+        @keyframes clueToastIn {
+            from { transform: translateX(-50%) translateY(-30px); opacity: 0; }
+            to   { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        .clue-toast .toast-icon { font-size: 42px; }
+        .clue-toast .toast-text { text-align: left; }
+        .clue-toast .toast-title { color: var(--secondary, #ffd966); font-weight: bold; font-size: 14px; }
+        .clue-toast .toast-desc { color: #ccc; font-size: 12px; margin-top: 2px; }
+
+        /* ===== 多结局 ===== */
+        .ending-screen {
+            text-align: center;
+            padding: 20px;
+        }
+        .ending-screen .ending-icon {
+            font-size: 80px;
+            margin: 20px 0;
+            animation: endingBounce 1s ease;
+        }
+        @keyframes endingBounce {
+            0%   { transform: scale(0) rotate(-180deg); }
+            60%  { transform: scale(1.2) rotate(20deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+        .ending-screen h2 {
+            color: var(--secondary, #ffd966);
+            font-size: 32px;
+            margin: 10px 0;
+            text-shadow: 0 0 20px var(--primary, #e94560);
+        }
+        .ending-screen .ending-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #ddd;
+            max-width: 500px;
+            margin: 16px auto;
+        }
+        .ending-screen .ending-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .ending-screen .end-stat {
+            background: rgba(0,0,0,0.4);
+            padding: 10px 18px;
+            border-radius: 12px;
+            min-width: 100px;
+        }
+        .ending-screen .end-stat .v {
+            font-size: 24px;
+            color: var(--secondary, #ffd966);
+            font-weight: bold;
+        }
+        .ending-screen .end-stat .l {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        /* ===== 猜字游戏 (Hangman) ===== */
+        .hangman-stage {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 20px;
+            margin: 14px 0;
+            flex-wrap: wrap;
+        }
+        .hangman-drawing {
+            font-size: 90px;
+            line-height: 1;
+            min-width: 120px;
+            text-align: center;
+            color: var(--primary, #e94560);
+            text-shadow: 0 0 20px var(--primary-dark, #c72a48);
+            transition: all 0.3s ease;
+        }
+        .hangman-word {
+            font-size: 32px;
+            letter-spacing: 8px;
+            font-family: 'Courier New', monospace;
+            color: var(--secondary, #ffd966);
+            font-weight: bold;
+            user-select: text;
+        }
+        .hangman-word .blank {
+            display: inline-block;
+            width: 30px;
+            border-bottom: 3px solid var(--secondary, #ffd966);
+            margin: 0 2px;
+            text-align: center;
+        }
+        .hangman-keyboard {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            max-width: 420px;
+            margin: 14px auto;
+        }
+        .hangman-key {
+            background: var(--bg-light);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 0;
+        }
+        .hangman-key:hover:not(:disabled) { background: var(--primary); transform: scale(1.05); }
+        .hangman-key:disabled { opacity: 0.4; cursor: not-allowed; }
+        .hangman-key.correct { background: var(--accent, #27ae60); }
+        .hangman-key.wrong   { background: #7f8c8d; opacity: 0.4; }
+        .hangman-hint {
+            font-size: 14px;
+            color: #aaa;
+            margin: 8px 0;
+        }
+        .hangman-hint b { color: var(--secondary, #ffd966); }
+
+        /* ===== 听音抢答 ===== */
+        .listen-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin: 14px 0;
+        }
+        .listen-speak-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            font-size: 40px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 0 30px var(--primary);
+            transition: all 0.2s;
+            margin: 0;
+            animation: speakPulse 2s ease infinite;
+        }
+        @keyframes speakPulse {
+            0%, 100% { box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 0 30px var(--primary); }
+            50%      { box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 0 50px var(--primary); }
+        }
+        .listen-speak-btn:hover { transform: scale(1.08); }
+        .listen-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            width: 100%;
+            max-width: 480px;
+        }
+        .listen-option {
+            background: var(--bg-light);
+            border: 2px solid rgba(255,255,255,0.15);
+            color: white;
+            padding: 18px 12px;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 0;
+        }
+        .listen-option:hover:not(:disabled) { background: var(--primary); transform: scale(1.03); }
+        .listen-option.correct { background: var(--accent, #27ae60); border-color: var(--accent, #27ae60); }
+        .listen-option.wrong   { background: #c0392b; border-color: #c0392b; }
+        .listen-option:disabled { cursor: not-allowed; }
+        .listen-counter {
+            font-size: 14px;
+            color: #aaa;
+        }
+        .listen-counter b { color: var(--secondary, #ffd966); font-size: 18px; }
+
+        /* ===== 打字竞速 ===== */
+        .typing-stage {
+            position: relative;
+            height: 400px;
+            background: linear-gradient(180deg, var(--bg-light), var(--bg-dark));
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 14px 0;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .typing-falling-word {
+            position: absolute;
+            padding: 6px 14px;
+            background: var(--bg-mid);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            color: var(--secondary, #ffd966);
+            font-size: 18px;
+            font-weight: bold;
+            white-space: nowrap;
+            transition: none;
+            font-family: 'Courier New', monospace;
+        }
+        .typing-falling-word.danger { color: #e74c3c; border-color: #e74c3c; box-shadow: 0 0 10px rgba(231,76,60,0.6); }
+        .typing-falling-word.matched {
+            background: var(--accent, #27ae60);
+            color: white;
+            transform: scale(1.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .typing-input-row {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            z-index: 10;
+        }
+        .typing-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 18px;
+            border: 2px solid var(--primary, #e94560);
+            border-radius: 25px;
+            background: var(--bg-dark);
+            color: white;
+            text-align: center;
+            outline: none;
+            font-family: 'Courier New', monospace;
+        }
+        .typing-hearts {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            font-size: 20px;
+            z-index: 10;
+        }
+        .typing-score {
+            position: absolute;
+            top: 10px;
+            left: 14px;
+            font-size: 14px;
+            color: #ccc;
+            z-index: 10;
+            background: rgba(0,0,0,0.5);
+            padding: 4px 10px;
+            border-radius: 10px;
+        }
+
+        /* ===== 主页菜单（英雄卡 + 双列卡 + 工具栏） ===== */
+        .main-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 18px;
+        }
+        /* 英雄卡（主入口） */
+        .menu-hero {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            width: 100%;
+            padding: 24px 26px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.18);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.15);
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            margin: 0;
+            font-weight: bold;
+        }
+        .menu-hero:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 42px rgba(0,0,0,0.5), 0 0 30px var(--primary);
+        }
+        .menu-hero::before {
+            content: "";
+            position: absolute;
+            top: -60%;
+            right: -15%;
+            width: 240px;
+            height: 240px;
+            background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 65%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .menu-hero::after {
+            content: "";
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .menu-hero .hero-icon {
+            font-size: 64px;
+            line-height: 1;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
+            animation: heroPulse 2.2s ease-in-out infinite;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+        @keyframes heroPulse {
+            0%, 100% { transform: scale(1) rotate(0); }
+            50%      { transform: scale(1.08) rotate(-3deg); }
+        }
+        .menu-hero .hero-content { flex: 1; z-index: 1; }
+        .menu-hero .hero-eyebrow {
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        .menu-hero .hero-title {
+            font-size: 26px;
+            font-weight: bold;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+            margin-bottom: 4px;
+        }
+        .menu-hero .hero-sub {
+            font-size: 13px;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .menu-hero .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.35);
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+        .menu-hero .hero-arrow {
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+        .menu-hero:hover .hero-arrow { transform: translateX(4px); }
+
+        /* 双列功能卡 */
+        .menu-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .menu-card {
+            background: linear-gradient(145deg, var(--bg-mid), var(--bg-light));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 20px 14px 18px;
+            text-align: center;
+            cursor: pointer;
+            color: var(--text);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.25s ease;
+            margin: 0;
+            font-weight: bold;
+            min-height: 140px;
+            justify-content: center;
+        }
+        .menu-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.06), transparent 60%);
+            pointer-events: none;
+        }
+        .menu-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+        }
+        .menu-card .card-icon {
+            font-size: 44px;
+            line-height: 1;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+            margin-bottom: 4px;
+            z-index: 1;
+        }
+        .menu-card .card-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--secondary);
+            z-index: 1;
+        }
+        .menu-card .card-desc {
+            font-size: 12px;
+            color: #b8b8b8;
+            line-height: 1.4;
+            z-index: 1;
+        }
+        .menu-card .card-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: white;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+        .menu-card .card-badge.daily   { background: #e74c3c; }
+        .menu-card .card-badge.shop    { background: #f39c12; color: #1a1a2e; }
+        .menu-card .card-badge.achieve { background: #9b59b6; }
+        .menu-card .card-stat {
+            margin-top: 4px;
+            font-size: 11px;
+            color: #888;
+            z-index: 1;
+        }
+        .menu-card .card-stat b { color: var(--secondary); }
+
+        /* 底部工具栏 */
+        .menu-utility-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            background: rgba(0,0,0,0.25);
+            padding: 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .menu-utility {
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            padding: 12px 6px 10px;
+            text-align: center;
+            cursor: pointer;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            margin: 0;
+        }
+        .menu-utility:hover {
+            background: var(--bg-mid);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .menu-utility .util-icon {
+            font-size: 26px;
+            line-height: 1;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+        }
+        .menu-utility .util-label { color: #ccc; }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .menu-hero { flex-direction: column; text-align: center; gap: 14px; padding: 22px 20px; }
+            .menu-hero .hero-title { font-size: 22px; }
+            .menu-grid-2 { gap: 10px; }
+            .menu-card { padding: 16px 10px 14px; min-height: 120px; }
+            .menu-card .card-icon { font-size: 36px; }
+        }
+
+        /* ===== 彩带 / 粒子特效 ===== */
+        .confetti-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 4000;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 14px;
+            top: -20px;
+            opacity: 0;
+            animation: confettiFall 3s ease-out forwards;
+        }
+        @keyframes confettiFall {
+            0%   { transform: translateY(0) rotateZ(0); opacity: 1; }
+            100% { transform: translateY(110vh) rotateZ(720deg); opacity: 0; }
+        }
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--secondary, #ffd966);
+            box-shadow: 0 0 12px var(--secondary, #ffd966);
+            pointer-events: none;
+            animation: sparkleBurst 0.8s ease-out forwards;
+        }
+        @keyframes sparkleBurst {
+            0%   { transform: scale(0); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+        .achievement-toast {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: #1a1a2e;
+            padding: 14px 26px;
+            border-radius: 50px;
+            font-weight: bold;
+            z-index: 3500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5), 0 0 40px rgba(243,156,18,0.5);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .achievement-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .achievement-toast .at-icon { font-size: 32px; animation: atBounce 0.6s ease; }
+        @keyframes atBounce { 0% { transform: scale(0) rotate(-180deg); } 60% { transform: scale(1.3) rotate(20deg); } 100% { transform: scale(1) rotate(0); } }
+
+        /* ===== 学习统计仪表盘 ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .stat-card {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 12px 14px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .stat-card .stat-label { font-size: 11px; color: #aaa; }
+        .stat-card .stat-value { font-size: 24px; color: var(--secondary, #ffd966); font-weight: bold; margin-top: 2px; }
+        .stat-card .stat-sub { font-size: 10px; color: #888; margin-top: 2px; }
+        .stat-card.wide { grid-column: span 2; }
+        .stat-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0;
+        }
+        .stat-bar-row .day-label { font-size: 11px; color: #aaa; width: 38px; flex-shrink: 0; }
+        .stat-bar-row .stat-bar {
+            flex: 1;
+            height: 14px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 7px;
+            overflow: hidden;
+            position: relative;
+        }
+        .stat-bar-row .stat-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 7px;
+            transition: width 0.6s ease;
+        }
+        .stat-bar-row .stat-bar-fill.acc { background: linear-gradient(90deg, var(--accent), #2ecc71); }
+        .stat-bar-row .day-value { font-size: 11px; color: var(--secondary); width: 36px; text-align: right; flex-shrink: 0; }
+        .stats-section-title {
+            font-size: 13px;
+            color: var(--secondary, #ffd966);
+            margin: 14px 0 6px;
+            text-align: left;
+            font-weight: bold;
+        }
+        .srs-info {
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(52, 73, 94, 0.3));
+            border: 1px solid rgba(155, 89, 182, 0.4);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin: 8px 0;
+            text-align: left;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .srs-info b { color: var(--secondary, #ffd966); }
+        .srs-info button { font-size: 13px; padding: 6px 14px; margin: 6px 0 0 0; background: #9b59b6; }
+
+        /* ===== 新手引导 ===== */
+        .tutorial-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 6000;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .tutorial-overlay.show { display: flex; }
+        .tutorial-spotlight {
+            position: absolute;
+            border: 3px dashed var(--secondary, #ffd966);
+            border-radius: 16px;
+            box-shadow: 0 0 0 9999px rgba(0,0,0,0.7);
+            pointer-events: none;
+            transition: all 0.4s ease;
+        }
+        .tutorial-bubble {
+            position: absolute;
+            background: linear-gradient(145deg, var(--bg-mid, #0f3460), var(--bg-light, #16213e));
+            border: 2px solid var(--secondary, #ffd966);
+            border-radius: 16px;
+            padding: 18px 22px;
+            max-width: 320px;
+            color: white;
+            font-size: 14px;
+            line-height: 1.6;
+            z-index: 6001;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+            text-align: left;
+        }
+        .tutorial-bubble h4 {
+            margin: 0 0 8px 0;
+            color: var(--secondary, #ffd966);
+            font-size: 16px;
+        }
+        .tutorial-bubble .tt-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .tutorial-bubble button {
+            font-size: 13px;
+            padding: 6px 14px;
+            margin: 0;
+        }
+        .tutorial-bubble .tt-skip {
+            background: transparent;
+            color: #aaa;
+            border: 1px solid #555;
+        }
+        .tutorial-bubble .tt-next {
+            background: var(--secondary, #ffd966);
+            color: #1a1a2e;
+        }
+
+        /* ===== 移动端进一步优化 ===== */
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .modal-content { padding: 20px 16px; max-height: 92vh; }
+            .menu-hero .hero-title { font-size: 20px; }
+            .menu-hero .hero-icon { font-size: 50px; }
+            .menu-utility-row { grid-template-columns: repeat(3, 1fr); padding: 8px; }
+            .menu-utility .util-icon { font-size: 22px; }
+            .modal-buttons button { font-size: 16px; padding: 10px 14px; }
+            .room-scene { height: 200px; }
+            .hangman-keyboard { grid-template-columns: repeat(7, 1fr); }
+            .listen-option { font-size: 16px; padding: 14px 8px; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===== 找词游戏 ===== */
+        .ws-hint {
+            font-size: 12px;
+            color: #aaa;
+            margin: 6px 0;
+            text-align: center;
+        }
+        .ws-wordlist {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 8px 0;
+            justify-content: center;
+        }
+        .ws-word {
+            background: rgba(0,0,0,0.3);
+            padding: 4px 12px;
+            border-radius: 14px;
+            font-size: 13px;
+            border: 1px solid rgba(255,255,255,0.12);
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #fff;
+            transition: all 0.3s;
+        }
+        .ws-word.found {
+            background: var(--accent, #27ae60);
+            color: white;
+            text-decoration: line-through;
+            opacity: 0.7;
+            border-color: var(--accent, #27ae60);
+        }
+        .ws-grid {
+            display: grid;
+            gap: 3px;
+            margin: 10px auto;
+            background: var(--bg-dark);
+            padding: 6px;
+            border-radius: 10px;
+            max-width: 500px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .ws-grid.cols-10 { grid-template-columns: repeat(10, 1fr); }
+        .ws-cell {
+            aspect-ratio: 1;
+            background: var(--bg-light);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--secondary, #ffd966);
+            cursor: pointer;
+            transition: all 0.15s;
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            user-select: none;
+        }
+        .ws-cell:hover { background: var(--bg-mid); transform: scale(1.05); }
+        .ws-cell.selected { background: var(--primary, #e94560); color: white; }
+        .ws-cell.found {
+            background: var(--accent, #27ae60);
+            color: white;
+            box-shadow: 0 0 8px rgba(46, 204, 113, 0.6);
+        }
+
+        /* ===== 单词塔防 ===== */
+        .td-stage {
+            position: relative;
+            height: 240px;
+            background:
+                linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%),
+                linear-gradient(90deg, transparent 49%, rgba(255,255,255,0.1) 50%, transparent 51%);
+            background-size: 100% 100%, 60px 100%;
+            border-radius: 14px;
+            margin: 10px 0;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .td-tower, .td-base {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 60px;
+            line-height: 1;
+            z-index: 5;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+        }
+        .td-tower { left: 6px;  animation: tdTowerIdle 2.5s ease-in-out infinite; }
+        .td-base  { right: 6px; }
+        @keyframes tdTowerIdle {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50%      { transform: translateY(-52%) scale(1.04); }
+        }
+        .td-enemies {
+            position: absolute;
+            inset: 0;
+        }
+        .td-enemy {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, var(--bg-mid), var(--bg-light));
+            border: 2px solid var(--primary, #e94560);
+            border-radius: 12px;
+            padding: 4px 10px;
+            min-width: 70px;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary, #ffd966);
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 3;
+            box-shadow: 0 0 12px var(--primary, #e94560);
+            font-family: 'Courier New', monospace;
+        }
+        .td-enemy .td-enemy-hp {
+            position: absolute;
+            top: -10px;
+            left: 0; right: 0;
+            height: 4px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .td-enemy .td-enemy-hp-fill {
+            height: 100%;
+            background: var(--accent, #27ae60);
+            transition: width 0.2s;
+        }
+        .td-enemy.exploding {
+            animation: tdExplode 0.5s ease forwards;
+        }
+        @keyframes tdExplode {
+            0%   { transform: translateY(-50%) scale(1); opacity: 1; box-shadow: 0 0 0 var(--primary); }
+            50%  { transform: translateY(-50%) scale(1.6); opacity: 0.8; box-shadow: 0 0 40px var(--accent, #27ae60); }
+            100% { transform: translateY(-50%) scale(0);   opacity: 0; box-shadow: 0 0 0 var(--accent, #27ae60); }
+        }
+        .td-enemy.leaked {
+            background: var(--primary-dark, #c72a48);
+            border-color: #c0392b;
+            box-shadow: 0 0 16px #c0392b;
+            animation: tdShake 0.4s ease;
+        }
+        @keyframes tdShake {
+            0%, 100% { transform: translateY(-50%) translateX(0); }
+            25%      { transform: translateY(-50%) translateX(-4px); }
+            75%      { transform: translateY(-50%) translateX(4px); }
+        }
+        .td-projectile {
+            position: absolute;
+            top: 50%;
+            width: 18px;
+            height: 6px;
+            background: linear-gradient(90deg, var(--secondary, #ffd966), var(--primary, #e94560));
+            border-radius: 3px;
+            z-index: 4;
+            box-shadow: 0 0 10px var(--secondary, #ffd966);
+        }
+        .td-wave-info {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.6);
+            padding: 4px 14px;
+            border-radius: 14px;
+            font-size: 12px;
+            color: var(--secondary, #ffd966);
+            font-weight: bold;
+            z-index: 6;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .td-options {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+        .td-options-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .td-option {
+            background: var(--bg-light);
+            border: 2px solid rgba(255,255,255,0.15);
+            color: white;
+            padding: 12px 8px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 0;
+        }
+        .td-option:hover:not(:disabled) { background: var(--primary, #e94560); transform: scale(1.03); border-color: var(--primary); }
+        .td-option:disabled { cursor: not-allowed; }
+        .td-option.correct { background: var(--accent, #27ae60); border-color: var(--accent, #27ae60); animation: tdPulse 0.5s ease; }
+        .td-option.wrong   { background: #c0392b; border-color: #c0392b; opacity: 0.6; }
+        @keyframes tdPulse { 50% { transform: scale(1.1); } }
+        .td-hint {
+            font-size: 13px;
+            color: #ccc;
+            text-align: left;
+            min-height: 18px;
+        }
+        .td-hint .game-example {
+            margin-top: 4px;
+            font-size: 11px;
+        }
+        .td-hint b { color: var(--secondary, #ffd966); }
+    </style>
+</head>
+<body>
+<div class="bg-slider" id="bgSlider"></div>
+
+<div class="game-container">
+    <div class="top-bar">
+        <div class="ticket">🎫 门票: <span id="ticketCount">5</span></div>
+        <div>📚 词库难度: <span id="currentLevelDisplay" class="level-badge">Lv.1</span></div>
+        <button id="settingsBtn" class="settings-btn">⚙️ 设置</button>
+    </div>
+    <div class="main-menu">
+        <button id="enterRoomBtn" class="menu-hero">
+            <div class="hero-icon">🚪</div>
+            <div class="hero-content">
+                <div class="hero-eyebrow">PRIMARY MISSION</div>
+                <div class="hero-title">书房密室 · Lv.1</div>
+                <div class="hero-sub">解开三道词汇之门的封印，踏上密语逃生之旅</div>
+                <span class="hero-cta">▶ 开始逃生 <span class="hero-arrow">→</span></span>
+            </div>
+        </button>
+
+        <div class="menu-grid-2">
+            <button id="trainBtn" class="menu-card">
+                <div class="card-icon">📖</div>
+                <div class="card-title">训练场</div>
+                <div class="card-desc">无压力练习，巩固词汇基础</div>
+            </button>
+            <button id="dailyBtn" class="menu-card">
+                <div class="card-icon">🌟</div>
+                <div class="card-title">每日挑战</div>
+                <div class="card-desc">每日 10 题，赢取额外奖励</div>
+                <div class="card-badge daily">DAILY</div>
+            </button>
+            <button id="gameCenterBtn" class="menu-card">
+                <div class="card-icon">🎮</div>
+                <div class="card-title">游戏中心</div>
+                <div class="card-desc">翻牌 · 猜字 · 听音 · 打字</div>
+            </button>
+            <button id="reviewBtn" class="menu-card">
+                <div class="card-icon">📋</div>
+                <div class="card-title">错题复习</div>
+                <div class="card-desc">回顾错题，加深印象</div>
+                <div class="card-stat">已收录 <b id="reviewStatCount">0</b> 题</div>
+            </button>
+        </div>
+
+        <div class="menu-utility-row" style="grid-template-columns: repeat(7, 1fr);">
+            <button id="vocabRoomBtn" class="menu-utility" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">
+                <div class="util-icon">📖</div>
+                <div class="util-label">词汇学习</div>
+            </button>
+            <button id="statsBtn" class="menu-utility">
+                <div class="util-icon">📊</div>
+                <div class="util-label">统计</div>
+            </button>
+            <button id="masteryTestBtn" class="menu-utility" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                <div class="util-icon">🏆</div>
+                <div class="util-label">词库检验</div>
+            </button>
+            <button id="cluesBtn" class="menu-utility">
+                <div class="util-icon">🔍</div>
+                <div class="util-label">线索</div>
+            </button>
+            <button id="storyBtn" class="menu-utility">
+                <div class="util-icon">📜</div>
+                <div class="util-label">剧情</div>
+            </button>
+            <button id="shopBtn" class="menu-utility">
+                <div class="util-icon">🛒</div>
+                <div class="util-label">商店</div>
+            </button>
+            <button id="achievementsBtn" class="menu-utility">
+                <div class="util-icon">🏆</div>
+                <div class="util-label">成就</div>
+            </button>
+        </div>
+    </div>
+    <div id="roomPanel" class="room" style="display:none;">
+        <h3 id="roomTitle">📖 书房密室</h3>
+        <p id="roomIntro">灰尘飞舞的古老书房，尘封的书架间藏有不为人知的秘密……</p>
+        <div class="room-scene" id="roomScene">
+            <div class="room-light"></div>
+            <div class="room-wall"></div>
+            <div class="room-floor"></div>
+            <div class="room-objects" id="roomObjects"></div>
+            <div class="room-door" id="roomDoor">🚪</div>
+            <div class="room-particles" id="roomParticles"></div>
+        </div>
+        <p>当前密室等级: <strong id="roomLevelSpan">1</strong></p>
+        <p>⚔️ 最终试炼: 连续答对20道不重复单词题，仅有3次错误机会！</p>
+        <div class="countdown-bar" id="countdownBar" style="display:none;">
+            <span>⏰ 逃生时间</span>
+            <div class="cd-progress"><div class="cd-progress-fill" id="cdProgressFill"></div></div>
+            <span class="cd-time" id="cdTimeText">10:00</span>
+        </div>
+        <div class="challenge-panel">
+            <div class="progress">✅ 已正确: <span id="correctCount">0</span> / 20</div>
+            <div class="progress">❌ 剩余错误次数: <span id="remainingMistakes">3</span> / 3</div>
+            <button id="startTrialBtn" style="background: #28a745;">🔥 开始最终试炼</button>
+            <div id="trialMessage" style="margin-top: 10px;"></div>
+        </div>
+        <button id="completeRoomBtn" style="background:green;" disabled>🏆 通关并进入下一层 (需先通过试炼)</button>
+        <button id="backToHallBtn">⬅️ 返回大厅</button>
+    </div>
+</div>
+
+<!-- 答题模态框 -->
+<div id="answerModal" class="modal">
+    <div class="modal-content">
+        <h3 id="answerTitle">📝 单词试炼</h3>
+        <div class="question-word" id="modalWordContainer">
+            <span id="modalWord">apple</span>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <button class="speaker-btn" id="speakerWordBtn" title="朗读单词">🔊</button>
+                <button id="toggleVoiceBtn" class="voice-switch-btn" title="切换发音">
+                    <span>🌐</span> <span id="voiceLabel">美式</span>
+                </button>
+            </div>
+        </div>
+        <div id="questionHint" style="font-size: 14px; margin-bottom: 5px; color: #aaa;"></div>
+        <input type="text" id="modalAnswer" class="modal-input" placeholder="输入答案" autocomplete="off">
+        <div class="modal-info">
+            <span>📌 第 <span id="modalCurrentNum">1</span> / <span id="modalTotalNum">20</span> 题</span>
+            <span class="mistake-badge">⏱️ 剩余 <span id="timerSeconds">30</span> 秒</span>
+        </div>
+        <div class="timer-bar"><div id="timerProgress" class="timer-progress" style="width: 100%;"></div></div>
+        <div class="modal-buttons">
+            <button id="modalSubmitBtn" class="submit-btn">✓ 提交</button>
+            <button id="modalCancelBtn" class="cancel-btn">✗ 放弃</button>
+            <button id="hintBtn" style="background:#f39c12;">💡 提示</button>
+            <button id="extraTimeBtn" style="background:#3498db;">⏰ 加时</button>
+        </div>
+    </div>
+</div>
+
+<!-- 提示模态框 -->
+<div id="infoModal" class="modal">
+    <div class="modal-content">
+        <h3 id="infoTitle">📢 提示</h3>
+        <div id="infoMessage" style="font-size: 18px; margin: 20px 0;"></div>
+        <div class="modal-buttons">
+            <button id="infoConfirmBtn" style="background: #27ae60;">确定</button>
+        </div>
+    </div>
+</div>
+
+<!-- 设置模态框 -->
+<div id="settingsModal" class="modal">
+    <div class="modal-content">
+        <h3>⚙️ 设置</h3>
+        <div class="setting-row">
+            <span>🔊 音效</span>
+            <div id="soundToggle" class="toggle-switch active"></div>
+        </div>
+        <div class="setting-row">
+            <span>🎵 背景音乐</span>
+            <div id="musicToggle" class="toggle-switch active"></div>
+        </div>
+        <div class="setting-row">
+            <span>🎚️ 音乐音量</span>
+            <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="0.3">
+        </div>
+        <div class="setting-row">
+            <span>📖 答题模式</span>
+            <select id="quizModeSelect">
+                <option value="random">随机切换（英⇄中）</option>
+                <option value="en2zh">仅英译汉</option>
+                <option value="zh2en">仅汉译英</option>
+            </select>
+        </div>
+        <div class="setting-row">
+            <span>🔄 重置游戏进度</span>
+            <button id="resetProgressBtn" style="background:#e67e22; font-size:16px; padding:6px 12px;">重置</button>
+        </div>
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.15); margin: 16px 0;">
+        <h4 style="margin: 0 0 8px 0; color: #ffd966;">📚 词库管理</h4>
+        <div id="libPickerContainer" class="lib-picker-grid"></div>
+        <div id="wordSourceInfo" style="font-size: 13px; color: #aaa; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; text-align: left; line-height: 1.6; margin-bottom: 10px; margin-top: 10px;">检测中...</div>
+        <div class="setting-row" style="flex-direction: column; align-items: stretch; gap: 6px;">
+            <span style="font-size: 14px;">🌐 词库源 URL（JSON 格式: {"1":[...], "2":[...], "3":[...]}）</span>
+            <input type="text" id="wordSourceUrlInput" placeholder="https://cdn.jsdelivr.net/.../words.json" style="padding: 8px 12px; border-radius: 10px; border: none; font-size: 14px; outline: none; background: #ecf0f1; color: #2c3e50; width: 100%;">
+        </div>
+        <div class="modal-buttons" style="margin-top: 8px;">
+            <button id="updateWordLibBtn" style="background: #27ae60; font-size: 14px; padding: 8px 12px;">📥 立即更新</button>
+            <button id="enrichWordLibBtn" style="background: #9b59b6; font-size: 14px; padding: 8px 12px;">🌐 联网补全释义</button>
+            <button id="resetWordLibBtn" style="background: #7f8c8d; font-size: 14px; padding: 8px 12px;">🔄 恢复本地</button>
+        </div>
+        <div id="wordLibProgress" style="font-size: 13px; color: #ffd966; margin-top: 8px; min-height: 18px;"></div>
+        <div class="modal-buttons">
+            <button id="closeSettingsBtn" style="background:#3498db;">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- 商店模态框 -->
+<div id="shopModal" class="modal">
+    <div class="modal-content">
+        <h3>🛒 道具商店</h3>
+        <div class="shop-item">
+            <span>💡 提示道具 (显示首字母)</span>
+            <div><span id="hintCount">0</span> 个 <button id="buyHintBtn" style="font-size:14px; padding:4px 8px;">购买 (3门票)</button></div>
+        </div>
+        <div class="shop-item">
+            <span>⏰ 加时道具 (增加15秒)</span>
+            <div><span id="extraTimeCount">0</span> 个 <button id="buyExtraTimeBtn" style="font-size:14px; padding:4px 8px;">购买 (2门票)</button></div>
+        </div>
+        <div class="shop-item">
+            <span>💖 复活道具 (试炼中重置错误次数)</span>
+            <div><span id="reviveCount">0</span> 个 <button id="buyReviveBtn" style="font-size:14px; padding:4px 8px;">购买 (5门票)</button></div>
+        </div>
+        <div class="modal-buttons">
+            <button id="closeShopBtn">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- 成就模态框 -->
+<div id="achievementsModal" class="modal">
+    <div class="modal-content">
+        <h3>🏆 成就</h3>
+        <div id="achievementsList"></div>
+        <div class="modal-buttons">
+            <button id="closeAchievementsBtn">关闭</button>
+        </div>
+    </div>
+</div>
+
+<div id="loadingOverlay" class="loading" style="display: flex;">📚 加载词库中...</div>
+
+<!-- 游戏中心模态框 -->
+<div id="gameCenterModal" class="modal">
+    <div class="modal-content" style="max-width: 720px;">
+        <h3>🎮 游戏中心</h3>
+        <p style="color:#aaa; font-size:14px; margin-top:-10px;">花费 🎫 门票畅玩单词小游戏，赢取额外奖励！</p>
+        <div class="game-center-grid" id="gameCenterGrid"></div>
+        <div class="modal-buttons">
+            <button id="closeGameCenterBtn">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- 记忆翻牌游戏模态框 -->
+<div id="memoryMatchModal" class="modal">
+    <div class="modal-content" style="max-width: 720px;">
+        <h3>🃏 记忆翻牌</h3>
+        <div class="memory-stats" id="memoryStats">
+            <span>⏱️ 时间: <b id="mmTime">0</b> 秒</span>
+            <span>👣 步数: <b id="mmMoves">0</b></span>
+            <span>✅ 配对: <b id="mmPairs">0</b> / <b id="mmTotalPairs">0</b></span>
+            <button id="mmRestartBtn" style="background:#e67e22; font-size:14px; padding:6px 12px; margin:0;">🔄 重新开始</button>
+        </div>
+        <div class="memory-grid" id="memoryGrid"></div>
+        <div class="modal-buttons">
+            <button id="mmCloseBtn" class="cancel-btn">退出游戏</button>
+        </div>
+    </div>
+</div>
+
+<!-- 猜字游戏模态框 -->
+<div id="hangmanModal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+        <h3>🔤 猜字游戏</h3>
+        <div class="memory-stats">
+            <span>💖 生命: <b id="hmLives">6</b> / 6</span>
+            <span>🏆 胜局: <b id="hmWins">0</b></span>
+            <span>📊 局数: <b id="hmRound">1</b> / 5</span>
+        </div>
+        <div class="hangman-stage">
+            <div class="hangman-drawing" id="hmDrawing">🙂</div>
+            <div class="hangman-word" id="hmWord"></div>
+        </div>
+        <div class="hangman-hint" id="hmHint">提示：<b>?</b></div>
+        <div class="hangman-keyboard" id="hmKeyboard"></div>
+        <div class="modal-buttons">
+            <button id="hmRestartBtn" style="background:#e67e22; font-size:14px; padding:8px 12px;">🔄 换一题</button>
+            <button id="hmCloseBtn" class="cancel-btn">退出</button>
+        </div>
+    </div>
+</div>
+
+<!-- 听音抢答模态框 -->
+<div id="listenModal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+        <h3>🎧 听音抢答</h3>
+        <div class="memory-stats">
+            <span>📊 题数: <b id="lsQ">1</b> / 10</span>
+            <span>✅ 正确: <b id="lsCorrect">0</b></span>
+            <span>🔥 连击: <b id="lsStreak">0</b></span>
+        </div>
+        <div class="listen-stage">
+            <button class="listen-speak-btn" id="lsSpeakBtn" title="再听一次">🔊</button>
+            <div class="listen-options" id="lsOptions"></div>
+            <div class="listen-counter">提示: <span id="lsHint">点击🔊听单词，选出正确释义</span></div>
+        </div>
+        <div class="modal-buttons">
+            <button id="lsCloseBtn" class="cancel-btn">退出</button>
+        </div>
+    </div>
+</div>
+
+<!-- 打字竞速模态框 -->
+<div id="typingModal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+        <h3>⌨️ 打字竞速</h3>
+        <div class="memory-stats">
+            <span>📊 分数: <b id="tpScore">0</b></span>
+            <span>🎯 等级: <b id="tpLevel">1</b></span>
+            <span>⏱️ 时间: <b id="tpTime">60</b>秒</span>
+        </div>
+        <div class="typing-stage" id="tpStage">
+            <div class="typing-score">✅ <b id="tpHits">0</b> 击中 | ❌ <b id="tpMiss">0</b> 漏网</div>
+            <div class="typing-hearts" id="tpHearts">❤️❤️❤️</div>
+        </div>
+        <div class="modal-buttons">
+            <button id="tpStartBtn" style="background: #27ae60;">🚀 开始</button>
+            <button id="tpCloseBtn" class="cancel-btn">退出</button>
+        </div>
+    </div>
+</div>
+
+<!-- 找词游戏模态框 -->
+<div id="wordSearchModal" class="modal">
+    <div class="modal-content" style="max-width: 700px;">
+        <h3>🔍 找词游戏</h3>
+        <div class="memory-stats">
+            <span>📋 找到: <b id="wsFound">0</b> / <b id="wsTotal">0</b></span>
+            <span>⏱️ 剩余: <b id="wsTime">180</b>秒</span>
+            <button id="wsRestartBtn" style="background:#e67e22; font-size:14px; padding:6px 12px; margin:0;">🔄 重新开始</button>
+        </div>
+        <div class="ws-wordlist" id="wsWordList"></div>
+        <div class="ws-hint">点击单词首尾字母即可选中（支持横/竖/反方向）</div>
+        <div class="ws-grid" id="wsGrid"></div>
+        <div class="modal-buttons">
+            <button id="wsCloseBtn" class="cancel-btn">退出</button>
+        </div>
+    </div>
+</div>
+
+<!-- 单词塔防模态框 -->
+<div id="towerDefenseModal" class="modal">
+    <div class="modal-content" style="max-width: 720px;">
+        <h3>🏰 单词塔防</h3>
+        <div class="memory-stats">
+            <span>❤️ 基地生命: <b id="tdLives">3</b></span>
+            <span>💀 击杀: <b id="tdKills">0</b></span>
+            <span>👾 敌人: <b id="tdWave">0</b> / 15</span>
+        </div>
+        <div class="td-stage" id="tdStage">
+            <div class="td-tower">🏰</div>
+            <div class="td-base" id="tdBase">🏠</div>
+            <div class="td-enemies" id="tdEnemies"></div>
+            <div class="td-wave-info" id="tdWaveInfo">第 1 波来袭！</div>
+        </div>
+        <div class="td-options" id="tdOptions">
+            <div class="td-hint" id="tdHint">敌人正在接近！点击正确的中文释义击退它</div>
+            <div class="td-options-row" id="tdOptionsRow"></div>
+        </div>
+        <div class="modal-buttons">
+            <button id="tdCloseBtn" class="cancel-btn">撤退</button>
+        </div>
+    </div>
+</div>
+
+<!-- 线索碎片模态框 -->
+<div id="cluesModal" class="modal">
+    <div class="modal-content" style="max-width: 700px;">
+        <h3>🔍 线索碎片</h3>
+        <p style="color:#aaa; font-size:13px; margin-top:-10px;">通关试炼可获得线索，集齐全部 12 个碎片可解锁完整剧情！</p>
+        <div class="clue-grid" id="clueGrid"></div>
+        <div class="modal-buttons">
+            <button id="closeCluesBtn">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- 结局模态框 -->
+<div id="endingModal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+        <div class="ending-screen" id="endingScreen"></div>
+    </div>
+</div>
+
+<!-- 线索获取浮动提示 -->
+<div class="clue-toast" id="clueToast">
+    <div class="toast-icon" id="clueToastIcon">📜</div>
+    <div class="toast-text">
+        <div class="toast-title">🔍 获得新线索！</div>
+        <div class="toast-desc" id="clueToastText"></div>
+    </div>
+</div>
+
+<!-- 学习统计仪表盘 -->
+<div id="statsModal" class="modal">
+    <div class="modal-content" style="max-width: 640px;">
+        <h3>📊 学习统计</h3>
+        <div id="statsContent"></div>
+        <div class="modal-buttons">
+            <button id="startReviewDueBtn" style="background: #9b59b6;">🧠 立即复习到期</button>
+            <button id="closeStatsBtn" class="cancel-btn">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- 彩带/粒子层 -->
+<div class="confetti-layer" id="confettiLayer"></div>
+<!-- 成就解锁动画 toast -->
+<div class="achievement-toast" id="achievementToast">
+    <div class="at-icon" id="atIcon">🏆</div>
+    <div>
+        <div style="font-size:14px; opacity:0.8;">成就解锁</div>
+        <div id="atText" style="font-size:16px;"></div>
+    </div>
+</div>
+<!-- 新手引导 -->
+<!-- 词汇学习室模态框 -->
+<div id="vocabRoomModal" class="modal">
+    <div class="modal-content" style="max-width: 680px;">
+        <h3>📖 词汇学习室</h3>
+        <div class="vr-header">
+            <div class="vr-lib-info">
+                <span id="vrLibName">📘 CET-4</span>
+                <span class="vr-daily-count">今日学习: <b id="vrDailyCount">0</b> / <b id="vrDailyGoal">100</b></span>
+            </div>
+            <div class="vr-progress">
+                <div class="vr-progress-fill" id="vrProgressFill" style="width:0%"></div>
+                <span class="vr-progress-text" id="vrProgressText">0 / 0 词</span>
+            </div>
+            <div class="vr-mastery-bar">
+                <span>✅ 已掌握: <b id="vrMastered">0</b></span>
+                <span>📊 掌握率: <b id="vrMasteryRate">0%</b></span>
+            </div>
+        </div>
+
+        <div class="vr-controls">
+            <div class="vr-tabs">
+                <button class="vr-tab active" data-level="all">全部</button>
+                <button class="vr-tab" data-level="1">Lv.1</button>
+                <button class="vr-tab" data-level="2">Lv.2</button>
+                <button class="vr-tab" data-level="3">Lv.3</button>
+            </div>
+            <input type="text" class="vr-search" id="vrSearch" placeholder="🔍 搜索单词..." autocomplete="off">
+        </div>
+
+        <div class="vr-word-list" id="vrWordList">
+            <div style="color:#aaa; padding:20px;">加载中...</div>
+        </div>
+
+        <div class="modal-buttons">
+            <button id="vrCloseBtn" style="background:#7f8c8d;">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- 词库检验模态框 -->
+<div id="masteryTestModal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+        <h3>🏆 词库检验</h3>
+        <div class="mastery-header">
+            <h3 id="masteryLibName">📘 CET-4</h3>
+            <div class="mastery-progress">
+                <div class="mastery-progress-fill" id="masteryProgressFill" style="width:0%"></div>
+                <div class="mastery-progress-text" id="masteryProgressText">0 / 60</div>
+            </div>
+            <div class="mastery-score-bar">
+                <span>✅ 已掌握: <b id="masteryMastered">0</b></span>
+                <span>📊 掌握率: <b id="masteryRate">0%</b></span>
+            </div>
+        </div>
+
+        <div id="masteryModePanel">
+            <h4 style="color:var(--secondary); margin: 8px 0 6px 0;">🎯 选择检验模式</h4>
+            <div class="mastery-modes">
+                <button class="mastery-mode-btn" data-mode="quick">
+                    <span class="mode-icon">⚡</span>
+                    <div class="mode-name">快速检测</div>
+                    <div class="mode-desc">20 题随机</div>
+                </button>
+                <button class="mastery-mode-btn" data-mode="full">
+                    <span class="mode-icon">📖</span>
+                    <div class="mode-name">完整检测</div>
+                    <div class="mode-desc">全词库闯关</div>
+                </button>
+                <button class="mastery-mode-btn" data-mode="spell">
+                    <span class="mode-icon">✍️</span>
+                    <div class="mode-name">听写模式</div>
+                    <div class="mode-desc">TTS 朗读 + 拼写</div>
+                </button>
+                <button class="mastery-mode-btn" data-mode="mastered">
+                    <span class="mode-icon">🔄</span>
+                    <div class="mode-name">复习未掌握</div>
+                    <div class="mode-desc">只测未掌握词</div>
+                </button>
+            </div>
+        </div>
+
+        <div id="masteryQuizPanel" style="display:none;">
+            <div class="mastery-question">
+                <div class="q-word" id="masteryQWord">apple</div>
+                <div class="q-hint" id="masteryQHint">点击 🔊 听发音</div>
+                <button id="masteryQSpeak" style="background:none; border:none; font-size:24px; cursor:pointer;">🔊</button>
+            </div>
+            <div id="masteryAnswerArea"></div>
+            <div class="mastery-feedback" id="masteryFeedback"></div>
+            <div class="mastery-score-bar">
+                <span>第 <b id="masteryQNum">0</b> / <b id="masteryQTotal">0</b> 题</span>
+                <span>正确: <b id="masteryCorrectCount">0</b></span>
+            </div>
+        </div>
+
+        <div id="masteryResultPanel" style="display:none;">
+            <h3 id="masteryResultTitle" style="color:var(--secondary);">🎉 检验完成</h3>
+            <div id="masteryResultStats" style="font-size:14px; line-height:1.8; margin: 10px 0;"></div>
+            <div class="modal-buttons">
+                <button id="masteryRetryBtn" style="background:#27ae60;">🔄 再来一次</button>
+                <button id="masteryBackBtn" style="background:#3498db;">返回</button>
+            </div>
+        </div>
+
+        <div class="modal-buttons" id="masteryDefaultButtons">
+            <button id="masteryCloseBtn" style="background:#7f8c8d;">关闭</button>
+        </div>
+    </div>
+</div>
+
+<div class="tutorial-overlay" id="tutorialOverlay">
+    <div class="tutorial-spotlight" id="tutorialSpotlight"></div>
+    <div class="tutorial-bubble" id="tutorialBubble"></div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

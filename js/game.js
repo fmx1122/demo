@@ -31,6 +31,7 @@ const DICT_API_BASE = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 const WORD_LIB_CACHE_KEY = "wordLibCache_v1";
 const WORD_LIB_SOURCE_KEY = "wordLibSource_v1";
 const WORD_LIB_TIME_KEY = "wordLibCacheTime_v1";
+const WORD_LIB_CACHE_LIB_KEY = "wordLibCacheLib_v1";
 const WORD_ENRICH_CACHE_KEY = "wordEnrichCache_v1";
 let wordSourceUrl = localStorage.getItem(WORD_LIB_SOURCE_KEY) || "";
 let wordEnrichCache = JSON.parse(localStorage.getItem(WORD_ENRICH_CACHE_KEY) || "{}");
@@ -55,6 +56,14 @@ let bgMusic = null;
 let soundEnabled = true;
 let musicEnabled = true;
 let musicPlaying = false;
+
+const GAME_DIFF_KEY = "gameDifficulty_v1";
+let gameDifficulty = localStorage.getItem(GAME_DIFF_KEY) || "medium";
+function getDifficultyLevels() {
+    if (gameDifficulty === "easy") return [1];
+    if (gameDifficulty === "hard") return [1, 2, 3];
+    return [1, 2]; // medium
+}
 
 let modalResolve = null;
 let currentQuestionWordObj = null;
@@ -232,6 +241,43 @@ function showInfoMessage(title, msg, isHtml = true) {
     });
 }
 
+function showGameEndModal(title, msg, hasRetry = true) {
+    return new Promise(resolve => {
+        const infoModal = document.getElementById("infoModal");
+        const infoTitle = document.getElementById("infoTitle");
+        const infoMessage = document.getElementById("infoMessage");
+        const infoConfirm = document.getElementById("infoConfirmBtn");
+        infoTitle.innerText = title;
+        infoMessage.innerHTML = msg;
+        let btnRow = infoMessage.querySelector(".game-end-btns");
+        if (!btnRow) {
+            btnRow = document.createElement("div");
+            btnRow.className = "game-end-btns";
+            btnRow.style.cssText = "display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;";
+            infoMessage.appendChild(btnRow);
+        } else {
+            btnRow.innerHTML = "";
+        }
+        if (hasRetry) {
+            const retryBtn = document.createElement("button");
+            retryBtn.innerText = "🔄 再来一局";
+            retryBtn.style.cssText = "background:var(--accent,#27ae60);color:#fff;border:none;padding:10px 24px;border-radius:25px;font-size:16px;cursor:pointer;";
+            btnRow.appendChild(retryBtn);
+            retryBtn.onclick = () => { infoModal.style.display = "none"; resolve("retry"); };
+        }
+        const closeBtn = document.createElement("button");
+        closeBtn.innerText = "🚪 返回";
+        closeBtn.style.cssText = "background:var(--bg-mid,#555);color:#fff;border:none;padding:10px 24px;border-radius:25px;font-size:16px;cursor:pointer;";
+        btnRow.appendChild(closeBtn);
+        closeBtn.onclick = () => { infoModal.style.display = "none"; resolve("close"); };
+        infoModal.style.display = "flex";
+        infoConfirm.style.display = "none";
+        const restoreConfirm = () => { infoConfirm.style.display = ""; };
+        infoModal.addEventListener("transitionend", restoreConfirm, { once: true });
+        setTimeout(restoreConfirm, 1000);
+    });
+}
+
 function updateTicketUI() { ticketSpan.innerText = tickets; saveGame(); }
 function updateTrainingRemainingUI() {
     if (trainingActive && remainingWords.length) {
@@ -301,6 +347,12 @@ function actuallyPlayBeep(type) {
         gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
         osc.start();
         osc.stop(now + 0.5);
+    } else if (type === 'click') {
+        osc.frequency.value = 660;
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
+        osc.start();
+        osc.stop(now + 0.1);
     } else {
         osc.frequency.value = 440;
         gain.gain.setValueAtTime(0.3, now);
@@ -472,6 +524,20 @@ function getMasteryStats(libId, currentAllWords) {
     };
 }
 
+function setLoadingLibName(name) {
+    const el = document.getElementById("loadingLibName");
+    if (el) el.innerText = name || "";
+}
+function hideLoading() {
+    const overlay = document.getElementById("loadingOverlay");
+    if (overlay) overlay.style.display = "none";
+}
+function showLoadingError(msg) {
+    const overlay = document.getElementById("loadingOverlay");
+    if (!overlay) return;
+    overlay.innerHTML = `<div style="color:#e74c3c;font-size:20px;margin-bottom:12px;">⚠️</div><div>${msg}</div><button onclick="location.reload()" style="margin-top:16px;padding:8px 24px;border-radius:20px;background:var(--primary);color:#fff;border:none;cursor:pointer;">重新加载</button>`;
+}
+
 async function loadLibrariesIndex() {
     try {
         const resp = await fetch("data/libraries.json");
@@ -577,13 +643,14 @@ async function loadWordLibrary() {
 
     // 1. 优先使用本地缓存（仅当缓存的 libId 与当前激活一致时）
     const cached = localStorage.getItem(WORD_LIB_CACHE_KEY);
-    if (cached) {
+    const cachedLibId = localStorage.getItem(WORD_LIB_CACHE_LIB_KEY) || "";
+    if (cached && cachedLibId === activeLibraryId) {
         try {
             const data = JSON.parse(cached);
             if (validateWordLibrary(data)) {
                 allWords = data;
                 currentWordList = allWords[1];
-                document.getElementById("loadingOverlay").style.display = "none";
+                hideLoading();
                 loadGame();
                 console.log("已使用本地缓存词库");
                 renderLibraryPicker();
@@ -593,14 +660,15 @@ async function loadWordLibrary() {
     }
 
     // 2. 尝试加载激活的词库
+    const lib = availableLibraries.find(l => l.id === activeLibraryId);
+    if (lib) setLoadingLibName(`${lib.icon} ${lib.name} - ${lib.nameFull}`);
     const data = await loadWordLibraryById(activeLibraryId);
     if (data && validateWordLibrary(data)) {
         allWords = data;
         currentWordList = allWords[1];
-        const lib = availableLibraries.find(l => l.id === activeLibraryId);
         const cacheKey = (lib && lib.id === "custom") ? wordSourceUrl : (lib ? lib.file : "");
         saveWordCache(data, cacheKey);
-        document.getElementById("loadingOverlay").style.display = "none";
+        hideLoading();
         loadGame();
         renderLibraryPicker();
         console.log("已加载激活词库:", activeLibraryId, lib ? lib.name : "");
@@ -608,6 +676,7 @@ async function loadWordLibrary() {
     }
 
     // 3. 回退到默认词库 (cet4)
+    setLoadingLibName("📖 CET-4 大学英语四级");
     try {
         const response = await fetch("data/cet4.json");
         const fallback = await response.json();
@@ -616,13 +685,13 @@ async function loadWordLibrary() {
         activeLibraryId = "cet4";
         localStorage.setItem(ACTIVE_LIB_KEY, "cet4");
         saveWordCache(fallback, "cet4.json");
-        document.getElementById("loadingOverlay").style.display = "none";
+        hideLoading();
         loadGame();
         renderLibraryPicker();
         console.log("已使用默认词库 cet4.json");
     } catch (error) {
         console.error("默认词库加载失败", error);
-        document.getElementById("loadingOverlay").innerHTML = "词库加载失败，请检查网络或使用本地服务器。";
+        showLoadingError("词库加载失败，请检查网络或使用本地服务器。");
     }
 }
 
@@ -639,6 +708,7 @@ function saveWordCache(data, sourceUrl) {
         localStorage.setItem(WORD_LIB_CACHE_KEY, JSON.stringify(data));
         localStorage.setItem(WORD_LIB_SOURCE_KEY, sourceUrl || "");
         localStorage.setItem(WORD_LIB_TIME_KEY, String(Date.now()));
+        localStorage.setItem(WORD_LIB_CACHE_LIB_KEY, activeLibraryId);
     } catch (e) {
         console.warn("词库缓存保存失败:", e);
     }
@@ -799,6 +869,7 @@ function handleResetWordLibrary() {
     localStorage.removeItem(WORD_LIB_CACHE_KEY);
     localStorage.removeItem(WORD_LIB_SOURCE_KEY);
     localStorage.removeItem(WORD_LIB_TIME_KEY);
+    localStorage.removeItem(WORD_LIB_CACHE_LIB_KEY);
     localStorage.removeItem(WORD_ENRICH_CACHE_KEY);
     wordEnrichCache = {};
     wordSourceUrl = "";
@@ -1603,9 +1674,31 @@ soundToggle.onclick = () => { soundEnabled = !soundEnabled; updateSoundToggleUI(
 musicToggle.onclick = () => { musicEnabled = !musicEnabled; updateMusicToggleUI(); setMusicEnabled(musicEnabled); saveGame(); };
 musicVolumeSlider.onchange = () => { setMusicVolume(parseFloat(musicVolumeSlider.value)); };
 quizModeSelect.onchange = () => { quizMode = quizModeSelect.value; saveGame(); };
+const diffSelect = document.getElementById("difficultySelect");
+if (diffSelect) {
+    diffSelect.value = gameDifficulty;
+    diffSelect.onchange = () => {
+        gameDifficulty = diffSelect.value;
+        localStorage.setItem(GAME_DIFF_KEY, gameDifficulty);
+        const pool = getDailyPool();
+        if (pool) { resetDailyPool(); }
+        saveGame();
+    };
+}
 resetProgressBtn.onclick = () => { resetProgress(); settingsModal.style.display = "none"; };
 settingsBtn.onclick = () => { updateWordSourceUI(); renderLibraryPicker(); settingsModal.style.display = "flex"; };
 closeSettingsBtn.onclick = () => { settingsModal.style.display = "none"; };
+const shareBtn = document.getElementById("shareBtn");
+if (shareBtn) shareBtn.onclick = () => {
+    const today = getTodayStudyCount();
+    const stats = getMasteryStats(activeLibraryId, allWords);
+    const text = `🔐 词锁：密语逃生\n📚 ${stats.total} 词中已掌握 ${stats.mastered} 词 (${stats.percent}%)\n📖 今日学习 ${today}/100 词\n💰 门票 ${tickets} 张\n➡️ ${window.location.href}`;
+    if (navigator.share) {
+        navigator.share({ title: "词锁：密语逃生", text }).catch(() => {});
+    } else {
+        navigator.clipboard.writeText(text).then(() => showInfoMessage("📤 已复制", "分享文本已复制到剪贴板！")).catch(() => {});
+    }
+};
 
 // 词库管理按钮
 document.getElementById("updateWordLibBtn").onclick = handleUpdateWordLibrary;
@@ -1633,6 +1726,13 @@ updateVoiceButtonUI();
 
 // 启动游戏
 initBackgroundSlider();
+
+// 全局按钮点击音效
+document.addEventListener("click", e => {
+    const btn = e.target.closest("button");
+    if (btn && soundEnabled) playBeep("click");
+});
+
 loadWordLibrary();
 
 // ============================================================
@@ -2086,9 +2186,10 @@ function guessHMLetter(ch, btn) {
 function finishHangmanGame() {
     const reward = hmState.wins * 2;
     tickets += reward; updateTicketUI(); saveGame();
-    showInfoMessage("🏆 猜字结束", `胜 ${hmState.wins}/5 局<br>获得 ${reward} 🎫 奖励`).then(() => {
+    showGameEndModal("🏆 猜字结束", `胜 ${hmState.wins}/5 局<br>获得 ${reward} 🎫 奖励`).then(action => {
         document.getElementById("hangmanModal").style.display = "none";
         hmState = null;
+        if (action === "retry") setTimeout(() => openHangmanGame(), 100);
     });
 }
 document.getElementById("hmRestartBtn").onclick = startHangmanRound;
@@ -2172,9 +2273,10 @@ function handleListenAnswer(btn, picked, correct, options) {
 function finishListenGame() {
     const reward = lsState.correct + (lsState.bestStreak >= 5 ? 3 : 0);
     tickets += reward; updateTicketUI(); saveGame();
-    showInfoMessage("🎧 听音结束", `答对 ${lsState.correct}/10<br>最高连击 ${lsState.bestStreak}<br>奖励 ${reward} 🎫`).then(() => {
+    showGameEndModal("🎧 听音结束", `答对 ${lsState.correct}/10<br>最高连击 ${lsState.bestStreak}<br>奖励 ${reward} 🎫`).then(action => {
         document.getElementById("listenModal").style.display = "none";
         lsState = null;
+        if (action === "retry") setTimeout(() => openListenGame(), 100);
     });
 }
 document.getElementById("lsSpeakBtn").onclick = () => {
@@ -2212,7 +2314,7 @@ function startTypingRound() {
     const stage = document.getElementById("tpStage");
     const input = document.createElement("div");
     input.className = "typing-input-row";
-    input.innerHTML = `<input type="text" class="typing-input" id="tpInput" placeholder="输入下落的单词..." autocomplete="off">`;
+    input.innerHTML = `<input type="text" class="typing-input" id="tpInput" placeholder="输入下落的单词..." autocomplete="off"><div class="typing-preview" id="tpPreview"></div>`;
     const existing = stage.querySelector(".typing-input-row");
     if (existing) existing.remove();
     stage.appendChild(input);
@@ -2221,6 +2323,8 @@ function startTypingRound() {
     tpInputHandler = (e) => {
         if (!tpState || !tpState.running) return;
         const val = inp.value.trim().toLowerCase();
+        const preview = document.getElementById("tpPreview");
+        if (preview) preview.innerText = val ? "▶ " + inp.value : "";
         if (!val) return;
         const target = tpState.words.find(w => w.text.toLowerCase() === val);
         if (target) {
@@ -2250,7 +2354,7 @@ function startTypingRound() {
         el.className = "typing-falling-word";
         el.innerHTML = `<div class="tf-en">${escapeHtml(w.word)}</div><div class="tf-zh">${escapeHtml(w.meaning || w.fullMeaning || "")}</div>`;
         el.style.left = (Math.random() * 70 + 5) + "%";
-        el.style.top = "0px";
+        el.style.top = "50px";
         stage.appendChild(el);
         const fallSpeed = 0.4 + tpState.level * 0.1;
         const wordObj = { text: w.word, el, y: 0, data: w };
@@ -2296,8 +2400,13 @@ function endTypingGame() {
     updateTicketUI(); saveGame();
     const reward = Math.floor(tpState.score / 20);
     tickets += reward; updateTicketUI();
-    showInfoMessage("⌨️ 游戏结束", `分数 ${tpState.score}<br>击中 ${tpState.hits} 漏网 ${tpState.miss}<br>奖励 ${reward} 🎫`).then(() => {
-        document.getElementById("tpStartBtn").style.display = "inline-block";
+    document.getElementById("tpStartBtn").style.display = "inline-block";
+    showGameEndModal("⌨️ 游戏结束", `分数 ${tpState.score}<br>击中 ${tpState.hits} 漏网 ${tpState.miss}<br>奖励 ${reward} 🎫`).then(action => {
+        if (action === "retry") {
+            const modal = document.getElementById("typingModal");
+            modal.style.display = "none";
+            setTimeout(() => openTypingGame(), 100);
+        }
     });
 }
 document.getElementById("tpStartBtn").onclick = startTypingRound;
@@ -2412,8 +2521,8 @@ function renderStats() {
                 <div class="stat-value">${accuracy}%</div>
                 <div class="stat-sub">${accuracy >= 80 ? "🎉 优秀" : accuracy >= 60 ? "💪 不错" : "📈 加油"}</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">错题数</div>
+            <div class="stat-card" style="cursor:pointer;" onclick="openWrongWordModal()" title="点击查看错题本">
+                <div class="stat-label">错题本</div>
                 <div class="stat-value">${wrongWords.length}</div>
                 <div class="stat-sub">已掌握 ${mastered} 词</div>
             </div>
@@ -2423,6 +2532,9 @@ function renderStats() {
                 <div class="stat-sub">${Math.round(clues.length/12*100)}% 完整</div>
             </div>
         </div>
+
+        <div class="stats-section-title">📈 学习曲线 (近 14 天)</div>
+        <canvas id="studyChartCanvas" width="600" height="200" style="width:100%;height:auto;max-width:600px;background:rgba(0,0,0,0.2);border-radius:12px;margin:8px 0;"></canvas>
 
         <div class="stats-section-title">📅 最近 7 天活动</div>
         ${last7.map(d => {
@@ -2448,8 +2560,88 @@ function renderStats() {
     if (inlineBtn) inlineBtn.onclick = startDueReview;
 }
 
+function renderStudyChart() {
+    const canvas = document.getElementById("studyChartCanvas");
+    if (!canvas || !canvas.getContext) return;
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width, H = canvas.height;
+    const pad = { top: 20, right: 20, bottom: 30, left: 40 };
+    const cw = W - pad.left - pad.right;
+    const ch = H - pad.top - pad.bottom;
+
+    let hist = {};
+    try { hist = JSON.parse(localStorage.getItem(DAILY_STUDY_HIST_KEY)) || {}; } catch (e) {}
+
+    const days = [];
+    for (let i = 13; i >= 0; i--) {
+        const d = new Date(); d.setDate(d.getDate() - i);
+        const key = d.toISOString().slice(0, 10);
+        days.push({ key, label: `${d.getMonth()+1}/${d.getDate()}`, val: hist[key] || 0 });
+    }
+    const maxVal = Math.max(...days.map(d => d.val), 5);
+
+    ctx.clearRect(0, 0, W, H);
+
+    // grid
+    ctx.strokeStyle = "rgba(255,255,255,0.08)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 4; i++) {
+        const y = pad.top + ch - (ch * i / 4);
+        ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
+        ctx.fillStyle = "rgba(255,255,255,0.4)";
+        ctx.font = "10px sans-serif";
+        ctx.textAlign = "right";
+        ctx.fillText(Math.round(maxVal * i / 4), pad.left - 6, y + 4);
+    }
+
+    // line
+    ctx.strokeStyle = "#e94560";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    days.forEach((d, i) => {
+        const x = pad.left + cw * i / (days.length - 1 || 1);
+        const y = pad.top + ch - (d.val / maxVal) * ch;
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    // fill
+    ctx.lineTo(pad.left + cw, pad.top + ch);
+    ctx.lineTo(pad.left, pad.top + ch);
+    ctx.closePath();
+    ctx.fillStyle = "rgba(233,69,96,0.15)";
+    ctx.fill();
+
+    // dots + labels
+    days.forEach((d, i) => {
+        const x = pad.left + cw * i / (days.length - 1 || 1);
+        const y = pad.top + ch - (d.val / maxVal) * ch;
+        if (d.val > 0) {
+            ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fillStyle = "#e94560"; ctx.fill();
+        }
+        if (i % 2 === 0 || i === days.length - 1) {
+            ctx.fillStyle = "rgba(255,255,255,0.3)";
+            ctx.font = "9px sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(d.label, x, pad.top + ch + 18);
+        }
+    });
+
+    // target line
+    ctx.strokeStyle = "rgba(255,255,255,0.2)";
+    ctx.setLineDash([4, 4]);
+    const targetY = pad.top + ch - (DAILY_STUDY_TARGET / maxVal) * ch;
+    ctx.beginPath(); ctx.moveTo(pad.left, targetY); ctx.lineTo(W - pad.right, targetY); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = "rgba(255,255,255,0.3)";
+    ctx.font = "9px sans-serif";
+    ctx.textAlign = "left";
+    ctx.fillText("目标 " + DAILY_STUDY_TARGET, W - pad.right - 60, targetY - 4);
+}
+
 function openStats() {
     renderStats();
+    setTimeout(renderStudyChart, 100);
     document.getElementById("statsModal").style.display = "flex";
 }
 function closeStats() {
@@ -2457,6 +2649,61 @@ function closeStats() {
 }
 document.getElementById("statsBtn").onclick = openStats;
 document.getElementById("closeStatsBtn").onclick = closeStats;
+
+// ---- 错题本 ----
+function openWrongWordModal() {
+    const modal = document.getElementById("wrongWordModal");
+    if (!modal) return;
+    modal.style.display = "flex";
+    renderWrongWordList();
+}
+function closeWrongWordModal() {
+    document.getElementById("wrongWordModal").style.display = "none";
+}
+function renderWrongWordList() {
+    const sort = document.getElementById("wwSort").value;
+    const filter = document.getElementById("wwFilter").value.trim().toLowerCase();
+    document.getElementById("wwCount").innerText = `共 ${wrongWords.length} 个错题`;
+    let list = [...wrongWords];
+    if (filter) list = list.filter(w => w.word.toLowerCase().includes(filter));
+    if (sort === "newest") list.reverse();
+    else if (sort === "streak") list.sort((a, b) => (a.streak || 0) - (b.streak || 0));
+    const container = document.getElementById("wwList");
+    if (!list.length) {
+        container.innerHTML = '<div style="text-align:center;color:#aaa;padding:30px;">🎉 暂无错题</div>';
+        return;
+    }
+    container.innerHTML = list.map(w => {
+        const streak = w.streak || 0;
+        const bars = "▮".repeat(Math.min(streak, 3)) + "▯".repeat(Math.max(0, 3 - streak));
+        const mastered = streak >= 3;
+        return `<div class="ww-item" style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;margin:4px 0;background:rgba(255,255,255,0.05);border-radius:12px;${mastered?'opacity:0.6':''}">
+            <div style="flex:1;min-width:0;">
+                <div style="font-size:16px;font-weight:bold;color:var(--secondary);">${escapeHtml(w.word)}</div>
+                <div style="font-size:12px;color:#aaa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(w.meaning || w.fullMeaning || "")}</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;margin-left:10px;">
+                <div style="font-size:11px;color:#888;">掌握 ${bars}</div>
+                <div style="font-size:10px;color:#666;">${w.lastReview ? new Date(w.lastReview).toLocaleDateString() : "未复习"}</div>
+            </div>
+        </div>`;
+    }).join("");
+}
+document.addEventListener("change", e => {
+    if (e.target.id === "wwSort" || e.target.id === "wwFilter") renderWrongWordList();
+});
+document.addEventListener("input", e => {
+    if (e.target.id === "wwFilter") renderWrongWordList();
+});
+document.getElementById("wwCloseBtn").onclick = closeWrongWordModal;
+document.getElementById("wwMasteredAllBtn").onclick = () => {
+    const before = wrongWords.length;
+    wrongWords = wrongWords.filter(w => (w.streak || 0) < 3);
+    saveGame();
+    renderWrongWordList();
+    const removed = before - wrongWords.length;
+    if (removed > 0) showInfoMessage("✅ 已清理", `移除了 ${removed} 个已掌握词`);
+};
 document.getElementById("startReviewDueBtn").onclick = startDueReview;
 
 function startDueReview() {
@@ -2786,9 +3033,10 @@ function finishWSGame() {
         ? `🎉 全部找到！奖励 +${reward} 🎫`
         : `找到 ${found}/${total}<br>剩余时间 ${timeLeft}秒<br>奖励 +${reward} 🎫`;
     fireConfetti(found === total ? 50 : 20);
-    showInfoMessage("🔍 找词结束", msg).then(() => {
+    showGameEndModal("🔍 找词结束", msg).then(action => {
         document.getElementById("wordSearchModal").style.display = "none";
         wsState = null;
+        if (action === "retry") setTimeout(() => openWordSearchGame(), 100);
     });
 }
 
@@ -2940,12 +3188,13 @@ function finishTDGame() {
     let reward = kills * 2 + (wave >= 15 ? 5 : 0);
     tickets += reward; updateTicketUI(); saveGame();
     fireConfetti(wave >= 15 ? 60 : 20);
-    showInfoMessage("🏰 塔防结束",
+    showGameEndModal("🏰 塔防结束",
         `击杀 ${kills} / ${wave} 波<br>奖励 +${reward} 🎫`
-    ).then(() => {
+    ).then(action => {
         tdState = null;
         document.getElementById("towerDefenseModal").style.display = "none";
         renderGameCenter();
+        if (action === "retry") setTimeout(() => openTowerDefenseGame(), 100);
     });
 }
 
@@ -3022,7 +3271,8 @@ function startMemoryRound(level) {
         moves: 0,
         startTime: Date.now(),
         timer: null,
-        locked: false
+        locked: false,
+        _lastFlip: 0
     };
     renderMemoryGrid();
     document.getElementById("mmTotalPairs").innerText = mmState.pairCount;
@@ -3066,6 +3316,9 @@ function flipCard(idx, cardEl) {
     if (!mmState || mmState.locked) return;
     if (mmState.flipped.includes(idx)) return;
     if (mmState.matched.has(idx)) return;
+    const now = Date.now();
+    if (mmState._lastFlip && now - mmState._lastFlip < 300) return;
+    mmState._lastFlip = now;
     mmState.flipped.push(idx);
     cardEl.classList.add("flipped");
     if (mmState.flipped.length === 2) {
@@ -3126,9 +3379,13 @@ function finishMemoryGame() {
     // 播放音效
     playBeep("correct");
 
-    showInfoMessage("🎉 通关！", `${stars} 用时 ${elapsed} 秒 / ${moves} 步<br>扣 ${cost}🎫，奖励 ${reward}🎫<br>当前门票：${tickets}`).then(() => {
+    showGameEndModal("🎉 通关！", `${stars} 用时 ${elapsed} 秒 / ${moves} 步<br>扣 ${cost}🎫，奖励 ${reward}🎫<br>当前门票：${tickets}`).then(action => {
         closeMemoryGame();
         renderGameCenter();
+        if (action === "retry") setTimeout(() => {
+            const gameItem = GAMES_CONFIG.find(g => g.id === "memoryMatch");
+            if (gameItem) openMemoryMatchGame(gameItem);
+        }, 100);
     });
 }
 
@@ -3358,6 +3615,9 @@ initModalCloseButtons();
 // 📖 词汇学习室（Vocabulary Learning Room）
 // ============================================================
 const DAILY_STUDY_KEY = "dailyStudy_v1";
+const DAILY_STUDY_HIST_KEY = "studyHistory_v1";
+const DAILY_STUDY_TARGET = 100;
+const DAILY_CELEBRATED_KEY = "dailyCelebrated_v1";
 let vrFilterLevel = "all";
 
 function getDailyStudy() {
@@ -3371,15 +3631,33 @@ function getDailyStudy() {
 
 function saveDailyStudy(d) {
     localStorage.setItem(DAILY_STUDY_KEY, JSON.stringify(d));
+    try {
+        const hist = JSON.parse(localStorage.getItem(DAILY_STUDY_HIST_KEY)) || {};
+        hist[d.date] = d.count;
+        localStorage.setItem(DAILY_STUDY_HIST_KEY, JSON.stringify(hist));
+    } catch (e) {}
 }
 
 function markWordStudiedToday(word) {
     const d = getDailyStudy();
     const wordLower = word.toLowerCase();
+    const was = d.count;
     if (!d.words.includes(wordLower)) {
         d.words.push(wordLower);
         d.count = d.words.length;
         saveDailyStudy(d);
+        if (was < DAILY_STUDY_TARGET && d.count >= DAILY_STUDY_TARGET) {
+            const celebrated = localStorage.getItem(DAILY_CELEBRATED_KEY);
+            const today = new Date().toISOString().slice(0, 10);
+            if (celebrated !== today) {
+                localStorage.setItem(DAILY_CELEBRATED_KEY, today);
+                setTimeout(() => {
+                    fireConfetti(80);
+                    playBeep("correct");
+                    showInfoMessage("🎉 每日目标达成！", `今日已学习 <b>${DAILY_STUDY_TARGET}</b> 词！<br>继续保持！💪`);
+                }, 300);
+            }
+        }
     }
     updateVrDailyUI();
 }
@@ -3526,7 +3804,7 @@ function initDailyPool() {
 function resetDailyPool() {
     if (!allWords) return null;
     const allWordList = [];
-    for (const lv of [1, 2, 3]) {
+    for (const lv of getDifficultyLevels()) {
         for (const w of (allWords[lv] || [])) allWordList.push(w);
     }
     if (!allWordList.length) return null;
@@ -3547,7 +3825,7 @@ function getDailyGameWords() {
     const pool = initDailyPool();
     if (!pool || !allWords) return [];
     const allWordList = [];
-    for (const lv of [1, 2, 3]) {
+    for (const lv of getDifficultyLevels()) {
         for (const w of (allWords[lv] || [])) allWordList.push(w);
     }
     if (!allWordList.length) return [];
@@ -3565,7 +3843,7 @@ function getDailyPoolAllWords() {
     const pool = initDailyPool();
     if (!pool || !allWords) return [];
     const allWordList = [];
-    for (const lv of [1, 2, 3]) {
+    for (const lv of getDifficultyLevels()) {
         for (const w of (allWords[lv] || [])) allWordList.push(w);
     }
     if (!allWordList.length) return [];
@@ -3582,7 +3860,7 @@ function markDailyWordUsed(wordOrIndex) {
         idx = wordOrIndex;
     } else {
         const allWordList = [];
-        for (const lv of [1, 2, 3]) {
+        for (const lv of getDifficultyLevels()) {
             for (const w of (allWords[lv] || [])) allWordList.push(w);
         }
         idx = allWordList.findIndex(w => w.word.toLowerCase() === wordOrIndex.toLowerCase());

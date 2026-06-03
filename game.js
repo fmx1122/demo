@@ -108,12 +108,30 @@ trainingRemainingSpan.style.marginLeft = "10px";
 document.querySelector(".top-bar").appendChild(trainingRemainingSpan);
 
 // ========== 语音朗读函数 ==========
+let _speechPrimed = false;
+function primeSpeechSynthesis() {
+    if (!window.speechSynthesis || _speechPrimed) return;
+    _speechPrimed = true;
+    try {
+        window.speechSynthesis.cancel();
+        const dummy = new SpeechSynthesisUtterance(" ");
+        dummy.volume = 0;
+        window.speechSynthesis.speak(dummy);
+        setTimeout(() => { try { window.speechSynthesis.cancel(); } catch (e) {} }, 100);
+    } catch (e) {}
+}
+// 首次用户交互时预热语音引擎（移动端必须）
+document.addEventListener("touchstart", () => primeSpeechSynthesis(), { once: true });
+document.addEventListener("click", () => primeSpeechSynthesis(), { once: true });
+
 function speakText(text) {
     if (!text) return;
     if (!window.speechSynthesis) {
         showInfoMessage("提示", "您的浏览器不支持语音朗读");
         return;
     }
+    primeSpeechSynthesis();
+    window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = currentVoiceType;
     utterance.rate = 0.9;
@@ -2081,6 +2099,7 @@ function startListenRound() {
         btn.onclick = () => handleListenAnswer(btn, o, correct, options);
         opts.appendChild(btn);
     });
+    speakText(correct.word);
     setTimeout(() => speakText(correct.word), 400);
 }
 function handleListenAnswer(btn, picked, correct, options) {
@@ -3683,6 +3702,7 @@ function masteryShowNext() {
         inp.addEventListener("keydown", e => { if (e.key === "Enter") submit(); });
         answerArea.appendChild(inp);
         inp.focus();
+        speakText(w.word);
         setTimeout(() => speakText(w.word), 500);
     } else {
         // 选择题模式
@@ -3705,6 +3725,7 @@ function masteryShowNext() {
             optsDiv.appendChild(btn);
         });
         answerArea.appendChild(optsDiv);
+        speakText(w.word);
         setTimeout(() => speakText(w.word), 500);
     }
 }

@@ -1,0 +1,20 @@
+# 旧词库备份
+words_old.json
+words_old01.json
+
+# 翻译工具脚本（非项目运行必需）
+translate_examples.py
+translate_phrases.py
+
+# Word 文档
+游戏名称.docx
+
+# 操作系统文件
+Thumbs.db
+.DS_Store
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo

@@ -117,47 +117,30 @@ trainingRemainingSpan.style.marginLeft = "10px";
 document.querySelector(".top-bar").appendChild(trainingRemainingSpan);
 
 // ========== 语音朗读函数 ==========
-let _speechPrimed = false;
-let _useAudioFallback = false;
-function primeSpeechSynthesis() {
-    if (!window.speechSynthesis || _speechPrimed) return;
-    _speechPrimed = true;
-    try {
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.resume();
-        if (typeof speechSynthesis !== 'undefined' && speechSynthesis.getVoices().length === 0) {
-            speechSynthesis.addEventListener('voiceschanged', () => {}, { once: true });
-        }
-    } catch (e) {}
-}
-document.addEventListener("touchstart", () => primeSpeechSynthesis(), { once: true });
-document.addEventListener("click", () => primeSpeechSynthesis(), { once: true });
-
+let _ttsSpeaking = false;
 function speakText(text) {
     if (!text) return;
-    // 尝试 SpeechSynthesis
-    if (window.speechSynthesis && !_useAudioFallback) {
+    if (window.speechSynthesis) {
         try {
-            primeSpeechSynthesis();
-            window.speechSynthesis.cancel();
             window.speechSynthesis.resume();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = currentVoiceType;
-            utterance.rate = 0.9;
-            utterance.pitch = 1.0;
-            utterance.volume = 1.0;
-            let fallbackTimer = setTimeout(() => {
-                if (!_useAudioFallback) { _useAudioFallback = true; ttsAudioFallback(text); }
-            }, 2500);
-            utterance.onend = () => { clearTimeout(fallbackTimer); };
-            utterance.onerror = () => {
-                clearTimeout(fallbackTimer);
-                if (!_useAudioFallback) { _useAudioFallback = true; ttsAudioFallback(text); }
-            };
-            // Chrome 需要微延迟保证 speak() 在 cancel() 后生效
-            setTimeout(() => { try { window.speechSynthesis.speak(utterance); } catch(e) { ttsAudioFallback(text); } }, 30);
+            if (_ttsSpeaking) window.speechSynthesis.cancel();
+            _ttsSpeaking = false;
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = currentVoiceType;
+            u.rate = 0.9;
+            u.pitch = 1.0;
+            u.volume = 1.0;
+            const voices = window.speechSynthesis.getVoices();
+            const match = voices.find(v => v.lang.startsWith(currentVoiceType));
+            if (match) u.voice = match;
+            let used = false;
+            u.onstart = () => { used = true; _ttsSpeaking = true; };
+            u.onend = () => { used = true; _ttsSpeaking = false; };
+            u.onerror = () => { _ttsSpeaking = false; ttsAudioFallback(text); };
+            setTimeout(() => { if (!used) { try { window.speechSynthesis.cancel(); } catch(e) {} _ttsSpeaking = false; ttsAudioFallback(text); } }, 2000);
+            window.speechSynthesis.speak(u);
             return;
-        } catch (e) {}
+        } catch(e) { console.warn("SpeechSynthesis 失败:", e); }
     }
     ttsAudioFallback(text);
 }
@@ -167,20 +150,13 @@ function ttsAudioFallback(text) {
     if (!_audioTtsEl) {
         _audioTtsEl = document.createElement("audio");
         _audioTtsEl.style.display = "none";
+        _audioTtsEl.preload = "auto";
         document.body.appendChild(_audioTtsEl);
     }
-    const lang = currentVoiceType === "zh-CN" ? "zh-CN" : "en";
-    const urls = [
-        "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(text) + "&type=" + (lang === "zh-CN" ? 1 : 0),
-        "https://translate.google.com/translate_tts?ie=UTF-8&q=" + encodeURIComponent(text) + "&tl=" + lang + "&client=tw-ob"
-    ];
-    let idx = 0;
-    function tryNext() {
-        if (idx >= urls.length) return;
-        _audioTtsEl.src = urls[idx++];
-        _audioTtsEl.play().catch(() => setTimeout(tryNext, 300));
-    }
-    tryNext();
+    const lang = currentVoiceType && currentVoiceType.startsWith("zh") ? "zh" : "en";
+    const url = "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(text) + "&type=" + (lang === "zh" ? 1 : 0);
+    _audioTtsEl.src = url;
+    _audioTtsEl.play().catch(e => console.warn("TTS 音频播放失败:", e));
 }
 
 // 更新发音切换按钮的显示文字

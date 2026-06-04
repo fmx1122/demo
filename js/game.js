@@ -117,26 +117,20 @@ trainingRemainingSpan.style.marginLeft = "10px";
 document.querySelector(".top-bar").appendChild(trainingRemainingSpan);
 
 // ========== 语音朗读函数 ==========
-let _ttsQueue = [];
-let _ttsPlaying = false;
-function _ttsPlayNext() {
-    if (_ttsPlaying || _ttsQueue.length === 0) return;
-    _ttsPlaying = true;
-    const text = _ttsQueue.shift();
-    // 用 <audio> 播放百度 TTS（稳定、可重复点击、无 Chrome 语音引擎 bug）
-    const a = document.createElement("audio");
-    a.style.cssText = "position:fixed;top:-100px;height:0;width:0;";
-    const isZh = currentVoiceType.startsWith("zh");
-    a.src = "https://fanyi.baidu.com/gettts?lan=" + (isZh ? "zh" : "en") + "&text=" + encodeURIComponent(text) + "&spd=3&source=web";
-    a.addEventListener("ended", () => { a.remove(); _ttsPlaying = false; _ttsPlayNext(); }, { once: true });
-    a.addEventListener("error", () => { a.remove(); _ttsPlaying = false; _ttsPlayNext(); }, { once: true });
-    document.body.appendChild(a);
-    a.play().catch(() => { a.remove(); _ttsPlaying = false; _ttsPlayNext(); });
-}
+let _ttsAudio = null;
 function speakText(text) {
     if (!text) return;
-    _ttsQueue.push(text);
-    if (!_ttsPlaying) _ttsPlayNext();
+    if (!_ttsAudio) {
+        _ttsAudio = document.createElement("audio");
+        _ttsAudio.style.cssText = "position:fixed;top:-100px;height:0;width:0;";
+        _ttsAudio.preload = "auto";
+        document.body.appendChild(_ttsAudio);
+    }
+    _ttsAudio.pause();
+    _ttsAudio.currentTime = 0;
+    const isZh = currentVoiceType.startsWith("zh");
+    _ttsAudio.src = "https://fanyi.baidu.com/gettts?lan=" + (isZh ? "zh" : "en") + "&text=" + encodeURIComponent(text) + "&spd=3&source=web";
+    _ttsAudio.play().catch(() => {});
 }
 
 // 更新发音切换按钮的显示文字

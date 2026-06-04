@@ -1136,7 +1136,7 @@ function onAnswerSubmit() {
         detailHtml += `<div class="word-detail-header">`;
         detailHtml += `<span class="status-badge">✅ 正确</span>`;
         detailHtml += `<span class="detail-word">${w.word}</span>`;
-        detailHtml += `<button class="speaker-btn" style="width:38px;height:38px;font-size:18px;" onclick="speakText(&quot;${escapeHtml(w.word)}&quot;)" title="朗读单词">🔊</button>`;
+        detailHtml += `<button class="speaker-btn" style="width:38px;height:38px;font-size:18px;" onclick='speakText("${escapeAttr(w.word)}")' title="朗读单词">🔊</button>`;
         detailHtml += `</div>`;
 
         detailHtml += `<div class="detail-row label-pos"><span class="label">词性</span><span class="content">${w.pos}</span></div>`;
@@ -1160,7 +1160,7 @@ function onAnswerSubmit() {
 
         if (w.example) {
             let exampleHtml = `<div class="example-box">`;
-            exampleHtml += `<div class="example-en">"${escapeHtml(w.example)}" <button class="inline-speaker" onclick="speakText(&quot;${escapeHtml(w.example)}&quot;)" title="朗读例句">🔊</button></div>`;
+            exampleHtml += `<div class="example-en">"${escapeHtml(w.example)}" <button class="inline-speaker" onclick='speakText("${escapeAttr(w.example)}")' title="朗读例句">🔊</button></div>`;
             if (w.example_zh) {
                 exampleHtml += `<div class="example-zh">${w.example_zh}</div>`;
             }
@@ -1436,7 +1436,7 @@ async function runDailyChallenge(words) {
             detailHtml += `<div class="word-detail-header">`;
             detailHtml += `<span class="status-badge">✅ 正确</span>`;
             detailHtml += `<span class="detail-word">${q.word}</span>`;
-            detailHtml += `<button class="speaker-btn" style="width:38px;height:38px;font-size:18px;" onclick="speakText(&quot;${escapeHtml(q.word)}&quot;)" title="朗读单词">🔊</button>`;
+            detailHtml += `<button class="speaker-btn" style="width:38px;height:38px;font-size:18px;" onclick='speakText("${escapeAttr(q.word)}")' title="朗读单词">🔊</button>`;
             detailHtml += `</div>`;
 
             detailHtml += `<div class="detail-row label-pos"><span class="label">词性</span><span class="content">${q.pos}</span></div>`;
@@ -1459,7 +1459,7 @@ async function runDailyChallenge(words) {
             }
             if (q.example) {
                 let exampleHtml = `<div class="example-box">`;
-                exampleHtml += `<div class="example-en">"${escapeHtml(q.example)}" <button class="inline-speaker" onclick="speakText(&quot;${escapeHtml(q.example)}&quot;)" title="朗读例句">🔊</button></div>`;
+                exampleHtml += `<div class="example-en">"${escapeHtml(q.example)}" <button class="inline-speaker" onclick='speakText("${escapeAttr(q.example)}")' title="朗读例句">🔊</button></div>`;
                 if (q.example_zh) {
                     exampleHtml += `<div class="example-zh">${q.example_zh}</div>`;
                 }
@@ -1709,6 +1709,9 @@ function escapeHtml(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, ch => ({
         "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
     }[ch]));
+}
+function escapeAttr(s) {
+    return String(s == null ? "" : s).replace(/\\/g, "\\\\").replace(/"/g, "\\\"").replace(/'/g, "\\'").replace(/\n/g, "\\n").replace(/\r/g, "\\r");
 }
 
 // ============================================================

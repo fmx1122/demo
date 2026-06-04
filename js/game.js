@@ -117,20 +117,16 @@ trainingRemainingSpan.style.marginLeft = "10px";
 document.querySelector(".top-bar").appendChild(trainingRemainingSpan);
 
 // ========== 语音朗读函数 ==========
-let _ttsAudio = null;
 function speakText(text) {
     if (!text) return;
-    if (!_ttsAudio) {
-        _ttsAudio = document.createElement("audio");
-        _ttsAudio.style.cssText = "position:fixed;top:-100px;height:0;width:0;";
-        _ttsAudio.preload = "auto";
-        document.body.appendChild(_ttsAudio);
-    }
-    _ttsAudio.pause();
-    _ttsAudio.currentTime = 0;
+    const a = document.createElement("audio");
+    a.style.cssText = "position:fixed;top:-100px;height:0;width:0;";
     const isZh = currentVoiceType.startsWith("zh");
-    _ttsAudio.src = "https://fanyi.baidu.com/gettts?lan=" + (isZh ? "zh" : "en") + "&text=" + encodeURIComponent(text) + "&spd=3&source=web";
-    _ttsAudio.play().catch(() => {});
+    a.src = "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(text) + "&type=" + (isZh ? 1 : 0);
+    a.addEventListener("ended", () => a.remove(), { once: true });
+    document.body.appendChild(a);
+    a.play().catch(() => a.remove());
+    setTimeout(() => { try { a.remove(); } catch(e) {} }, 4000);
 }
 
 // 更新发音切换按钮的显示文字

@@ -119,27 +119,30 @@ document.querySelector(".top-bar").appendChild(trainingRemainingSpan);
 // ========== 语音朗读函数 ==========
 function speakText(text) {
     if (!text) return;
-    try {
-        const audio = document.createElement("audio");
-        audio.style.display = "none";
-        audio.preload = "auto";
-        const lang = currentVoiceType && currentVoiceType.startsWith("zh") ? "zh" : "en";
-        audio.src = "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(text) + "&type=" + (lang === "zh" ? 1 : 0);
-        audio.play().then(() => {
-            setTimeout(() => { try { audio.remove(); } catch(e) {} }, 3000);
-        }).catch(() => {
-            try { audio.remove(); } catch(e) {}
-            if (window.speechSynthesis) {
-                try {
-                    window.speechSynthesis.cancel();
-                    const u = new SpeechSynthesisUtterance(text);
-                    u.lang = currentVoiceType;
-                    u.rate = 0.9;
-                    window.speechSynthesis.speak(u);
-                } catch(e) {}
-            }
-        });
-    } catch(e) {}
+    // SpeechSynthesis（仅在用户手势下有效，速度快）
+    let ssStarted = false;
+    if (window.speechSynthesis) {
+        try {
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = currentVoiceType;
+            u.rate = 0.9;
+            u.onstart = () => { ssStarted = true; };
+            window.speechSynthesis.speak(u);
+        } catch(e) {}
+    }
+    // 1 秒后 SpeechSynthesis 未启动则切 <audio> 播放
+    setTimeout(() => {
+        if (ssStarted) return;
+        try {
+            const a = document.createElement("audio");
+            a.style.cssText = "position:fixed;top:-100px;height:0;width:0;";
+            const isZh = currentVoiceType.startsWith("zh");
+            a.src = "https://fanyi.baidu.com/gettts?lan=" + (isZh ? "zh" : "en") + "&text=" + encodeURIComponent(text) + "&spd=3&source=web";
+            a.addEventListener("ended", () => a.remove(), { once: true });
+            document.body.appendChild(a);
+            a.play().catch(() => a.remove());
+        } catch(e) {}
+    }, 800);
 }
 
 // 更新发音切换按钮的显示文字
@@ -2193,7 +2196,7 @@ function startListenRound() {
         btn.onclick = () => handleListenAnswer(btn, o, correct, options);
         opts.appendChild(btn);
     });
-    speakText(correct.word);
+    document.getElementById("lsHint").innerText = "点击🔊听单词";
 }
 function handleListenAnswer(btn, picked, correct, options) {
     document.querySelectorAll(".listen-option").forEach(b => b.disabled = true);

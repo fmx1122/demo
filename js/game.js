@@ -120,11 +120,14 @@ document.querySelector(".top-bar").appendChild(trainingRemainingSpan);
 function speakText(text) {
     if (!text) return;
     try {
-        const isZh = currentVoiceType.startsWith("zh");
         const a = document.getElementById("ttsPlayer");
         if (!a) return;
+        a.pause();
+        const isZh = currentVoiceType.startsWith("zh");
         a.src = "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(text) + "&type=" + (isZh ? 1 : 0) + "&_t=" + Date.now();
-        a.play().catch(() => {});
+        a.load();
+        a.addEventListener("canplaythrough", () => { a.play().catch(() => {}); }, { once: true });
+        a.addEventListener("error", () => {}, { once: true });
     } catch(e) {}
 }
 

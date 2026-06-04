@@ -117,32 +117,26 @@ trainingRemainingSpan.style.marginLeft = "10px";
 document.querySelector(".top-bar").appendChild(trainingRemainingSpan);
 
 // ========== 语音朗读函数 ==========
+let _ttsQueue = [];
+let _ttsPlaying = false;
+function _ttsPlayNext() {
+    if (_ttsPlaying || _ttsQueue.length === 0) return;
+    _ttsPlaying = true;
+    const text = _ttsQueue.shift();
+    // 用 <audio> 播放百度 TTS（稳定、可重复点击、无 Chrome 语音引擎 bug）
+    const a = document.createElement("audio");
+    a.style.cssText = "position:fixed;top:-100px;height:0;width:0;";
+    const isZh = currentVoiceType.startsWith("zh");
+    a.src = "https://fanyi.baidu.com/gettts?lan=" + (isZh ? "zh" : "en") + "&text=" + encodeURIComponent(text) + "&spd=3&source=web";
+    a.addEventListener("ended", () => { a.remove(); _ttsPlaying = false; _ttsPlayNext(); }, { once: true });
+    a.addEventListener("error", () => { a.remove(); _ttsPlaying = false; _ttsPlayNext(); }, { once: true });
+    document.body.appendChild(a);
+    a.play().catch(() => { a.remove(); _ttsPlaying = false; _ttsPlayNext(); });
+}
 function speakText(text) {
     if (!text) return;
-    // SpeechSynthesis（仅在用户手势下有效，速度快）
-    let ssStarted = false;
-    if (window.speechSynthesis) {
-        try {
-            const u = new SpeechSynthesisUtterance(text);
-            u.lang = currentVoiceType;
-            u.rate = 0.9;
-            u.onstart = () => { ssStarted = true; };
-            window.speechSynthesis.speak(u);
-        } catch(e) {}
-    }
-    // 1 秒后 SpeechSynthesis 未启动则切 <audio> 播放
-    setTimeout(() => {
-        if (ssStarted) return;
-        try {
-            const a = document.createElement("audio");
-            a.style.cssText = "position:fixed;top:-100px;height:0;width:0;";
-            const isZh = currentVoiceType.startsWith("zh");
-            a.src = "https://fanyi.baidu.com/gettts?lan=" + (isZh ? "zh" : "en") + "&text=" + encodeURIComponent(text) + "&spd=3&source=web";
-            a.addEventListener("ended", () => a.remove(), { once: true });
-            document.body.appendChild(a);
-            a.play().catch(() => a.remove());
-        } catch(e) {}
-    }, 800);
+    _ttsQueue.push(text);
+    if (!_ttsPlaying) _ttsPlayNext();
 }
 
 // 更新发音切换按钮的显示文字

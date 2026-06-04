@@ -32,7 +32,7 @@ const WORD_LIB_CACHE_KEY = "wordLibCache_v1";
 const WORD_LIB_SOURCE_KEY = "wordLibSource_v1";
 const WORD_LIB_TIME_KEY = "wordLibCacheTime_v1";
 const WORD_LIB_CACHE_LIB_KEY = "wordLibCacheLib_v1";
-const WORD_ENRICH_CACHE_KEY = "wordEnrichCache_v1";
+const WORD_ENRICH_CACHE_KEY = "wordEnrichCache_v2";
 let wordSourceUrl = localStorage.getItem(WORD_LIB_SOURCE_KEY) || "";
 let wordEnrichCache = JSON.parse(localStorage.getItem(WORD_ENRICH_CACHE_KEY) || "{}");
 

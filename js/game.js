@@ -117,16 +117,19 @@ trainingRemainingSpan.style.marginLeft = "10px";
 document.querySelector(".top-bar").appendChild(trainingRemainingSpan);
 
 // ========== 语音朗读函数 ==========
+let _ttsPrev = null;
 function speakText(text) {
     if (!text) return;
+    if (_ttsPrev) { try { _ttsPrev.pause(); _ttsPrev.remove(); } catch(e) {} }
     const a = document.createElement("audio");
     a.style.cssText = "position:fixed;top:-100px;height:0;width:0;";
+    a.preload = "auto";
     const isZh = currentVoiceType.startsWith("zh");
-    a.src = "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(text) + "&type=" + (isZh ? 1 : 0);
-    a.addEventListener("ended", () => a.remove(), { once: true });
+    a.src = "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(text) + "&type=" + (isZh ? 1 : 0) + "&_t=" + Date.now();
     document.body.appendChild(a);
-    a.play().catch(() => a.remove());
-    setTimeout(() => { try { a.remove(); } catch(e) {} }, 4000);
+    _ttsPrev = a;
+    a.play().catch(() => { try { a.remove(); } catch(e) {} });
+    setTimeout(() => { if (_ttsPrev === a) { try { a.remove(); _ttsPrev = null; } catch(e) {} } }, 5000);
 }
 
 // 更新发音切换按钮的显示文字

@@ -1,13 +1,8 @@
-# 旧词库备份
-words_old.json
-words_old01.json
+# 废弃旧文件（不再使用）
+_archive/
 
-# 翻译工具脚本（非项目运行必需）
-translate_examples.py
-translate_phrases.py
-
-# Word 文档
-游戏名称.docx
+# 测试依赖
+tests/node_modules/
 
 # 操作系统文件
 Thumbs.db

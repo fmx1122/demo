@@ -304,12 +304,8 @@ async function main() {
   console.log(`服务器运行于 http://localhost:${PORT}`);
 
   console.log("启动浏览器...");
-  const browser = await chromium.launch({ headless: true, channel: "chrome" });
-  const context = await browser.newContext({
-    viewport: { width: 390, height: 844 }, // iPhone 14 size for mobile test
-    deviceScaleFactor: 2,
-    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-  });
+  const browser = await chromium.launch({ headless: false, slowMo: 300, args: ["--start-maximized"] });
+  const context = await browser.newContext({ noDefaultViewport: true });
   const page = await context.newPage();
   page.on("console", msg => {}); // suppress console logs from page
 

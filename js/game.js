@@ -3539,36 +3539,43 @@ function renderGameCenter() {
     });
 }
 
-document.getElementById("mmRestartBtn").onclick = () => {
+const _mmRestartBtn = document.getElementById("mmRestartBtn");
+if (_mmRestartBtn) _mmRestartBtn.onclick = () => {
     if (!mmState) return;
     if (mmState.timer) clearInterval(mmState.timer);
     startMemoryRound(mmState.level);
 };
-document.getElementById("mmCloseBtn").onclick = () => { closeMemoryGame(); };
+const _mmCloseBtn = document.getElementById("mmCloseBtn");
+if (_mmCloseBtn) _mmCloseBtn.onclick = () => { closeMemoryGame(); };
 
-document.getElementById("snkStartBtn").onclick = startSnakeGame;
-document.getElementById("snkCloseBtn").onclick = () => {
+const _snkStartBtn = document.getElementById("snkStartBtn"); if (_snkStartBtn) _snkStartBtn.onclick = startSnakeGame;
+const _snkCloseBtn = document.getElementById("snkCloseBtn");
+if (_snkCloseBtn) _snkCloseBtn.onclick = () => {
     if (snkState) {
         if (snkState.timer) clearInterval(snkState.timer);
         document.removeEventListener("keydown", snkKeyHandler);
     }
     snkState = null;
-    document.getElementById("snakeModal").style.display = "none";
+    const _snakeModal = document.getElementById("snakeModal");
+    if (_snakeModal) _snakeModal.style.display = "none";
 };
 
 // 🎮 游戏中心按钮绑定
 const gameCenterModal = document.getElementById("gameCenterModal");
-gameCenterBtn.onclick = () => {
-    try {
-        renderGameCenter();
-        gameCenterModal.style.display = "flex";
-    } catch (e) {
-        console.error("游戏中心打开失败:", e);
-        showInfoMessage("❌ 错误", "游戏中心打开失败：" + e.message);
-    }
-};
-document.getElementById("closeGameCenterBtn").onclick = () => {
-    gameCenterModal.style.display = "none";
+if (gameCenterBtn && gameCenterModal) {
+    gameCenterBtn.onclick = () => {
+        try {
+            renderGameCenter();
+            gameCenterModal.style.display = "flex";
+        } catch (e) {
+            console.error("游戏中心打开失败:", e);
+            showInfoMessage("❌ 错误", "游戏中心打开失败：" + e.message);
+        }
+    };
+}
+const _closeGameCenterBtn = document.getElementById("closeGameCenterBtn");
+if (_closeGameCenterBtn) _closeGameCenterBtn.onclick = () => {
+    if (gameCenterModal) gameCenterModal.style.display = "none";
 };
 
 // ============================================================

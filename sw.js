@@ -1,4 +1,4 @@
-const CACHE = "wordlock-v1";
+const CACHE = "wordlock-v2";
 const STATIC = [
   ".",
   "index.html",

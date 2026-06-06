@@ -3012,149 +3012,230 @@ document.getElementById("wsCloseBtn").onclick = () => {
 };
 
 // ============================================================
-// 🏰 单词塔防
+// 🐍 单词贪吃蛇
 // ============================================================
-let tdState = null;
+let snkState = null;
+const SNK_SIZE = 16;
 
-function openTowerDefenseGame() {
-    if (tickets < 2) { showInfoMessage("🎫 门票不足", "需要 2 张门票开始塔防游戏。"); return; }
+function openSnakeGame() {
+    if (tickets < 1) { showInfoMessage("🎫 门票不足", "需要 1 张门票开始贪吃蛇。"); return; }
     tickets--; updateTicketUI(); saveGame();
-    document.getElementById("towerDefenseModal").style.display = "flex";
-    startTDRound();
+    document.getElementById("snakeModal").style.display = "flex";
 }
 
-function startTDRound() {
-    if (tdState && tdState.moveTimer) clearInterval(tdState.moveTimer);
-    document.getElementById("tdEnemies").innerHTML = "";
-    tdState = {
-        lives: 3,
-        kills: 0,
-        wave: 0,
-        maxWave: 15,
-        enemies: [],
-        currentEnemy: null,
-        moveTimer: null,
-        busy: false
+function startSnakeGame() {
+    document.getElementById("snkStartBtn").style.display = "none";
+    const grid = document.getElementById("snkGrid");
+    grid.style.gridTemplateColumns = `repeat(${SNK_SIZE},1fr)`;
+    // Build cells
+    let html = "";
+    const cells = [];
+    for (let i = 0; i < SNK_SIZE * SNK_SIZE; i++) {
+        html += `<div class="snake-cell" data-i="${i}"></div>`;
+        cells.push(null);
+    }
+    grid.innerHTML = html;
+
+    const mid = Math.floor(SNK_SIZE / 2);
+    const startPos = [{ r: mid, c: mid }, { r: mid, c: mid - 1 }, { r: mid, c: mid - 2 }];
+    startPos.forEach((p, idx) => {
+        const i = p.r * SNK_SIZE + p.c;
+        const el = grid.children[i];
+        el.className = "snake-cell" + (idx === 0 ? " head" : " body");
+        cells[i] = idx === 0 ? "H" : "B";
+    });
+
+    // Pick first word & generate food
+    snkState = {
+        cells, grid,
+        snake: startPos, // [head, ...body]
+        dir: "right", nextDir: "right",
+        lives: 3, score: 0, busy: false,
+        correctWord: null, options: [],
+        timer: null, tickMs: 220
     };
-    document.getElementById("tdLives").innerText = 3;
-    document.getElementById("tdKills").innerText = 0;
-    document.getElementById("tdWave").innerText = 0;
-    spawnTDEnemy();
+    document.getElementById("snkLives").innerText = "3";
+    document.getElementById("snkScore").innerText = "0";
+    document.getElementById("snkLength").innerText = "1";
+    snakePickWord();
+    document.getElementById("snkHint").innerHTML = "用方向键控制蛇，吃掉正确的中文释义！";
+    document.getElementById("snkStartBtn").disabled = true;
+
+    // Keyboard
+    document.addEventListener("keydown", snkKeyHandler);
+
+    // Direction buttons
+    document.querySelectorAll("#snkControls .snake-dir-btn").forEach(btn => {
+        btn.onclick = () => {
+            const d = btn.dataset.dir;
+            snkSetDir(d);
+        };
+    });
+
+    snkState.timer = setInterval(snkTick, snkState.tickMs);
 }
 
-function spawnTDEnemy() {
-    if (!tdState) return;
-    if (tdState.busy) return;
-    if (tdState.wave >= tdState.maxWave) { finishTDGame(); return; }
-    if (tdState.lives <= 0) { finishTDGame(); return; }
-    tdState.wave++;
-    document.getElementById("tdWave").innerText = tdState.wave;
-    document.getElementById("tdWaveInfo").innerText = `👾 第 ${tdState.wave} 波`;
+function snkSetDir(d) {
+    if (!snkState || snkState.busy) return;
+    const opp = { up:"down", down:"up", left:"right", right:"left" };
+    if (d === opp[snkState.dir]) return;
+    snkState.nextDir = d;
+}
 
+function snkKeyHandler(e) {
+    const map = { ArrowUp:"up", ArrowDown:"down", ArrowLeft:"left", ArrowRight:"right" };
+    const d = map[e.key];
+    if (d) { e.preventDefault(); snkSetDir(d); }
+}
+
+function snakePickWord() {
     const pool = getDailyGameWords();
     if (pool.length < 4) { showInfoMessage("❌ 词池不足", "每日词池至少需要 4 个单词"); return; }
     const shuffled = shuffleArray([...pool]);
     const correct = shuffled[0];
     const distractors = shuffled.slice(1, 4);
-    const options = shuffleArray([correct, ...distractors]);
+    snkState.correctWord = correct;
+    snkState.options = shuffleArray([correct, ...distractors]);
 
-    const stage = document.getElementById("tdEnemies");
-    const enemy = document.createElement("div");
-    enemy.className = "td-enemy";
-    const zh = correct.meaning || correct.fullMeaning || "";
-    enemy.innerHTML = `
-        <div class="td-enemy-hp"><div class="td-enemy-hp-fill" style="width:100%"></div></div>
-        <div class="td-en-en">${escapeHtml(correct.word)}</div>
-        <div class="td-en-zh">${escapeHtml(zh)}</div>
-    `;
-    enemy.dataset.id = tdState.wave;
-    enemy.dataset.word = correct.word;
-    enemy.dataset.zh = zh;
-    stage.innerHTML = "";
-    stage.appendChild(enemy);
+    // Update head cell with word
+    const head = snkState.snake[0];
+    const headEl = snkState.grid.children[head.r * SNK_SIZE + head.c];
+    headEl.textContent = correct.word;
 
-    // 4 个中文释义选项
-    const optsRow = document.getElementById("tdOptionsRow");
-    optsRow.innerHTML = "";
-    options.forEach(o => {
+    // Render options
+    const row = document.getElementById("snkOptionsRow");
+    row.innerHTML = "";
+    snkState.options.forEach(o => {
         const b = document.createElement("button");
-        b.className = "td-option";
+        b.className = "snake-option";
         b.innerText = o.meaning || o.fullMeaning || o.word;
         b.dataset.word = o.word;
-        b.onclick = () => tdAnswer(b, correct);
-        optsRow.appendChild(b);
+        b.onclick = () => snakeAnswer(b);
+        row.appendChild(b);
     });
-
-    // 移动动画
-    let pos = 100;
-    tdState.busy = true;
-    tdState.moveTimer = setInterval(() => {
-        pos -= 0.35;
-        enemy.style.left = pos + "%";
-        if (pos <= 5) {
-            clearInterval(tdState.moveTimer);
-            tdState.lives--;
-            document.getElementById("tdLives").innerText = Math.max(0, tdState.lives);
-            playBeep("wrong");
-            tdState.busy = false;
-            if (tdState.lives <= 0) {
-                finishTDGame();
-            } else {
-                setTimeout(spawnTDEnemy, 600);
-            }
-        }
-    }, 60);
+    snkState.busy = true;
 }
 
-function tdAnswer(btn, correct) {
-    if (!tdState || !tdState.busy) return;
-    clearInterval(tdState.moveTimer);
-    tdState.busy = false;
+function snakeAnswer(btn) {
+    if (!snkState || !snkState.busy) return;
+    snkState.busy = false;
     const w = btn.dataset.word;
+    const correct = snkState.correctWord;
+    document.querySelectorAll(".snake-option").forEach(b => b.disabled = true);
+
     if (w === correct.word) {
-        tdState.kills = (tdState.kills || 0) + 1;
-        document.getElementById("tdKills").innerText = tdState.kills;
-        playBeep("correct");
+        // Correct - grow
         btn.classList.add("correct");
-        const ex = renderExampleBlock(correct);
+        snkState.score += 10;
+        document.getElementById("snkScore").innerText = snkState.score;
+        playBeep("correct");
+        const hint = document.getElementById("snkHint");
         const zh = correct.meaning || correct.fullMeaning || "";
-        const hint = document.getElementById("tdHint");
-        hint.innerHTML = `✅ 命中！<br><b>${escapeHtml(correct.word)}</b> = ${escapeHtml(zh)}${ex ? "<br>" + ex : ""}`;
-        setTimeout(spawnTDEnemy, 1500);
+        const ex = renderExampleBlock(correct);
+        hint.innerHTML = `✅ 正确！<br><b>${escapeHtml(correct.word)}</b> = ${escapeHtml(zh)}${ex ? "<br>" + ex : ""}`;
+        snkState.growNext = true;
+        // Clear head text after answer
+        const head = snkState.snake[0];
+        snkState.grid.children[head.r * SNK_SIZE + head.c].textContent = "";
     } else {
-        tdState.lives = Math.max(0, tdState.lives - 1);
-        document.getElementById("tdLives").innerText = tdState.lives;
-        playBeep("wrong");
+        // Wrong
         btn.classList.add("wrong");
-        const ex = renderExampleBlock(correct);
+        snkState.lives--;
+        document.getElementById("snkLives").innerText = Math.max(0, snkState.lives);
+        playBeep("wrong");
+        const hint = document.getElementById("snkHint");
         const zh = correct.meaning || correct.fullMeaning || "";
-        const hint = document.getElementById("tdHint");
+        const ex = renderExampleBlock(correct);
         hint.innerHTML = `❌ 正确：<b>${escapeHtml(correct.word)}</b> = ${escapeHtml(zh)}${ex ? "<br>" + ex : ""}`;
-        document.querySelectorAll(".td-option").forEach(b => {
+        document.querySelectorAll(".snake-option").forEach(b => {
             if (b.dataset.word === correct.word) b.classList.add("correct");
         });
-        if (tdState.lives <= 0) {
-            setTimeout(finishTDGame, 1800);
-        } else {
-            setTimeout(spawnTDEnemy, 2000);
+        if (snkState.lives <= 0) {
+            setTimeout(finishSnakeGame, 1200);
+            return;
         }
     }
+    // After a short pause, continue moving and pick new word
+    setTimeout(() => {
+        if (!snkState) return;
+        // Clear any pending food highlight
+        document.querySelectorAll(".snake-cell.food").forEach(el => { if (!el.classList.contains("head")) el.classList.remove("food"); });
+        // Place food (next tick will pick it up)
+        snakePickWord();
+    }, 600);
 }
 
-function finishTDGame() {
-    if (tdState && tdState.moveTimer) clearInterval(tdState.moveTimer);
-    const kills = tdState ? (tdState.kills || 0) : 0;
-    const wave = tdState ? tdState.wave : 0;
-    let reward = kills * 2 + (wave >= 15 ? 5 : 0);
+function snkTick() {
+    if (!snkState) return;
+    const s = snkState;
+    // Apply direction
+    s.dir = s.nextDir;
+    const head = s.snake[0];
+    const dr = { up:-1, down:1, left:0, right:0 };
+    const dc = { up:0, down:0, left:-1, right:1 };
+    const nr = head.r + dr[s.dir];
+    const nc = head.c + dc[s.dir];
+    // Wall collision
+    if (nr < 0 || nr >= SNK_SIZE || nc < 0 || nc >= SNK_SIZE) {
+        finishSnakeGame();
+        return;
+    }
+    // Self collision (check vs body, excluding tail which will move)
+    const willRemove = s.growNext ? -1 : s.snake.length - 1;
+    for (let i = 1; i < s.snake.length; i++) {
+        if (i === willRemove) continue;
+        if (s.snake[i].r === nr && s.snake[i].c === nc) {
+            finishSnakeGame();
+            return;
+        }
+    }
+    // Move: add new head
+    s.snake.unshift({ r: nr, c: nc });
+    if (!s.growNext) {
+        const tail = s.snake.pop();
+        const tailEl = s.grid.children[tail.r * SNK_SIZE + tail.c];
+        tailEl.className = "snake-cell";
+        tailEl.textContent = "";
+    }
+    s.growNext = false;
+
+    // Update grid display
+    // Clear all cells first
+    for (let i = 0; i < SNK_SIZE * SNK_SIZE; i++) {
+        const el = s.grid.children[i];
+        if (!el.classList.contains("food")) {
+            el.className = "snake-cell";
+            el.textContent = "";
+        }
+    }
+    // Draw body
+    for (let i = 1; i < s.snake.length; i++) {
+        const p = s.snake[i];
+        const el = s.grid.children[p.r * SNK_SIZE + p.c];
+        el.className = "snake-cell body";
+    }
+    // Draw head
+    const headEl = s.grid.children[s.snake[0].r * SNK_SIZE + s.snake[0].c];
+    headEl.className = "snake-cell head";
+    headEl.textContent = ""; // word is shown when busy (options shown)
+    document.getElementById("snkLength").innerText = s.snake.length;
+}
+
+function finishSnakeGame() {
+    if (!snkState) return;
+    if (snkState.timer) clearInterval(snkState.timer);
+    document.removeEventListener("keydown", snkKeyHandler);
+    const score = snkState.score || 0;
+    const reward = Math.max(1, Math.floor(score / 10));
     tickets += reward; updateTicketUI(); saveGame();
-    fireConfetti(wave >= 15 ? 60 : 20);
-    showGameEndModal("🏰 塔防结束",
-        `击杀 ${kills} / ${wave} 波<br>奖励 +${reward} 🎫`
+    fireConfetti(score >= 50 ? 60 : 20);
+    showGameEndModal("🐍 贪吃蛇结束",
+        `得分 ${score}<br>长度 ${snkState.snake.length}<br>奖励 +${reward} 🎫`
     ).then(action => {
-        tdState = null;
-        document.getElementById("towerDefenseModal").style.display = "none";
+        snkState = null;
+        document.getElementById("snakeModal").style.display = "none";
         renderGameCenter();
-        if (action === "retry") setTimeout(() => openTowerDefenseGame(), 100);
+        if (action === "retry") setTimeout(() => openSnakeGame(), 100);
     });
 }
 
@@ -3388,9 +3469,9 @@ const GAMES_CONFIG = [
         launch: () => openWordSearchGame()
     },
     {
-        id: "towerDefense", name: "单词塔防", enName: "Tower Defense", enDesc: "Defend your base by choosing correct Chinese meanings.",
-        icon: "🏰", cost: 2, available: true,
-        launch: () => openTowerDefenseGame()
+        id: "snake", name: "单词贪吃蛇", enName: "Snake", enDesc: "Control a snake to eat the correct Chinese meanings.",
+        icon: "🐍", cost: 1, available: true,
+        launch: () => openSnakeGame()
     }
 ];
 
@@ -3465,10 +3546,14 @@ document.getElementById("mmRestartBtn").onclick = () => {
 };
 document.getElementById("mmCloseBtn").onclick = () => { closeMemoryGame(); };
 
-document.getElementById("tdCloseBtn").onclick = () => {
-    if (tdState && tdState.moveTimer) clearInterval(tdState.moveTimer);
-    tdState = null;
-    document.getElementById("towerDefenseModal").style.display = "none";
+document.getElementById("snkStartBtn").onclick = startSnakeGame;
+document.getElementById("snkCloseBtn").onclick = () => {
+    if (snkState) {
+        if (snkState.timer) clearInterval(snkState.timer);
+        document.removeEventListener("keydown", snkKeyHandler);
+    }
+    snkState = null;
+    document.getElementById("snakeModal").style.display = "none";
 };
 
 // 🎮 游戏中心按钮绑定
@@ -3510,10 +3595,11 @@ function cleanupOnModalClose(modalId) {
                 tpState = null;
             }
             break;
-        case "towerDefenseModal":
-            if (typeof tdState !== "undefined" && tdState) {
-                if (tdState.moveTimer) clearInterval(tdState.moveTimer);
-                tdState = null;
+        case "snakeModal":
+            if (typeof snkState !== "undefined" && snkState) {
+                if (snkState.timer) clearInterval(snkState.timer);
+                document.removeEventListener("keydown", snkKeyHandler);
+                snkState = null;
             }
             break;
         case "wordSearchModal":

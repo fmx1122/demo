@@ -955,35 +955,13 @@
             text-overflow: ellipsis;
         }
 
-        /* ===== 塔防敌人 EN+ZH ===== */
-        .td-enemy {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1px;
-            min-width: 96px;
-            min-height: 50px;
-            padding: 4px 8px;
-            line-height: 1.2;
-        }
-        .td-enemy .td-en-en {
-            font-size: 14px;
+        /* ===== 贪吃蛇头部单词 ===== */
+        .snake-word {
+            font-size: 13px;
             font-weight: bold;
             color: var(--secondary, #ffd966);
             font-family: 'Courier New', monospace;
-        }
-        .td-enemy .td-en-zh {
-            font-size: 9px;
-            color: rgba(255,255,255,0.75);
-            max-width: 120px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .td-enemy .td-enemy-hp {
-            position: absolute;
-            top: -8px;
-            left: 4px; right: 4px;
+            text-align: center;
         }
 
         /* 翻译弹窗 */
@@ -2054,7 +2032,7 @@
         * { -webkit-tap-highlight-color: transparent; }
         button, .game-card, .menu-card, .menu-utility, .lib-pick-card,
         .mastery-mode-btn, .mastery-opt, .hangman-key, .listen-option,
-        .td-option-btn, .mm-card, .vr-tab, .vr-toggle, .vr-speak {
+        .mm-card, .vr-tab, .vr-toggle, .vr-speak {
             touch-action: manipulation;
         }
         /* 仅支持 hover 的设备才显示 hover 效果 */
@@ -2170,129 +2148,70 @@
             box-shadow: 0 0 8px rgba(46, 204, 113, 0.6);
         }
 
-        /* ===== 单词塔防 ===== */
-        .td-stage {
+        /* ===== 单词贪吃蛇 ===== */
+        .snake-stage {
             position: relative;
-            height: 240px;
-            background:
-                linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%),
-                linear-gradient(90deg, transparent 49%, rgba(255,255,255,0.1) 50%, transparent 51%);
-            background-size: 100% 100%, 60px 100%;
-            border-radius: 14px;
-            margin: 10px 0;
+            background: rgba(0,0,0,0.5);
+            border-radius: 8px;
+            margin: 10px auto;
             overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.15);
+            width: min(360px, 80vw);
+            height: min(360px, 80vw);
         }
-        .td-tower, .td-base {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 60px;
-            line-height: 1;
-            z-index: 5;
-            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+        .snake-grid {
+            width: 100%;
+            height: 100%;
+            display: grid;
         }
-        .td-tower { left: 6px;  animation: tdTowerIdle 2.5s ease-in-out infinite; }
-        .td-base  { right: 6px; }
-        @keyframes tdTowerIdle {
-            0%, 100% { transform: translateY(-50%) scale(1); }
-            50%      { transform: translateY(-52%) scale(1.04); }
+        .snake-cell {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.04);
+            box-sizing: border-box;
         }
-        .td-enemies {
-            position: absolute;
-            inset: 0;
-        }
-        .td-enemy {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, var(--bg-mid), var(--bg-light));
-            border: 2px solid var(--primary, #e94560);
-            border-radius: 12px;
-            padding: 4px 10px;
-            min-width: 70px;
-            min-height: 36px;
+        .snake-cell.head {
+            background: var(--accent, #27ae60);
+            border-radius: 4px;
+            box-shadow: 0 0 8px var(--accent, #27ae60);
+            z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--secondary, #ffd966);
+            font-size: 7px;
+            color: #fff;
             font-weight: bold;
-            font-size: 14px;
-            z-index: 3;
-            box-shadow: 0 0 12px var(--primary, #e94560);
-            font-family: 'Courier New', monospace;
-        }
-        .td-enemy .td-enemy-hp {
-            position: absolute;
-            top: -10px;
-            left: 0; right: 0;
-            height: 4px;
-            background: rgba(0,0,0,0.5);
-            border-radius: 2px;
             overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0 1px;
         }
-        .td-enemy .td-enemy-hp-fill {
-            height: 100%;
-            background: var(--accent, #27ae60);
-            transition: width 0.2s;
-        }
-        .td-enemy.exploding {
-            animation: tdExplode 0.5s ease forwards;
-        }
-        @keyframes tdExplode {
-            0%   { transform: translateY(-50%) scale(1); opacity: 1; box-shadow: 0 0 0 var(--primary); }
-            50%  { transform: translateY(-50%) scale(1.6); opacity: 0.8; box-shadow: 0 0 40px var(--accent, #27ae60); }
-            100% { transform: translateY(-50%) scale(0);   opacity: 0; box-shadow: 0 0 0 var(--accent, #27ae60); }
-        }
-        .td-enemy.leaked {
-            background: var(--primary-dark, #c72a48);
-            border-color: #c0392b;
-            box-shadow: 0 0 16px #c0392b;
-            animation: tdShake 0.4s ease;
-        }
-        @keyframes tdShake {
-            0%, 100% { transform: translateY(-50%) translateX(0); }
-            25%      { transform: translateY(-50%) translateX(-4px); }
-            75%      { transform: translateY(-50%) translateX(4px); }
-        }
-        .td-projectile {
-            position: absolute;
-            top: 50%;
-            width: 18px;
-            height: 6px;
-            background: linear-gradient(90deg, var(--secondary, #ffd966), var(--primary, #e94560));
+        .snake-cell.body {
+            background: var(--accent-dark, #1e8449);
             border-radius: 3px;
-            z-index: 4;
-            box-shadow: 0 0 10px var(--secondary, #ffd966);
         }
-        .td-wave-info {
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.6);
-            padding: 4px 14px;
-            border-radius: 14px;
-            font-size: 12px;
-            color: var(--secondary, #ffd966);
-            font-weight: bold;
-            z-index: 6;
-            border: 1px solid rgba(255,255,255,0.1);
+        .snake-cell.food {
+            background: var(--primary, #e94560);
+            border-radius: 50%;
+            animation: snakeFoodPulse 0.8s ease infinite;
         }
-        .td-options {
+        @keyframes snakeFoodPulse {
+            0%, 100% { transform: scale(0.8); opacity: 0.7; }
+            50%      { transform: scale(1.1); opacity: 1; }
+        }
+        .snake-options {
             background: rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 12px;
             padding: 12px;
             margin: 10px 0;
         }
-        .td-options-row {
+        .snake-options-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-top: 8px;
         }
-        .td-option {
+        .snake-option {
             background: var(--bg-light);
             border: 2px solid rgba(255,255,255,0.15);
             color: white;
@@ -2304,22 +2223,50 @@
             transition: all 0.2s;
             margin: 0;
         }
-        .td-option:hover:not(:disabled) { background: var(--primary, #e94560); transform: scale(1.03); border-color: var(--primary); }
-        .td-option:disabled { cursor: not-allowed; }
-        .td-option.correct { background: var(--accent, #27ae60); border-color: var(--accent, #27ae60); animation: tdPulse 0.5s ease; }
-        .td-option.wrong   { background: #c0392b; border-color: #c0392b; opacity: 0.6; }
-        @keyframes tdPulse { 50% { transform: scale(1.1); } }
-        .td-hint {
+        .snake-option:hover:not(:disabled) { background: var(--primary, #e94560); transform: scale(1.03); border-color: var(--primary); }
+        .snake-option:disabled { cursor: not-allowed; }
+        .snake-option.correct { background: var(--accent, #27ae60); border-color: var(--accent, #27ae60); animation: snakePulse 0.5s ease; }
+        .snake-option.wrong   { background: #c0392b; border-color: #c0392b; opacity: 0.6; }
+        @keyframes snakePulse { 50% { transform: scale(1.1); } }
+        .snake-hint {
             font-size: 13px;
             color: #ccc;
             text-align: left;
             min-height: 18px;
         }
-        .td-hint .game-example {
-            margin-top: 4px;
-            font-size: 11px;
+        .snake-hint b { color: var(--secondary, #ffd966); }
+        .snake-hint .game-example { margin-top: 4px; font-size: 11px; }
+        .snake-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 14px;
+            margin: 6px 0;
         }
-        .td-hint b { color: var(--secondary, #ffd966); }
+        .snake-stats span { color: #ddd; }
+        .snake-stats b { color: var(--secondary, #ffd966); }
+        .snake-controls {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin: 8px 0;
+        }
+        .snake-dir-btn {
+            width: 56px;
+            height: 46px;
+            background: var(--bg-light);
+            border: 2px solid rgba(255,255,255,0.12);
+            color: white;
+            font-size: 22px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        .snake-dir-btn:active { background: var(--primary, #e94560); }
+        .snake-dir-btn:disabled { opacity: 0.3; }
     </style>
 </head>
 <body>
@@ -2672,27 +2619,33 @@
     </div>
 </div>
 
-<!-- 单词塔防模态框 -->
-<div id="towerDefenseModal" class="modal">
-    <div class="modal-content" style="max-width: 720px;">
-        <h3>🏰 单词塔防</h3>
-        <div class="memory-stats">
-            <span>❤️ 基地生命: <b id="tdLives">3</b></span>
-            <span>💀 击杀: <b id="tdKills">0</b></span>
-            <span>👾 敌人: <b id="tdWave">0</b> / 15</span>
+<!-- 单词贪吃蛇模态框 -->
+<div id="snakeModal" class="modal">
+    <div class="modal-content" style="max-width: 520px;">
+        <h3>🐍 单词贪吃蛇</h3>
+        <div class="snake-stats">
+            <span>🍎 得分: <b id="snkScore">0</b></span>
+            <span>❤️ 生命: <b id="snkLives">3</b></span>
+            <span>📏 长度: <b id="snkLength">1</b></span>
         </div>
-        <div class="td-stage" id="tdStage">
-            <div class="td-tower">🏰</div>
-            <div class="td-base" id="tdBase">🏠</div>
-            <div class="td-enemies" id="tdEnemies"></div>
-            <div class="td-wave-info" id="tdWaveInfo">第 1 波来袭！</div>
+        <div class="snake-stage" id="snkStage">
+            <div class="snake-grid" id="snkGrid"></div>
         </div>
-        <div class="td-options" id="tdOptions">
-            <div class="td-hint" id="tdHint">敌人正在接近！点击正确的中文释义击退它</div>
-            <div class="td-options-row" id="tdOptionsRow"></div>
+        <div class="snake-controls" id="snkControls">
+            <button class="snake-dir-btn" data-dir="up">⬆️</button>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px;width:120px">
+                <button class="snake-dir-btn" data-dir="left" style="width:100%">⬅️</button>
+                <button class="snake-dir-btn" data-dir="down" style="width:100%">⬇️</button>
+            </div>
+            <button class="snake-dir-btn" data-dir="right">➡️</button>
+        </div>
+        <div class="snake-options" id="snkOptions">
+            <div class="snake-hint" id="snkHint">用方向键控制蛇，吃掉正确的中文释义！</div>
+            <div class="snake-options-row" id="snkOptionsRow"></div>
         </div>
         <div class="modal-buttons">
-            <button id="tdCloseBtn" class="cancel-btn">撤退</button>
+            <button id="snkStartBtn" style="background:#27ae60;">🚀 开始</button>
+            <button id="snkCloseBtn" class="cancel-btn">退出</button>
         </div>
     </div>
 </div>

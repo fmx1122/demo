@@ -2305,8 +2305,16 @@ function startTypingRound() {
         const el = document.createElement("div");
         el.className = "typing-falling-word";
         el.innerHTML = `<div class="tf-en">${escapeHtml(w.word)}</div><div class="tf-zh">${escapeHtml(w.meaning || w.fullMeaning || "")}</div>`;
-        el.style.left = (Math.random() * 70 + 5) + "%";
-        el.style.top = "50px";
+        // Pick a left position that avoids overlapping existing words
+        const occupied = tpState.words.map(o => parseFloat(o.el.style.left));
+        let left = Math.random() * 70 + 5;
+        for (let attempt = 0; attempt < 5; attempt++) {
+            const conflict = occupied.some(o => Math.abs(o - left) < 15);
+            if (!conflict) break;
+            left = Math.random() * 70 + 5;
+        }
+        el.style.left = left + "%";
+        el.style.top = (Math.random() * 120 - 70) + "px";
         stage.appendChild(el);
         const fallSpeed = 0.4 + tpState.level * 0.1;
         const wordObj = { text: w.word, el, y: 0, data: w };

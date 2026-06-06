@@ -3533,7 +3533,7 @@ function initGameDiffBars() {
     });
 }
 // 事件委托：所有难度按钮点击（不管 JS 加载顺序都能工作）
-document.body.addEventListener("click", e => {
+document.addEventListener("click", e => {
     const btn = e.target.closest(".diff-btn");
     if (!btn) return;
     const bar = btn.closest(".game-diff-bar");
@@ -3541,6 +3541,7 @@ document.body.addEventListener("click", e => {
     const gameId = bar.dataset.game;
     const diff = btn.dataset.diff;
     if (!gameId || !diff) return;
+    e.preventDefault();
     setGameDiff(gameId, diff);
     bar.querySelectorAll(".diff-btn").forEach(b => b.classList.toggle("active", b.dataset.diff === diff));
 });

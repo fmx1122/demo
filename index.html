@@ -249,6 +249,35 @@
         .modal-content h3 {
             padding-right: 30px;
         }
+        .game-diff-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            margin: -4px 0 8px 0;
+        }
+        .game-diff-bar .diff-label {
+            font-size: 12px;
+            color: #aaa;
+            margin-right: 6px;
+        }
+        .diff-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 2px 10px;
+            font-size: 11px;
+            color: #bbb;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .diff-btn:hover { border-color: var(--secondary, #ffd966); color: #fff; }
+        .diff-btn.active {
+            background: var(--secondary, #ffd966);
+            color: #1a1a2e;
+            border-color: var(--secondary, #ffd966);
+            font-weight: bold;
+        }
 
         /* ===== 📖 词汇学习室 ===== */
         .vr-header { margin-bottom: 10px; }
@@ -2526,6 +2555,7 @@
 <div id="memoryMatchModal" class="modal">
     <div class="modal-content" style="max-width: 720px;">
         <h3>🃏 记忆翻牌</h3>
+        <div class="game-diff-bar" data-game="memoryMatch"><span class="diff-label">难度</span><button class="diff-btn" data-diff="easy">简单</button><button class="diff-btn active" data-diff="medium">中等</button><button class="diff-btn" data-diff="hard">困难</button></div>
         <div class="memory-stats" id="memoryStats">
             <span>⏱️ 时间: <b id="mmTime">0</b> 秒</span>
             <span>👣 步数: <b id="mmMoves">0</b></span>
@@ -2543,6 +2573,7 @@
 <div id="hangmanModal" class="modal">
     <div class="modal-content" style="max-width: 600px;">
         <h3>🔤 猜字游戏</h3>
+        <div class="game-diff-bar" data-game="hangman"><span class="diff-label">难度</span><button class="diff-btn" data-diff="easy">简单</button><button class="diff-btn active" data-diff="medium">中等</button><button class="diff-btn" data-diff="hard">困难</button></div>
         <div class="memory-stats">
             <span>💖 生命: <b id="hmLives">6</b> / 6</span>
             <span>🏆 胜局: <b id="hmWins">0</b></span>
@@ -2565,6 +2596,7 @@
 <div id="listenModal" class="modal">
     <div class="modal-content" style="max-width: 600px;">
         <h3>🎧 听音抢答</h3>
+        <div class="game-diff-bar" data-game="listenQuiz"><span class="diff-label">难度</span><button class="diff-btn" data-diff="easy">简单</button><button class="diff-btn active" data-diff="medium">中等</button><button class="diff-btn" data-diff="hard">困难</button></div>
         <div class="memory-stats">
             <span>📊 题数: <b id="lsQ">1</b> / 10</span>
             <span>✅ 正确: <b id="lsCorrect">0</b></span>
@@ -2585,6 +2617,7 @@
 <div id="typingModal" class="modal">
     <div class="modal-content" style="max-width: 600px;">
         <h3>⌨️ 打字竞速</h3>
+        <div class="game-diff-bar" data-game="typingRace"><span class="diff-label">难度</span><button class="diff-btn" data-diff="easy">简单</button><button class="diff-btn active" data-diff="medium">中等</button><button class="diff-btn" data-diff="hard">困难</button></div>
         <div class="memory-stats">
             <span>📊 分数: <b id="tpScore">0</b></span>
             <span>🎯 等级: <b id="tpLevel">1</b></span>
@@ -2605,6 +2638,7 @@
 <div id="wordSearchModal" class="modal">
     <div class="modal-content" style="max-width: 700px;">
         <h3>🔍 找词游戏</h3>
+        <div class="game-diff-bar" data-game="wordSearch"><span class="diff-label">难度</span><button class="diff-btn" data-diff="easy">简单</button><button class="diff-btn active" data-diff="medium">中等</button><button class="diff-btn" data-diff="hard">困难</button></div>
         <div class="memory-stats">
             <span>📋 找到: <b id="wsFound">0</b> / <b id="wsTotal">0</b></span>
             <span>⏱️ 剩余: <b id="wsTime">180</b>秒</span>
@@ -2623,6 +2657,7 @@
 <div id="snakeModal" class="modal">
     <div class="modal-content" style="max-width: 520px;">
         <h3>🐍 单词贪吃蛇</h3>
+        <div class="game-diff-bar" data-game="snake"><span class="diff-label">难度</span><button class="diff-btn" data-diff="easy">简单</button><button class="diff-btn active" data-diff="medium">中等</button><button class="diff-btn" data-diff="hard">困难</button></div>
         <div class="snake-stats">
             <span>🍎 得分: <b id="snkScore">0</b></span>
             <span>❤️ 生命: <b id="snkLives">3</b></span>

@@ -2052,9 +2052,13 @@ function openHangmanGame() {
     if (tickets < 1) { showInfoMessage("🎫 门票不足", "需要 1 张门票开始猜字游戏。"); return; }
     tickets--; updateTicketUI(); saveGame();
     document.getElementById("hangmanModal").style.display = "flex";
+    const diff = DIFFICULTY_CONFIG.hangman[getGameDiff("hangman")];
+    hmState = hmState || { wins: 0, round: 0, maxWrong: diff.maxWrong, maxRounds: diff.rounds };
+    hmState.round = 0;
     startHangmanRound();
 }
 function startHangmanRound() {
+    const diff = DIFFICULTY_CONFIG.hangman[getGameDiff("hangman")];
     const pool = getDailyGameWords();
     if (!pool.length) { showInfoMessage("⚠️ 词池为空", "每日词池已用完，点击「下一批」补充。"); return; }
     const pick = pool[Math.floor(Math.random() * pool.length)];
@@ -2064,11 +2068,11 @@ function startHangmanRound() {
         fullEntry: pick,
         guessed: new Set(),
         wrong: 0,
-        maxWrong: 6,
+        maxWrong: diff.maxWrong,
         wins: hmState ? hmState.wins : 0,
         round: hmState ? hmState.round + 1 : 1
     };
-    if (hmState.round > 5) { finishHangmanGame(); return; }
+    if (hmState.round > diff.rounds) { finishHangmanGame(); return; }
     document.getElementById("hmLives").innerText = hmState.maxWrong;
     document.getElementById("hmWins").innerText = hmState.wins;
     document.getElementById("hmRound").innerText = hmState.round;
@@ -2159,15 +2163,19 @@ function openListenGame() {
     if (tickets < 1) { showInfoMessage("🎫 门票不足", "需要 1 张门票开始听音游戏。"); return; }
     tickets--; updateTicketUI(); saveGame();
     document.getElementById("listenModal").style.display = "flex";
+    const diff = DIFFICULTY_CONFIG.listenQuiz[getGameDiff("listenQuiz")];
+    lsState = lsState || { q: 0, correct: 0, streak: 0, bestStreak: 0, maxQ: diff.maxQ };
     startListenRound();
 }
 function startListenRound() {
-    if (lsState && lsState.q > 10) { finishListenGame(); return; }
+    const diff = DIFFICULTY_CONFIG.listenQuiz[getGameDiff("listenQuiz")];
+    if (lsState && lsState.q > lsState.maxQ) { finishListenGame(); return; }
     const pool = getDailyGameWords();
-    if (pool.length < 4) { showInfoMessage("❌ 词池不足", "每日词池至少需要 4 个单词"); return; }
+    const needWords = diff.distractors + 1;
+    if (pool.length < needWords) { showInfoMessage("❌ 词池不足", `每日词池至少需要 ${needWords} 个单词`); return; }
     const shuffled = shuffleArray([...pool]);
     const correct = shuffled[0];
-    const distractors = shuffled.slice(1, 4);
+    const distractors = shuffled.slice(1, needWords);
     const options = shuffleArray([correct, ...distractors]);
     lsState = lsState || { q: 0, correct: 0, streak: 0, bestStreak: 0 };
     lsState.q++;
@@ -2249,13 +2257,15 @@ function openTypingGame() {
     if (tickets < 1) { showInfoMessage("🎫 门票不足", "需要 1 张门票开始打字游戏。"); return; }
     tickets--; updateTicketUI(); saveGame();
     document.getElementById("typingModal").style.display = "flex";
-    tpState = { score: 0, level: 1, time: 60, hits: 0, miss: 0, hearts: 3, words: [], running: false };
+    const diff = DIFFICULTY_CONFIG.typingRace[getGameDiff("typingRace")];
+    const hearts = diff.hearts;
+    tpState = { score: 0, level: 1, time: diff.time, hits: 0, miss: 0, hearts, words: [], running: false };
     document.getElementById("tpScore").innerText = "0";
     document.getElementById("tpLevel").innerText = "1";
-    document.getElementById("tpTime").innerText = "60";
+    document.getElementById("tpTime").innerText = String(diff.time);
     document.getElementById("tpHits").innerText = "0";
     document.getElementById("tpMiss").innerText = "0";
-    document.getElementById("tpHearts").innerText = "❤️❤️❤️";
+    document.getElementById("tpHearts").innerText = "❤️".repeat(Math.max(0, hearts));
     document.getElementById("tpStage").querySelectorAll(".typing-falling-word").forEach(e => e.remove());
     document.getElementById("tpStartBtn").style.display = "inline-block";
 }
@@ -2296,7 +2306,8 @@ function startTypingRound() {
     };
     inp.addEventListener("input", tpInputHandler);
 
-    let spawnInterval = 1800;
+    const diff = DIFFICULTY_CONFIG.typingRace[getGameDiff("typingRace")];
+    let spawnInterval = diff.spawnInterval;
     const spawner = setInterval(() => {
         if (!tpState || !tpState.running) { clearInterval(spawner); return; }
         const pool = getDailyGameWords();
@@ -2316,7 +2327,7 @@ function startTypingRound() {
         el.style.left = left + "%";
         el.style.top = (Math.random() * 120 - 70) + "px";
         stage.appendChild(el);
-        const fallSpeed = 0.4 + tpState.level * 0.1;
+        const fallSpeed = diff.fallSpeed + tpState.level * 0.1;
         const wordObj = { text: w.word, el, y: 0, data: w };
         tpState.words.push(wordObj);
         const ticker = setInterval(() => {
@@ -2800,9 +2811,10 @@ function openWordSearchGame() {
 }
 
 function startWordSearchRound() {
+    const diff = DIFFICULTY_CONFIG.wordSearch[getGameDiff("wordSearch")];
     const pool = getDailyGameWords();
-    if (pool.length < 6) { showInfoMessage("❌ 词池不足", "每日词池至少需要 6 个单词"); return; }
-    // 选 6 个长度 3-8 的英文单词
+    if (pool.length < diff.wordCount) { showInfoMessage("❌ 词池不足", `每日词池至少需要 ${diff.wordCount} 个单词`); return; }
+    // 选单词
     const candidates = [];
     const seen = new Set();
     for (const w of shuffleArray([...pool])) {
@@ -2810,12 +2822,12 @@ function startWordSearchRound() {
         if (cleaned.length >= 3 && cleaned.length <= 8 && !seen.has(cleaned)) {
             seen.add(cleaned);
             candidates.push(cleaned);
-            if (candidates.length >= 6) break;
+            if (candidates.length >= diff.wordCount) break;
         }
     }
     if (candidates.length < 4) { showInfoMessage("❌ 词库不足", "可用英文单词少于 4 个"); return; }
 
-    const gridSize = 10;
+    const gridSize = diff.gridSize;
     const grid = Array.from({ length: gridSize }, () => Array(gridSize).fill(""));
     const placements = [];
     const dirs = [[0, 1], [1, 0]];
@@ -2885,13 +2897,13 @@ function startWordSearchRound() {
         placements,
         meanings: wordMeanings,
         found: new Set(),
-        time: 180,
+        time: diff.time,
         timer: null
     };
 
     document.getElementById("wsTotal").innerText = wsState.words.length;
     document.getElementById("wsFound").innerText = "0";
-    document.getElementById("wsTime").innerText = "180";
+    document.getElementById("wsTime").innerText = String(diff.time);
     renderWSGrid();
     renderWSWordList();
     wsState.timer = setInterval(() => {
@@ -3046,15 +3058,16 @@ function startSnakeGame() {
     });
 
     // Pick first word & generate food
+    const diff = DIFFICULTY_CONFIG.snake[getGameDiff("snake")];
     snkState = {
         cells, grid,
         snake: startPos, // [head, ...body]
         dir: "right", nextDir: "right",
-        lives: 3, score: 0, busy: false,
+        lives: diff.lives, score: 0, busy: false,
         correctWord: null, options: [],
-        timer: null, tickMs: 220
+        timer: null, tickMs: diff.tickMs
     };
-    document.getElementById("snkLives").innerText = "3";
+    document.getElementById("snkLives").innerText = String(diff.lives);
     document.getElementById("snkScore").innerText = "0";
     document.getElementById("snkLength").innerText = "1";
     snakePickWord();
@@ -3282,8 +3295,8 @@ function openMemoryMatchGame(game) {
 }
 
 function startMemoryRound(level) {
-    const lvCfg = GAMES_CONFIG[0].levels.find(l => l.id === level) || GAMES_CONFIG[0].levels[0];
-    const pairCount = lvCfg.pairs;
+    const diff = DIFFICULTY_CONFIG.memoryMatch[getGameDiff("memoryMatch")] || DIFFICULTY_CONFIG.memoryMatch.medium;
+    const pairCount = diff.pairs;
     const pool = getDailyPoolAllWords();
     let candidates = pool.length >= pairCount
         ? shuffleArray([...pool]).slice(0, pairCount)
@@ -3475,6 +3488,63 @@ const GAMES_CONFIG = [
     }
 ];
 
+// 🎯 游戏难度配置
+const GAME_DIFF_PREF_KEY = "gameDiffPref_v1";
+const DIFFICULTY_CONFIG = {
+    memoryMatch: { easy: { pairs: 4 }, medium: { pairs: 8 }, hard: { pairs: 12 } },
+    typingRace:  { easy: { time: 90, hearts: 5, spawnInterval: 2500, fallSpeed: 0.2 },
+                   medium: { time: 60, hearts: 3, spawnInterval: 1800, fallSpeed: 0.4 },
+                   hard: { time: 30, hearts: 1, spawnInterval: 1000, fallSpeed: 0.6 } },
+    listenQuiz:  { easy: { maxQ: 5, distractors: 2, replayLimit: 3 },
+                   medium: { maxQ: 10, distractors: 3, replayLimit: 2 },
+                   hard: { maxQ: 15, distractors: 4, replayLimit: 1 } },
+    hangman:     { easy: { maxWrong: 8, rounds: 3 },
+                   medium: { maxWrong: 6, rounds: 5 },
+                   hard: { maxWrong: 4, rounds: 8 } },
+    wordSearch:  { easy: { gridSize: 8, wordCount: 4, time: 240 },
+                   medium: { gridSize: 10, wordCount: 6, time: 180 },
+                   hard: { gridSize: 12, wordCount: 8, time: 120 } },
+    snake:       { easy: { tickMs: 280, lives: 5 },
+                   medium: { tickMs: 220, lives: 3 },
+                   hard: { tickMs: 150, lives: 1 } }
+};
+function getGameDiff(gameId) {
+    try {
+        const prefs = JSON.parse(localStorage.getItem(GAME_DIFF_PREF_KEY)) || {};
+        return prefs[gameId] || "medium";
+    } catch { return "medium"; }
+}
+function setGameDiff(gameId, diff) {
+    try {
+        const prefs = JSON.parse(localStorage.getItem(GAME_DIFF_PREF_KEY)) || {};
+        prefs[gameId] = diff;
+        localStorage.setItem(GAME_DIFF_PREF_KEY, JSON.stringify(prefs));
+    } catch {}
+}
+function initGameDiffBars() {
+    // 恢复已保存的难度高亮
+    document.querySelectorAll(".game-diff-bar").forEach(bar => {
+        const gameId = bar.dataset.game;
+        if (!gameId) return;
+        const saved = getGameDiff(gameId);
+        bar.querySelectorAll(".diff-btn").forEach(btn => {
+            btn.classList.toggle("active", btn.dataset.diff === saved);
+        });
+    });
+}
+// 事件委托：所有难度按钮点击（不管 JS 加载顺序都能工作）
+document.body.addEventListener("click", e => {
+    const btn = e.target.closest(".diff-btn");
+    if (!btn) return;
+    const bar = btn.closest(".game-diff-bar");
+    if (!bar) return;
+    const gameId = bar.dataset.game;
+    const diff = btn.dataset.diff;
+    if (!gameId || !diff) return;
+    setGameDiff(gameId, diff);
+    bar.querySelectorAll(".diff-btn").forEach(b => b.classList.toggle("active", b.dataset.diff === diff));
+});
+
 const GAME_STATS_KEY = "gameCenterStats_v1";
 function getGameStats() {
     try { return JSON.parse(localStorage.getItem(GAME_STATS_KEY)) || {}; }
@@ -3663,6 +3733,7 @@ function initModalCloseButtons() {
     console.log("✕ 已为 " + modals.length + " 个模态框注入关闭按钮");
 }
 initModalCloseButtons();
+initGameDiffBars();
 
 // ============================================================
 // 📖 词汇学习室（Vocabulary Learning Room）

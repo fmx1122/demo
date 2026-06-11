@@ -11,6 +11,7 @@ let currentWordList = [];
 
 let inRoom = false;
 let roomPassed = false;
+let puzzleActive = false;
 let trialActive = false;
 let correctAnswers = 0, mistakesLeft = 3;
 let currentTrialWordList = [];
@@ -434,6 +435,11 @@ function switchWordLevel(level) {
             trialMessageDiv.innerText = "";
         }
         saveGame();
+    } else if (allWords) {
+        // 降级：使用已有最高等级
+        const keys = Object.keys(allWords).filter(k => !isNaN(k)).map(Number).sort((a,b)=>b-a);
+        const fallback = keys.find(k => k <= level) || keys[0];
+        if (fallback) switchWordLevel(fallback);
     }
 }
 
@@ -1128,6 +1134,7 @@ function showAnswerModal(options) {
 }
 function onAnswerSubmit() {
     if (!modalResolve) return;
+    if (puzzleActive) return; // puzzle mode handles its own submit
     const answer = modalAnswerInput.value.trim().toLowerCase();
     let isCorrect = false;
     if (currentDirection === "en2zh") {
@@ -1207,6 +1214,7 @@ function onAnswerSubmit() {
 }
 function onAnswerCancel() {
     if (!modalResolve) return;
+    if (puzzleActive) return;
     stopTimer();
     closeAnswerModal();
     modalResolve({ isCancel: true });
@@ -1221,6 +1229,7 @@ extraTimeBtn.onclick = useExtraTime;
 // ⟐⟐⟐ 密室三谜题类型 ⟐⟐⟐
 async function showMcqPuzzle(wordObj, direction, currentNum) {
     return new Promise(resolve => {
+        puzzleActive = true;
         currentMode = 'trial';
         currentDirection = direction;
         answerTitle.innerText = `📚 书房谜题 (${currentNum}/20)`;
@@ -1234,6 +1243,8 @@ async function showMcqPuzzle(wordObj, direction, currentNum) {
         currentQuestionWordObj = wordObj;
         const inputRow = document.getElementById("modalInputRow");
         inputRow.style.display = "none";
+        document.getElementById("modalSubmitBtn").style.display = "none";
+        document.getElementById("modalCancelBtn").style.display = "none";
         const optsDiv = document.getElementById("modalOptions");
         optsDiv.style.display = "flex";
         const pool = getRandomDistinctWords(30);
@@ -1259,6 +1270,9 @@ async function showMcqPuzzle(wordObj, direction, currentNum) {
                 if (correct) btn.classList.add("puzzle-correct");
                 else { btn.classList.add("puzzle-wrong"); optsDiv.querySelector('[data-correct="1"]').classList.add("puzzle-correct"); }
                 showPuzzleFeedback(wordObj, correct, () => {
+                    puzzleActive = false;
+                    document.getElementById("modalSubmitBtn").style.display = "";
+                    document.getElementById("modalCancelBtn").style.display = "";
                     closeAnswerModal();
                     inputRow.style.display = "flex";
                     optsDiv.style.display = "none";
@@ -1267,7 +1281,9 @@ async function showMcqPuzzle(wordObj, direction, currentNum) {
             };
         });
         startTimer(30, () => {
-            if (!done) { done = true;
+            if (!done) { done = true; puzzleActive = false;
+                document.getElementById("modalSubmitBtn").style.display = "";
+                document.getElementById("modalCancelBtn").style.display = "";
                 optsDiv.querySelectorAll(".puzzle-option").forEach(b => b.disabled = true);
                 closeAnswerModal();
                 inputRow.style.display = "flex";
@@ -1278,6 +1294,7 @@ async function showMcqPuzzle(wordObj, direction, currentNum) {
 }
 async function showAnagramPuzzle(wordObj, direction, currentNum) {
     return new Promise(resolve => {
+        puzzleActive = true;
         currentMode = 'trial';
         currentDirection = direction;
         answerTitle.innerText = `📜 回廊谜题 (${currentNum}/20)`;
@@ -1289,6 +1306,8 @@ async function showAnagramPuzzle(wordObj, direction, currentNum) {
         inputRow.style.display = "flex";
         document.getElementById("modalOptions").style.display = "none";
         currentQuestionWordObj = wordObj;
+        document.getElementById("modalSubmitBtn").style.display = "";
+        document.getElementById("modalCancelBtn").style.display = "";
         modalAnswerInput.value = "";
         modalAnswerInput.placeholder = "输入重组后的单词";
         answerModal.style.display = "flex";
@@ -1297,17 +1316,18 @@ async function showAnagramPuzzle(wordObj, direction, currentNum) {
         timerSecondsSpan.innerText = 45;
         modalAnswerInput.onkeypress = e => { if (e.key === "Enter") handleAnagramSubmit(resolve); };
         document.getElementById("modalSubmitBtn").onclick = () => handleAnagramSubmit(resolve);
-        document.getElementById("modalCancelBtn").onclick = () => { stopTimer(); closeAnswerModal(); inputRow.style.display = "flex"; restoreModalHandlers(); resolve({ isCancel: true }); };
+        document.getElementById("modalCancelBtn").onclick = () => { stopTimer(); puzzleActive = false; handleAnagramSubmit._busy = false; closeAnswerModal(); inputRow.style.display = "flex"; restoreModalHandlers(); resolve({ isCancel: true }); };
         startTimer(45, () => {
-            stopTimer(); closeAnswerModal();
+            stopTimer(); puzzleActive = false; handleAnagramSubmit._busy = false; closeAnswerModal();
             inputRow.style.display = "flex";
             restoreModalHandlers();
             resolve({ isTimeout: true });
         });
     });
 }
-function handleAnagramSubmit(resolve, done = false) {
-    if (done) return;
+function handleAnagramSubmit(resolve) {
+    if (handleAnagramSubmit._busy) return;
+    handleAnagramSubmit._busy = true;
     const answer = modalAnswerInput.value.trim().toLowerCase();
     if (!answer) return;
     const correct = answer === currentQuestionWordObj.word.toLowerCase();
@@ -1315,6 +1335,8 @@ function handleAnagramSubmit(resolve, done = false) {
     if (correct) {
         playBeep("correct");
         showPuzzleFeedback(currentQuestionWordObj, true, () => {
+            puzzleActive = false;
+            handleAnagramSubmit._busy = false;
             closeAnswerModal();
             document.getElementById("modalInputRow").style.display = "flex";
             restoreModalHandlers();
@@ -1324,6 +1346,8 @@ function handleAnagramSubmit(resolve, done = false) {
         playBeep("wrong");
         recordWrongWord(currentQuestionWordObj, currentRoomLevel);
         showPuzzleFeedback(currentQuestionWordObj, false, () => {
+            puzzleActive = false;
+            handleAnagramSubmit._busy = false;
             closeAnswerModal();
             document.getElementById("modalInputRow").style.display = "flex";
             restoreModalHandlers();
@@ -1333,6 +1357,7 @@ function handleAnagramSubmit(resolve, done = false) {
 }
 async function showSynonymPuzzle(wordObj, direction, currentNum) {
     return new Promise(resolve => {
+        puzzleActive = true;
         currentMode = 'trial';
         currentDirection = 'en2zh';
         answerTitle.innerText = `⚡ 圣殿谜题 (${currentNum}/20)`;
@@ -1340,6 +1365,8 @@ async function showSynonymPuzzle(wordObj, direction, currentNum) {
         questionHintSpan.innerHTML = "🔍 选择与划线词含义最接近的选项";
         const inputRow = document.getElementById("modalInputRow");
         inputRow.style.display = "none";
+        document.getElementById("modalSubmitBtn").style.display = "none";
+        document.getElementById("modalCancelBtn").style.display = "none";
         const optsDiv = document.getElementById("modalOptions");
         optsDiv.style.display = "flex";
         currentQuestionWordObj = wordObj;
@@ -1366,6 +1393,9 @@ async function showSynonymPuzzle(wordObj, direction, currentNum) {
                 if (correct) btn.classList.add("puzzle-correct");
                 else { btn.classList.add("puzzle-wrong"); optsDiv.querySelector('[data-correct="1"]').classList.add("puzzle-correct"); }
                 showPuzzleFeedback(wordObj, correct, () => {
+                    puzzleActive = false;
+                    document.getElementById("modalSubmitBtn").style.display = "";
+                    document.getElementById("modalCancelBtn").style.display = "";
                     closeAnswerModal();
                     inputRow.style.display = "flex";
                     optsDiv.style.display = "none";
@@ -1374,7 +1404,9 @@ async function showSynonymPuzzle(wordObj, direction, currentNum) {
             };
         });
         startTimer(30, () => {
-            if (!done) { done = true;
+            if (!done) { done = true; puzzleActive = false;
+                document.getElementById("modalSubmitBtn").style.display = "";
+                document.getElementById("modalCancelBtn").style.display = "";
                 optsDiv.querySelectorAll(".puzzle-option").forEach(b => b.disabled = true);
                 closeAnswerModal();
                 inputRow.style.display = "flex";
@@ -1800,6 +1832,8 @@ completeRoomBtn.onclick = async () => {
         showEnding(endingType);
         return;
     }
+    tickets += 2; // 通关奖励：返还门票
+    updateTicketUI();
     currentRoomLevel++;
     roomPassed = false;
     switchWordLevel(currentRoomLevel);
@@ -1930,43 +1964,36 @@ function escapeAttr(s) {
 // ============================================================
 const STORY = {
     intro: [
-        "📖 你缓缓睁开眼，发现自己躺在一间古老书房的地板上……",
-        "空气中飘浮着发光的单词符文，它们像锁链一样缠绕着每一扇门窗。",
-        "一道低沉的声音在脑海中回响：",
-        "「闯入者，若要离开词之密室，需收集三枚钥匙碎片——",
-        "  它们分别藏在：📚 基础书房 · 📜 古籍回廊 · ⚡ 符文圣殿。」",
-        "书桌上一张泛黄的便签写道：解锁符文需要词汇之力。",
-        "深呼吸。你的逃生之旅，从此刻开始。"
+        "你苏醒在陌生书房，屏幕弹出剧情提示：",
+        "你被困在词之密室，符文锁住了所有出口。",
+        "前往训练场积累词汇之力（门票），破解单词谜题，收集钥匙碎片逃离此地！"
     ],
     rooms: {
         1: { name: "基础书房", icon: "📚",
-             intro: "灰尘飞舞的书房，书架上整齐排列着单词典籍。\n一面墙壁上刻满了名词与动词的符文，正微微发光……\n你需要用基础的词汇知识，解开第一道封印。",
+             intro: "第一层密室，以基础名词、动词为主，谜题简单，引导玩家熟悉「单词答题→解锁机关」规则",
              pass:   "书房书架缓缓移开，露出一扇通往回廊的暗门。一枚钥匙碎片从门缝中滑出！" },
         2: { name: "古籍回廊", icon: "📜",
-             intro: "幽暗的回廊两侧矗立着通天书架，古老手稿在空中飞舞。\n单词被打散重组，词义在迷宫中回荡……\n你必须拼凑出正确的字母顺序，才能向前行进。",
+             intro: "多层连通密室，增加字母重组、词义配对谜题，出现支线线索与隐藏道具",
              pass:   "回廊尽头的石门轰鸣着打开。金光中浮现第二枚钥匙碎片，升入你的掌心。" },
         3: { name: "符文圣殿", icon: "⚡",
-             intro: "宏伟的圣殿中央悬浮着一颗巨大的符文核心，\n词根与词缀的光芒交织成网，近义词的陷阱层出不穷……\n最终试炼：在词根的指引下，辨明真义，完成终极解谜。",
+             intro: "最终密室，结合短语、词根、近义词辨析，多谜题串联，完成最终解谜即可通关",
              pass:   "符文核心碎裂成万千光点，最后一枚钥匙碎片在光芒中凝聚成形！\n三枚碎片合一——逃!生!之!门!开!启!" }
     },
     endings: {
         perfect: {
             icon: "👑", title: "完美逃生 · 词之王者",
             text: "你以零失误通关了三间密室，并收集了全部 12 枚钥匙碎片。" +
-                  "古老的词汇之神被你的意志折服，赐予你「词之王者」封号。" +
-                  "漫天符文化为星光，你的名字将永远镌刻在词海之巅。"
+                  "集齐全部钥匙碎片，主大门开启，剧情收尾：\n你破译了所有文字魔法，成功逃离词之密室！词汇之力将伴随你前行！"
         },
         great: {
             icon: "🏆", title: "优秀逃生 · 智慧学者",
             text: "你成功穿越了全部密室，仅出现少量失误。" +
-                  "你展现了非凡的词汇天赋，学者之名当之无愧。" +
-                  "密室大门为你敞开，门外是黎明的第一缕曙光。"
+                  "集齐全部钥匙碎片，主大门开启！\n你破译了所有文字魔法，成功逃离词之密室！词汇之力将伴随你前行！"
         },
         good: {
             icon: "🎖️", title: "普通逃生 · 坚韧旅人",
             text: "你凭借坚韧的意志，闯过了三间密室的试炼。" +
-                  "虽然过程曲折，但你的词典中已写满了新的词汇。" +
-                  "下一次挑战，你会更强。"
+                  "集齐全部钥匙碎片，主大门开启。\n你破译了所有文字魔法，成功逃离词之密室！词汇之力将伴随你前行！"
         },
         partial: {
             icon: "🚪", title: "未竟之旅",

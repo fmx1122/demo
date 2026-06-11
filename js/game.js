@@ -394,6 +394,14 @@ function loadGame() {
     updateTicketUI();
     if (allWords) switchWordLevel(currentRoomLevel);
     updateTrainingRemainingUI();
+    // 修复：如果已通过当前房间但 roomLevel 未更新，自动推进
+    if (roomPassed1 && currentRoomLevel === 1) { currentRoomLevel = 2; switchWordLevel(2); }
+    if (roomPassed2 && currentRoomLevel === 2) { currentRoomLevel = 3; switchWordLevel(3); }
+    updateRoomButtonText();
+}
+function updateRoomButtonText() {
+    const names = { 1: "基础书房 (Lv.1)", 2: "古籍回廊 (Lv.2)", 3: "符文圣殿 (Lv.3)" };
+    enterRoomBtn.innerText = `🚪 进入${names[currentRoomLevel] || "基础书房 (Lv.1)"}`;
 }
 function resetProgress() {
     tickets = 5;
@@ -1849,8 +1857,7 @@ completeRoomBtn.onclick = async () => {
     cluesBtn.style.display = "inline-block";
     storyBtn.style.display = "inline-block";
     achievementsBtn.style.display = "inline-block";
-    let lvName = currentRoomLevel===2 ? "古籍回廊 (Lv.2)" : "符文圣殿 (Lv.3)";
-    enterRoomBtn.innerText = `🚪 进入${lvName}`;
+    updateRoomButtonText();
     await showInfoMessage("升级",`进入第 ${currentRoomLevel} 层，词库难度提升。需再次通过试炼。`);
 };
 

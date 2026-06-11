@@ -3791,6 +3791,113 @@ function getTodayStudyCount() {
     return getDailyStudy().count;
 }
 
+// ⟐⟐⟐ 百词斩风格学习模式 ⟐⟐⟐
+let vrStudyState = null;
+function startVrStudy() {
+    const pool = getDailyGameWords();
+    if (!pool || !pool.length) {
+        showInfoMessage("⚠️ 词池为空", "请先通过设置词库获取每日词池");
+        return;
+    }
+    const studied = new Set(getDailyStudy().words.map(w => w.toLowerCase()));
+    const mastered = getLibProgress(activeLibraryId).mastered;
+    const available = pool.filter(w => !studied.has(w.word.toLowerCase()));
+    const words = available.length >= 4 ? shuffleArray([...available]).slice(0, 20) : shuffleArray([...pool]).slice(0, 20);
+    if (!words.length) { showInfoMessage("⚠️ 无可用单词", "词库中没有可学习的单词"); return; }
+    vrStudyState = { words, index: 0, mastered: 0, total: words.length };
+    document.getElementById("vrStudyProgressFill").style.width = "0%";
+    document.getElementById("vrStudiedToday").innerText = `今日已学 ${getDailyStudy().count}`;
+    renderVrStudyCard();
+}
+function renderVrStudyCard() {
+    const state = vrStudyState;
+    if (!state || state.index >= state.words.length) { finishVrStudy(); return; }
+    const w = state.words[state.index];
+    const pct = Math.round(state.index / state.total * 100);
+    document.getElementById("vrStudyProgressFill").style.width = pct + "%";
+    document.getElementById("vrStudyProgress").innerText = `${state.index + 1} / ${state.total}`;
+    document.getElementById("vrStudyWord").innerText = w.word;
+    document.getElementById("vrStudyDetail").style.display = "none";
+    document.getElementById("vrStudyCard").style.display = "block";
+    const pool = getDailyGameWords();
+    const candidates = pool.filter(o => o.word !== w.word);
+    const distractors = shuffleArray(candidates).slice(0, 3);
+    const options = shuffleArray([w, ...distractors]);
+    const optsDiv = document.getElementById("vrStudyOptions");
+    optsDiv.innerHTML = "";
+    options.forEach(o => {
+        const btn = document.createElement("button");
+        btn.className = "vr-study-option";
+        btn.innerText = o.meaning || o.fullMeaning || o.word;
+        btn.onclick = () => handleVrStudyAnswer(btn, o, w);
+        optsDiv.appendChild(btn);
+    });
+    speakText(w.word);
+}
+function handleVrStudyAnswer(btnEl, picked, correct) {
+    document.querySelectorAll(".vr-study-option").forEach(b => b.disabled = true);
+    const detail = document.getElementById("vrStudyDetail");
+    const result = document.getElementById("vrStudyResult");
+    const exDiv = document.getElementById("vrStudyExample");
+    if (picked.word === correct.word) {
+        btnEl.classList.add("correct");
+        result.innerHTML = `✅ 正确！<b>${escapeHtml(correct.word)}</b> = ${escapeHtml(correct.meaning || "")}`;
+        vrStudyState.mastered++;
+        markWordMastered(activeLibraryId, correct.word);
+        markWordStudiedToday(correct.word);
+    } else {
+        btnEl.classList.add("wrong");
+        document.querySelectorAll(".vr-study-option").forEach(b => {
+            if (b.innerText === (correct.meaning || correct.fullMeaning || correct.word)) b.classList.add("correct");
+        });
+        result.innerHTML = `❌ <b>${escapeHtml(correct.word)}</b> = ${escapeHtml(correct.meaning || "")}`;
+        markWordStudiedToday(correct.word);
+    }
+    exDiv.innerHTML = renderExampleBlock(correct) || "";
+    document.getElementById("vrStudiedToday").innerText = `今日已学 ${getDailyStudy().count}`;
+    detail.style.display = "block";
+    updateVrDailyUI();
+}
+function finishVrStudy() {
+    const state = vrStudyState;
+    showInfoMessage("🎉 学习完成", `本次学习了 ${state.total} 个单词<br>掌握 ${state.mastered} 个<br>今日已学 ${getDailyStudy().count} 词`);
+    vrStudyState = null;
+    document.getElementById("vrStudyProgressFill").style.width = "0%";
+    document.getElementById("vrStudyProgress").innerText = "0 / 0";
+    document.getElementById("vrStudyWord").innerText = "完成!";
+    document.getElementById("vrStudyOptions").innerHTML = "";
+    document.getElementById("vrStudyDetail").style.display = "none";
+}
+document.getElementById("vrStudyNext").onclick = () => {
+    if (!vrStudyState) return;
+    vrStudyState.index++;
+    if (vrStudyState.index >= vrStudyState.words.length) { finishVrStudy(); return; }
+    renderVrStudyCard();
+};
+document.getElementById("vrStudySpeak").onclick = () => {
+    if (vrStudyState && vrStudyState.words[vrStudyState.index]) speakText(vrStudyState.words[vrStudyState.index].word);
+};
+document.getElementById("vrStudyExit").onclick = () => {
+    vrStudyState = null;
+    document.getElementById("vrStudyProgressFill").style.width = "0%";
+    document.getElementById("vrStudyProgress").innerText = "0 / 0";
+    document.getElementById("vrStudyWord").innerText = "准备学习";
+    document.getElementById("vrStudyOptions").innerHTML = "";
+    document.getElementById("vrStudyDetail").style.display = "none";
+};
+// ⟐⟐⟐ 模式切换 ⟐⟐⟐
+document.querySelectorAll(".vr-mode-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+        document.querySelectorAll(".vr-mode-tab").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        const mode = tab.dataset.mode;
+        document.getElementById("vrStudyArea").style.display = mode === "study" ? "flex" : "none";
+        document.getElementById("vrListArea").style.display = mode === "list" ? "block" : "none";
+        if (mode === "list") { renderVocabWordList(); }
+        if (mode === "study" && !vrStudyState) { startVrStudy(); }
+    });
+});
+
 function openVocabRoom() {
     if (!allWords) { showInfoMessage("⚠️ 提示", "请等待词库加载完成。"); return; }
     const modal = document.getElementById("vocabRoomModal");
@@ -3799,9 +3906,12 @@ function openVocabRoom() {
     document.getElementById("vrLibName").innerText = lib ? `${lib.icon} ${lib.name} - ${lib.nameFull}` : "当前词库";
     updateVrDailyUI();
     renderVocabWordList();
+    document.getElementById("vrStudyArea").style.display = "flex";
+    document.getElementById("vrListArea").style.display = "none";
+    document.querySelectorAll(".vr-mode-tab").forEach(t => t.classList.toggle("active", t.dataset.mode === "study"));
     modal.style.display = "flex";
+    startVrStudy();
 }
-
 function updateVrDailyUI() {
     const d = getDailyStudy();
     document.getElementById("vrDailyCount").innerText = d.count;

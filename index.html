@@ -20,50 +20,50 @@
             --bg-mid: #0f3460;
             --bg-light: #16213e;
             --text: #ffffff;
-            --room-name: "书房密室";
+            --room-name: "基础书房";
             --room-icon: "📚";
             --theme-floor-a: #5d3a1a;
             --theme-floor-b: #2a1808;
             --theme-wall-a: #6b4423;
             --theme-wall-b: #3a2410;
             --theme-light: rgba(255, 200, 100, 0.35);
-            --objs: "📚 🕯️ 📖 🪑 🖋️";
+            --objs: "📚 🖋️ 📖 🕯️ ✏️";
         }
         body.theme-2 {
-            --primary: #3498db;
-            --primary-dark: #2980b9;
-            --secondary: #1abc9c;
-            --accent: #f39c12;
-            --bg-dark: #0a1929;
-            --bg-mid: #1e3a5f;
-            --bg-light: #142a47;
-            --text: #e8f4ff;
-            --room-name: "实验室密室";
-            --room-icon: "🔬";
-            --theme-floor-a: #2c3e50;
-            --theme-floor-b: #0d1822;
-            --theme-wall-a: #34495e;
-            --theme-wall-b: #1a2530;
-            --theme-light: rgba(100, 200, 255, 0.30);
-            --objs: "🧪 🔬 💡 ⚗️ 🧬";
+            --primary: #e67e22;
+            --primary-dark: #d35400;
+            --secondary: #f1c40f;
+            --accent: #1abc9c;
+            --bg-dark: #0a1520;
+            --bg-mid: #1a3345;
+            --bg-light: #0f2335;
+            --text: #f0e6d0;
+            --room-name: "古籍回廊";
+            --room-icon: "📜";
+            --theme-floor-a: #3d2b1f;
+            --theme-floor-b: #1f140e;
+            --theme-wall-a: #5c3d2e;
+            --theme-wall-b: #2a1c12;
+            --theme-light: rgba(255, 180, 80, 0.30);
+            --objs: "📜 🧩 🔎 🗝️ 📖";
         }
         body.theme-3 {
-            --primary: #9b59b6;
-            --primary-dark: #7d3c98;
+            --primary: #8e44ad;
+            --primary-dark: #6c3483;
             --secondary: #f39c12;
-            --accent: #ffd966;
-            --bg-dark: #1a0a2e;
-            --bg-mid: #3a1a5f;
-            --bg-light: #28143f;
-            --text: #f3e6ff;
-            --room-name: "音乐厅密室";
-            --room-icon: "🎭";
-            --theme-floor-a: #4a1f5c;
-            --theme-floor-b: #1a0828;
-            --theme-wall-a: #5b2a6e;
-            --theme-wall-b: #2e1338;
-            --theme-light: rgba(255, 180, 220, 0.30);
-            --objs: "🎹 🎻 🎼 🎭 🎷";
+            --accent: #00d4ff;
+            --bg-dark: #0d0221;
+            --bg-mid: #1a0a3e;
+            --bg-light: #120530;
+            --text: #e8d8ff;
+            --room-name: "符文圣殿";
+            --room-icon: "⚡";
+            --theme-floor-a: #2d1b4e;
+            --theme-floor-b: #0f0520;
+            --theme-wall-a: #3d1f5e;
+            --theme-wall-b: #1a0a28;
+            --theme-light: rgba(150, 80, 255, 0.35);
+            --objs: "⚡ 🔮 💠 🌟 🗝️";
         }
 
         * { box-sizing: border-box; user-select: none; }
@@ -2329,6 +2329,18 @@
         }
         .snake-dir-btn:active { background: var(--primary, #e94560); }
         .snake-dir-btn:disabled { opacity: 0.3; }
+        /* 密室谜题样式 */
+        .puzzle-option {
+            flex:1 1 calc(50% - 8px);min-width:120px;padding:14px 10px;border:2px solid var(--bg-mid,#0f3460);
+            border-radius:12px;background:var(--bg-light,#16213e);color:#fff;font-size:16px;cursor:pointer;
+            transition:all .2s;text-align:center;
+        }
+        .puzzle-option:hover { border-color:var(--primary,#e94560); transform:scale(1.03); }
+        .puzzle-correct { border-color:#27ae60!important; background:rgba(39,174,96,0.25)!important; }
+        .puzzle-wrong { border-color:#e74c3c!important; background:rgba(231,76,60,0.25)!important; }
+        .puzzle-option:disabled { opacity:0.7; cursor:default; transform:none!important; }
+        .anagram-word { font-size:28px; letter-spacing:8px; font-weight:bold; color:var(--secondary,#ffd966); text-shadow:0 0 12px rgba(255,217,102,0.4); }
+        .synonym-word { font-size:24px; font-weight:bold; color:var(--accent,#00d4ff); text-decoration:underline; text-decoration-style:wavy; }
     </style>
 </head>
 <body>
@@ -2451,7 +2463,10 @@
             </div>
         </div>
         <div id="questionHint" style="font-size: 14px; margin-bottom: 5px; color: #aaa;"></div>
+        <div id="modalInputRow">
         <input type="text" id="modalAnswer" class="modal-input" placeholder="输入答案" autocomplete="off">
+        </div>
+        <div id="modalOptions" style="display:none;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0;"></div>
         <div class="modal-info">
             <span>📌 第 <span id="modalCurrentNum">1</span> / <span id="modalTotalNum">20</span> 题</span>
             <span class="mistake-badge">⏱️ 剩余 <span id="timerSeconds">30</span> 秒</span>

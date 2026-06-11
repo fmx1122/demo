@@ -1218,6 +1218,195 @@ modalAnswerInput.addEventListener("keypress", e => { if (e.key === "Enter") onAn
 hintBtn.onclick = useHint;
 extraTimeBtn.onclick = useExtraTime;
 
+// ⟐⟐⟐ 密室三谜题类型 ⟐⟐⟐
+async function showMcqPuzzle(wordObj, direction, currentNum) {
+    return new Promise(resolve => {
+        currentMode = 'trial';
+        currentDirection = direction;
+        answerTitle.innerText = `📚 书房谜题 (${currentNum}/20)`;
+        if (direction === "en2zh") {
+            modalWordSpan.innerText = wordObj.word;
+            questionHintSpan.innerHTML = "🤔 哪个是正确释义？";
+        } else {
+            modalWordSpan.innerText = wordObj.meaning;
+            questionHintSpan.innerHTML = "🤔 哪个是正确单词？";
+        }
+        currentQuestionWordObj = wordObj;
+        const inputRow = document.getElementById("modalInputRow");
+        inputRow.style.display = "none";
+        const optsDiv = document.getElementById("modalOptions");
+        optsDiv.style.display = "flex";
+        const pool = getRandomDistinctWords(30);
+        const candidates = pool.filter(w => w.word !== wordObj.word);
+        const distractors = shuffleArray(candidates).slice(0, 3);
+        const options = shuffleArray([wordObj, ...distractors]);
+        const target = direction === "en2zh" ? wordObj.meaning : wordObj.word;
+        optsDiv.innerHTML = options.map(o => {
+            const label = direction === "en2zh" ? (o.meaning || o.fullMeaning || o.word) : o.word;
+            return `<button class="puzzle-option" data-correct="${o.word === wordObj.word ? 1 : 0}">${escapeHtml(label)}</button>`;
+        }).join("");
+        answerModal.style.display = "flex";
+        modalResolve = resolve;
+        timerSecondsSpan.innerText = 30;
+        let done = false;
+        optsDiv.querySelectorAll(".puzzle-option").forEach(btn => {
+            btn.onclick = () => {
+                if (done) return;
+                done = true;
+                stopTimer();
+                optsDiv.querySelectorAll(".puzzle-option").forEach(b => b.disabled = true);
+                const correct = btn.dataset.correct === "1";
+                if (correct) btn.classList.add("puzzle-correct");
+                else { btn.classList.add("puzzle-wrong"); optsDiv.querySelector('[data-correct="1"]').classList.add("puzzle-correct"); }
+                showPuzzleFeedback(wordObj, correct, () => {
+                    closeAnswerModal();
+                    inputRow.style.display = "flex";
+                    optsDiv.style.display = "none";
+                    resolve({ isCorrect: correct, isTimeout: false });
+                });
+            };
+        });
+        startTimer(30, () => {
+            if (!done) { done = true;
+                optsDiv.querySelectorAll(".puzzle-option").forEach(b => b.disabled = true);
+                closeAnswerModal();
+                inputRow.style.display = "flex";
+                optsDiv.style.display = "none";
+                resolve({ isTimeout: true }); }
+        });
+    });
+}
+async function showAnagramPuzzle(wordObj, direction, currentNum) {
+    return new Promise(resolve => {
+        currentMode = 'trial';
+        currentDirection = direction;
+        answerTitle.innerText = `📜 回廊谜题 (${currentNum}/20)`;
+        const word = wordObj.word;
+        const scrambled = shuffleArray(word.split("")).join("");
+        modalWordSpan.innerHTML = `<span class="anagram-word">${scrambled}</span>`;
+        questionHintSpan.innerHTML = "🔀 重新排列字母，拼出正确单词";
+        const inputRow = document.getElementById("modalInputRow");
+        inputRow.style.display = "flex";
+        document.getElementById("modalOptions").style.display = "none";
+        currentQuestionWordObj = wordObj;
+        modalAnswerInput.value = "";
+        modalAnswerInput.placeholder = "输入重组后的单词";
+        answerModal.style.display = "flex";
+        modalAnswerInput.focus();
+        modalResolve = resolve;
+        timerSecondsSpan.innerText = 45;
+        modalAnswerInput.onkeypress = e => { if (e.key === "Enter") handleAnagramSubmit(resolve); };
+        document.getElementById("modalSubmitBtn").onclick = () => handleAnagramSubmit(resolve);
+        document.getElementById("modalCancelBtn").onclick = () => { stopTimer(); closeAnswerModal(); inputRow.style.display = "flex"; restoreModalHandlers(); resolve({ isCancel: true }); };
+        startTimer(45, () => {
+            stopTimer(); closeAnswerModal();
+            inputRow.style.display = "flex";
+            restoreModalHandlers();
+            resolve({ isTimeout: true });
+        });
+    });
+}
+function handleAnagramSubmit(resolve, done = false) {
+    if (done) return;
+    const answer = modalAnswerInput.value.trim().toLowerCase();
+    if (!answer) return;
+    const correct = answer === currentQuestionWordObj.word.toLowerCase();
+    stopTimer();
+    if (correct) {
+        playBeep("correct");
+        showPuzzleFeedback(currentQuestionWordObj, true, () => {
+            closeAnswerModal();
+            document.getElementById("modalInputRow").style.display = "flex";
+            restoreModalHandlers();
+            resolve({ isCorrect: true, isTimeout: false });
+        });
+    } else {
+        playBeep("wrong");
+        recordWrongWord(currentQuestionWordObj, currentRoomLevel);
+        showPuzzleFeedback(currentQuestionWordObj, false, () => {
+            closeAnswerModal();
+            document.getElementById("modalInputRow").style.display = "flex";
+            restoreModalHandlers();
+            resolve({ isCorrect: false, isTimeout: false });
+        });
+    }
+}
+async function showSynonymPuzzle(wordObj, direction, currentNum) {
+    return new Promise(resolve => {
+        currentMode = 'trial';
+        currentDirection = 'en2zh';
+        answerTitle.innerText = `⚡ 圣殿谜题 (${currentNum}/20)`;
+        modalWordSpan.innerHTML = `<span class="synonym-word">${wordObj.word}</span>`;
+        questionHintSpan.innerHTML = "🔍 选择与划线词含义最接近的选项";
+        const inputRow = document.getElementById("modalInputRow");
+        inputRow.style.display = "none";
+        const optsDiv = document.getElementById("modalOptions");
+        optsDiv.style.display = "flex";
+        currentQuestionWordObj = wordObj;
+        const correctMeaning = (wordObj.meaning || wordObj.fullMeaning || "").split("；")[0].split(";")[0].trim();
+        const pool = getRandomDistinctWords(30);
+        const candidates = pool.filter(w => w.word !== wordObj.word);
+        const distractors = shuffleArray(candidates).slice(0, 3);
+        const fakeOptions = distractors.map(d => (d.meaning || "").split("；")[0].split(";")[0].trim() || d.word);
+        const options = shuffleArray([correctMeaning, ...fakeOptions]);
+        optsDiv.innerHTML = options.map(o =>
+            `<button class="puzzle-option" data-correct="${o === correctMeaning ? 1 : 0}">${escapeHtml(o)}</button>`
+        ).join("");
+        answerModal.style.display = "flex";
+        modalResolve = resolve;
+        timerSecondsSpan.innerText = 30;
+        let done = false;
+        optsDiv.querySelectorAll(".puzzle-option").forEach(btn => {
+            btn.onclick = () => {
+                if (done) return;
+                done = true;
+                stopTimer();
+                optsDiv.querySelectorAll(".puzzle-option").forEach(b => b.disabled = true);
+                const correct = btn.dataset.correct === "1";
+                if (correct) btn.classList.add("puzzle-correct");
+                else { btn.classList.add("puzzle-wrong"); optsDiv.querySelector('[data-correct="1"]').classList.add("puzzle-correct"); }
+                showPuzzleFeedback(wordObj, correct, () => {
+                    closeAnswerModal();
+                    inputRow.style.display = "flex";
+                    optsDiv.style.display = "none";
+                    resolve({ isCorrect: correct, isTimeout: false });
+                });
+            };
+        });
+        startTimer(30, () => {
+            if (!done) { done = true;
+                optsDiv.querySelectorAll(".puzzle-option").forEach(b => b.disabled = true);
+                closeAnswerModal();
+                inputRow.style.display = "flex";
+                optsDiv.style.display = "none";
+                resolve({ isTimeout: true }); }
+        });
+    });
+}
+function showPuzzleFeedback(wordObj, correct, callback) {
+    playBeep(correct ? "correct" : "wrong");
+    if (!correct) recordWrongWord(wordObj, currentRoomLevel);
+    let html = `<div class="word-detail"><div class="word-detail-header">`;
+    html += `<span class="status-badge ${correct ? 'badge-correct' : 'badge-wrong'}">${correct ? '✅ 正确' : '❌ 错误'}</span>`;
+    html += `<span class="detail-word">${wordObj.word}</span>`;
+    html += `<button class="speaker-btn" style="width:38px;height:38px;font-size:18px;" onclick='speakText("${escapeAttr(wordObj.word)}")'>🔊</button>`;
+    html += `</div>`;
+    html += `<div class="detail-row label-pos"><span class="label">词性</span><span class="content">${wordObj.pos || ''}</span></div>`;
+    html += `<div class="detail-row label-meaning"><span class="label">释义</span><span class="content">${wordObj.fullMeaning || wordObj.meaning || ''}</span></div>`;
+    if (wordObj.example) {
+        html += `<div class="detail-row label-example"><span class="label">例句</span><span class="content"><div class="example-box"><div class="example-en">"${escapeHtml(wordObj.example)}" <button class="inline-speaker" onclick='speakText("${escapeAttr(wordObj.example)}")'>🔊</button></div>`;
+        if (wordObj.example_zh) html += `<div class="example-zh">${wordObj.example_zh}</div>`;
+        html += `</div></div>`;
+    }
+    html += `</div>`;
+    showInfoMessage("单词详解", html).then(callback);
+}
+function restoreModalHandlers() {
+    document.getElementById("modalSubmitBtn").onclick = onAnswerSubmit;
+    document.getElementById("modalCancelBtn").onclick = onAnswerCancel;
+    modalAnswerInput.onkeypress = e => { if (e.key === "Enter") onAnswerSubmit(); };
+}
+
 // 试炼逻辑
 async function askNextTrialQuestion() {
     if (!trialActive) return;
@@ -1255,10 +1444,17 @@ async function askNextTrialQuestion() {
     const q = currentTrialWordList[correctAnswers];
     currentQuestionWordObj = q;
     const direction = getRandomDirection();
-    const result = await showAnswerModal({
-        mode: 'trial', title: '📝 单词试炼', wordObj: q, direction: direction,
-        currentNum: correctAnswers+1, total: 20, timeLimit: 30
-    });
+    let result;
+    if (currentRoomLevel === 1) {
+        // 基础书房: 四选一
+        result = await showMcqPuzzle(q, direction, correctAnswers + 1);
+    } else if (currentRoomLevel === 2) {
+        // 古籍回廊: 字母重组 + 拼写
+        result = await showAnagramPuzzle(q, direction, correctAnswers + 1);
+    } else {
+        // 符文圣殿: 近义词辨析
+        result = await showSynonymPuzzle(q, direction, correctAnswers + 1);
+    }
     if (result.isCancel) {
         trialActive = false;
         stopCountdown();
@@ -1619,7 +1815,7 @@ completeRoomBtn.onclick = async () => {
     cluesBtn.style.display = "inline-block";
     storyBtn.style.display = "inline-block";
     achievementsBtn.style.display = "inline-block";
-    let lvName = currentRoomLevel===2 ? "实验室密室 (Lv.2)" : "音乐厅密室 (Lv.3)";
+    let lvName = currentRoomLevel===2 ? "古籍回廊 (Lv.2)" : "符文圣殿 (Lv.3)";
     enterRoomBtn.innerText = `🚪 进入${lvName}`;
     await showInfoMessage("升级",`进入第 ${currentRoomLevel} 层，词库难度提升。需再次通过试炼。`);
 };
@@ -1701,7 +1897,7 @@ document.addEventListener("click", e => {
 loadWordLibrary();
 
 // ============================================================
-// 📜 主题系统（书房/实验室/音乐厅）
+// 📜 主题系统（基础书房/古籍回廊/符文圣殿）
 // ============================================================
 function applyTheme(level) {
     document.body.classList.remove("theme-1", "theme-2", "theme-3");
@@ -1734,72 +1930,73 @@ function escapeAttr(s) {
 // ============================================================
 const STORY = {
     intro: [
-        "在一个月色朦胧的夜晚，你收到一封神秘来信……",
-        "信中写到：古老的词汇城堡深处，封印着被遗忘的语言力量。",
-        "唯有用英文「钥匙」解开三道密室之门，方能获得自由。",
-        "书房、实验室、音乐厅——三间密室，三重试炼。",
-        "线索碎片散落其中，完整收集 12 个碎片，方能拼凑出真相……",
+        "📖 你缓缓睁开眼，发现自己躺在一间古老书房的地板上……",
+        "空气中飘浮着发光的单词符文，它们像锁链一样缠绕着每一扇门窗。",
+        "一道低沉的声音在脑海中回响：",
+        "「闯入者，若要离开词之密室，需收集三枚钥匙碎片——",
+        "  它们分别藏在：📚 基础书房 · 📜 古籍回廊 · ⚡ 符文圣殿。」",
+        "书桌上一张泛黄的便签写道：解锁符文需要词汇之力。",
         "深呼吸。你的逃生之旅，从此刻开始。"
     ],
     rooms: {
-        1: { name: "书房密室", icon: "📚",
-             intro: "灰尘飞舞的古老书房，尘封的书架间藏有不为人知的秘密……",
-             pass:   "你破译了书房的密码！古老典籍中飘出一张羊皮纸。" },
-        2: { name: "实验室密室", icon: "🔬",
-             intro: "冰冷的金属墙壁，发光的化学药剂，蓝光中似乎藏着谜题……",
-             pass:   "你破解了实验密码！一管发光的试剂滚落到脚边。" },
-        3: { name: "音乐厅密室", icon: "🎭",
-             intro: "华丽的水晶吊灯，沉寂的钢琴声，舞台大幕徐徐拉开……",
-             pass:   "🎉 你完成了所有试炼！词汇城堡的大门终于打开……" }
+        1: { name: "基础书房", icon: "📚",
+             intro: "灰尘飞舞的书房，书架上整齐排列着单词典籍。\n一面墙壁上刻满了名词与动词的符文，正微微发光……\n你需要用基础的词汇知识，解开第一道封印。",
+             pass:   "书房书架缓缓移开，露出一扇通往回廊的暗门。一枚钥匙碎片从门缝中滑出！" },
+        2: { name: "古籍回廊", icon: "📜",
+             intro: "幽暗的回廊两侧矗立着通天书架，古老手稿在空中飞舞。\n单词被打散重组，词义在迷宫中回荡……\n你必须拼凑出正确的字母顺序，才能向前行进。",
+             pass:   "回廊尽头的石门轰鸣着打开。金光中浮现第二枚钥匙碎片，升入你的掌心。" },
+        3: { name: "符文圣殿", icon: "⚡",
+             intro: "宏伟的圣殿中央悬浮着一颗巨大的符文核心，\n词根与词缀的光芒交织成网，近义词的陷阱层出不穷……\n最终试炼：在词根的指引下，辨明真义，完成终极解谜。",
+             pass:   "符文核心碎裂成万千光点，最后一枚钥匙碎片在光芒中凝聚成形！\n三枚碎片合一——逃!生!之!门!开!启!" }
     },
     endings: {
         perfect: {
             icon: "👑", title: "完美逃生 · 词之王者",
-            text: "你以零失误通关了全部三道密室，并收集了所有 12 个线索碎片。" +
+            text: "你以零失误通关了三间密室，并收集了全部 12 枚钥匙碎片。" +
                   "古老的词汇之神被你的意志折服，赐予你「词之王者」封号。" +
-                  "城堡化为漫天星光，你的名字将永远镌刻在词海之巅。"
+                  "漫天符文化为星光，你的名字将永远镌刻在词海之巅。"
         },
         great: {
             icon: "🏆", title: "优秀逃生 · 智慧学者",
-            text: "你成功穿越了全部密室，仅有少量失误。" +
+            text: "你成功穿越了全部密室，仅出现少量失误。" +
                   "你展现了非凡的词汇天赋，学者之名当之无愧。" +
-                  "城堡的门为你打开，门外是黎明的第一缕曙光。"
+                  "密室大门为你敞开，门外是黎明的第一缕曙光。"
         },
         good: {
             icon: "🎖️", title: "普通逃生 · 坚韧旅人",
-            text: "你凭借坚韧的意志，闯过了三道密室的试炼。" +
+            text: "你凭借坚韧的意志，闯过了三间密室的试炼。" +
                   "虽然过程曲折，但你的词典中已写满了新的词汇。" +
                   "下一次挑战，你会更强。"
         },
         partial: {
             icon: "🚪", title: "未竟之旅",
-            text: "你未能完成所有密室的试炼，但每一次尝试都是成长。" +
-                  "线索碎片散落各地，待你日后再次拾起……" +
-                  "词汇城堡永远为你敞开大门。"
+            text: "你未能集齐全部钥匙碎片，但每一次尝试都是成长。" +
+                  "碎片散落各地，待你日后再次拾起……" +
+                  "词之密室永远为你敞开大门。"
         },
         timeout: {
-            icon: "⏰", title: "时间耗尽",
-            text: "逃生倒计时归零。密室缓缓重置，你被传送回起点。" +
+            icon: "⏰", title: "时间耗尽 · 封印重置",
+            text: "逃生倒计时归零。符文锁链重新收紧，你被传送回起点。" +
                   "但请记住：掌握词汇，是一场没有终点的旅程。" +
                   "再次深呼吸，重启挑战！"
         }
     }
 };
 
-// 12 个线索碎片
+// 12 枚钥匙碎片
 const CLUES_DATA = [
-    { id: 1,  icon: "🖋️", name: "古老的羽毛笔", desc: "羽毛笔尖上刻着奇怪的字母……" },
-    { id: 2,  icon: "📜", name: "泛黄的信笺",   desc: "信中写道：'Language is the key.'" },
-    { id: 3,  icon: "🕯️", name: "未熄的蜡烛",   desc: "烛火摇曳，似乎在指引方向。" },
-    { id: 4,  icon: "🔑", name: "神秘钥匙",     desc: "齿纹呈字母 E 形——Escape？" },
-    { id: 5,  icon: "🧪", name: "蓝色试剂",     desc: "瓶身贴有标签：Phonetic Elixir" },
-    { id: 6,  icon: "🔬", name: "破损的镜片",   desc: "透过镜片看世界，字母都会跳舞。" },
-    { id: 7,  icon: "⚗️", name: "蒸馏瓶",       desc: "里面似乎有字在翻腾……" },
-    { id: 8,  icon: "💡", name: "灵光一现",     desc: "某道谜题突然在脑海中清晰。" },
-    { id: 9,  icon: "🎼", name: "五线谱残页",   desc: "音符下藏着被擦去的字母。" },
-    { id: 10, icon: "🎭", name: "金色面具",     desc: "面具背面刻着一行拉丁文。" },
-    { id: 11, icon: "🎻", name: "断裂的琴弦",   desc: "弦丝由 26 个字母编织而成。" },
-    { id: 12, icon: "👑", name: "词之王者徽章", desc: "12 碎片集齐后浮现——真相揭晓！" }
+    { id: 1,  icon: "📖", name: "焚页残章",      desc: "书页边缘用古英语写着：'Knowledge is the key.'" },
+    { id: 2,  icon: "🖋️", name: "羽毛笔尖",      desc: "笔尖上刻着微缩的 26 个字母环。" },
+    { id: 3,  icon: "🕯️", name: "烛台暗格",      desc: "烛台底部藏着一张字母表，E 被圈了出来。" },
+    { id: 4,  icon: "🔎", name: "凸透镜片",      desc: "透过镜片看，单词会翻转成镜像。" },
+    { id: 5,  icon: "🧩", name: "字母拼图块",     desc: "残缺的拼图块上只有一个字母 'R'。" },
+    { id: 6,  icon: "📜", name: "羊皮卷轴",      desc: "卷轴上写着：'Break the code, break the wall.'" },
+    { id: 7,  icon: "🔮", name: "水晶球碎片",    desc: "碎片中映出一个词根：'struct'。" },
+    { id: 8,  icon: "⚗️", name: "词根药剂",      desc: "瓶身标签：'spect = to look' —— 望向真相。" },
+    { id: 9,  icon: "💠", name: "棱镜符文",      desc: "光线穿过棱镜，分解出 'pre-, re-, un-…'" },
+    { id: 10, icon: "🗝️", name: "齿纹钥匙胚",   desc: "半成品的钥匙，齿纹呈 'T-H-E' 形。" },
+    { id: 11, icon: "🌟", name: "星图碎片",      desc: "星图中的 26 颗星连成了字母 'F-R-E-E'。" },
+    { id: 12, icon: "👑", name: "词之冠冕",      desc: "12 枚碎片共鸣——冠冕浮现，密室之门应声而开！" }
 ];
 
 const CLUES_KEY = "cluesCollected_v1";
@@ -2016,12 +2213,11 @@ function renderRoomScene() {
     if (!objects || !particles) return;
     objects.innerHTML = "";
     particles.innerHTML = "";
-    const objs = ["📚","🕯️","📖","🪑","🖋️","🔬","🧪","💡","🎹","🎻","🎼","🎭"];
     const lv = currentRoomLevel;
     let pool;
-    if (lv === 1) pool = ["📚","🕯️","📖","🪑","🖋️"];
-    else if (lv === 2) pool = ["🧪","🔬","💡","⚗️","🧬"];
-    else pool = ["🎹","🎻","🎼","🎭","🎷"];
+    if (lv === 1) pool = ["📚","🖋️","📖","🕯️","✏️"];
+    else if (lv === 2) pool = ["📜","🧩","🔎","🗝️","📖"];
+    else pool = ["⚡","🔮","💠","🌟","🗝️"];
     pool.forEach(o => {
         const span = document.createElement("div");
         span.className = "room-obj";

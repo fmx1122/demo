@@ -303,6 +303,21 @@ function actuallyPlayBeep(type) {
         gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
         osc.start();
         osc.stop(now + 0.1);
+    } else if (type === 'wrong') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.linearRampToValueAtTime(180, now + 0.4);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+        osc.start();
+        osc.stop(now + 0.5);
+    } else if (type === 'info') {
+        osc.frequency.setValueAtTime(520, now);
+        osc.frequency.setValueAtTime(660, now + 0.15);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+        osc.start();
+        osc.stop(now + 0.35);
     } else {
         osc.frequency.value = 440;
         gain.gain.setValueAtTime(0.3, now);
@@ -3845,6 +3860,7 @@ function handleVrStudyAnswer(btnEl, picked, correct) {
         vrStudyState.mastered++;
         markWordMastered(activeLibraryId, correct.word);
         markWordStudiedToday(correct.word);
+        playBeep('correct');
     } else {
         btnEl.classList.add("wrong");
         document.querySelectorAll(".vr-study-option").forEach(b => {
@@ -3852,6 +3868,16 @@ function handleVrStudyAnswer(btnEl, picked, correct) {
         });
         result.innerHTML = `❌ <b>${escapeHtml(correct.word)}</b> = ${escapeHtml(correct.meaning || "")}`;
         markWordStudiedToday(correct.word);
+        playBeep('wrong');
+        // 提示是否加入错题本
+        const lib = availableLibraries.find(l => l.id === activeLibraryId);
+        setTimeout(() => {
+            const existing = wrongWords.find(w => w.word === correct.word);
+            if (!existing && confirm(`📝 将 "${correct.word}" 加入错题本？\n点击"确定"加入，"取消"跳过`)) {
+                recordWrongWord(correct, lib?.level || 3);
+                playBeep('info');
+            }
+        }, 400);
     }
     exDiv.innerHTML = renderExampleBlock(correct) || "";
     document.getElementById("vrStudiedToday").innerText = `今日已学 ${getDailyStudy().count}`;

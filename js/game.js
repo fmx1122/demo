@@ -3861,6 +3861,8 @@ function handleVrStudyAnswer(btnEl, picked, correct) {
         markWordMastered(activeLibraryId, correct.word);
         markWordStudiedToday(correct.word);
         playBeep('correct');
+        const addBtn = document.getElementById("vrStudyAddWrong");
+        if (addBtn) addBtn.style.display = "none";
     } else {
         btnEl.classList.add("wrong");
         document.querySelectorAll(".vr-study-option").forEach(b => {
@@ -3869,15 +3871,17 @@ function handleVrStudyAnswer(btnEl, picked, correct) {
         result.innerHTML = `❌ <b>${escapeHtml(correct.word)}</b> = ${escapeHtml(correct.meaning || "")}`;
         markWordStudiedToday(correct.word);
         playBeep('wrong');
-        // 提示是否加入错题本
-        const lib = availableLibraries.find(l => l.id === activeLibraryId);
-        setTimeout(() => {
+        const addBtn = document.getElementById("vrStudyAddWrong");
+        if (addBtn) {
             const existing = wrongWords.find(w => w.word === correct.word);
-            if (!existing && confirm(`📝 将 "${correct.word}" 加入错题本？\n点击"确定"加入，"取消"跳过`)) {
+            addBtn.style.display = existing ? "none" : "inline-block";
+            addBtn.onclick = () => {
+                const lib = availableLibraries.find(l => l.id === activeLibraryId);
                 recordWrongWord(correct, lib?.level || 3);
                 playBeep('info');
-            }
-        }, 400);
+                addBtn.style.display = "none";
+            };
+        }
     }
     exDiv.innerHTML = renderExampleBlock(correct) || "";
     document.getElementById("vrStudiedToday").innerText = `今日已学 ${getDailyStudy().count}`;
